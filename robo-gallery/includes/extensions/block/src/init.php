@@ -37,6 +37,11 @@ if ( !class_exists( 'RoboGallery_Blocks' ) ) {
 				true // Enqueue the script in the footer.
 			);
 
+			wp_localize_script( $this->prefix.'block-js', 'robogallery_block', array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'nonce' => wp_create_nonce( 'wp_rest' ), //wp_create_nonce( 'robogallery-nonce' ),
+			));
+
 			wp_enqueue_style(
 				$this->prefix.'block-editor-css',
 				plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ),
@@ -104,6 +109,14 @@ if ( !class_exists( 'RoboGallery_Blocks' ) ) {
 
 		function ajaxGetGalleryJson() {
 
+			$user = wp_get_current_user();
+			if ( !user_can($user, 'edit_posts') ) {
+				echo '{"code":"rest_no_route","message":"No route was found matching the URL and request method","data":{"status":403}}';
+				status_header(403);
+				header('HTTP/1.0 403 Forbidden');
+    			exit;
+			}
+
 			$query = new WP_Query(
 				array(
 					'post_type' => ROBO_GALLERY_TYPE_POST,
@@ -118,11 +131,15 @@ if ( !class_exists( 'RoboGallery_Blocks' ) ) {
 
 			if( is_array($posts) && count($posts)){
 				foreach($posts as $post) {
-					$returnJson[] = array(
-						'id' => $post->ID,
-						'title' => esc_js($post->post_title),
-						'parent' => $post->post_parent,
-					);
+
+					if( user_can( $user, 'edit_post', $post->ID) ){
+
+						$returnJson[] = array(
+							'id' => $post->ID,
+							'title' => esc_js($post->post_title),
+							'parent' => $post->post_parent,
+						);
+					}
 				}
 			}
 			wp_send_json( $returnJson );

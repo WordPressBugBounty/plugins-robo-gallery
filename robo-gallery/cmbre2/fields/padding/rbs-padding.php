@@ -48,7 +48,7 @@ function rbs_padding_field_callback( $field, $value, $object_id, $object_type, $
 			    echo $field_type_object->input( array(
 					'name'  		=> $field_type_object->_name('[left]' ),
 					'id'    		=> $field_type_object->_id('[left]' ),
-					'value' 		=> $value['left'],
+					'value' 		=> (int) $value['left'],
 					'class' 		=> 'form-control '.$field->args('class') ,
 				)); 
 			   ?>
@@ -63,7 +63,7 @@ function rbs_padding_field_callback( $field, $value, $object_id, $object_type, $
 			    echo $field_type_object->input( array(
 					'name'  		=> $field_type_object->_name('[top]' ),
 					'id'    		=> $field_type_object->_id('[top]' ),
-					'value' 		=> $value['top'],
+					'value' 		=> (int)$value['top'],
 					'class' 		=> 'form-control '.$field->args('class') ,
 				)); 
 			   ?>
@@ -82,7 +82,7 @@ function rbs_padding_field_callback( $field, $value, $object_id, $object_type, $
 			    echo $field_type_object->input( array(
 					'name'  		=> $field_type_object->_name('[right]' ),
 					'id'    		=> $field_type_object->_id('[right]' ),
-					'value' 		=> $value['right'],
+					'value' 		=> (int)$value['right'],
 					'class' 		=> 'form-control '.$field->args('class') ,
 				)); 
 			   ?>
@@ -97,7 +97,7 @@ function rbs_padding_field_callback( $field, $value, $object_id, $object_type, $
 			    echo $field_type_object->input( array(
 					'name'  		=> $field_type_object->_name('[bottom]' ),
 					'id'    		=> $field_type_object->_id('[bottom]' ),
-					'value' 		=> $value['bottom'],
+					'value' 		=> (int)$value['bottom'],
 					'class' 		=> 'form-control '.$field->args('class') ,
 				)); 
 			   ?>

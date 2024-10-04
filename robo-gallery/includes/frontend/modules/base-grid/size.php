@@ -1,14 +1,5 @@
 <?php
-/* 
-*      Robo Gallery     
-*      Version: 3.2.14 - 40722
-*      By Robosoft
-*
-*      Contact: https://robogallery.co/ 
-*      Created: 2021
-*      Licensed under the GPLv2 license - http://opensource.org/licenses/gpl-2.0.php
-
- */
+/* @@copyright@@ */
 
 if ( ! defined( 'WPINC' ) ) exit;
 
@@ -53,7 +44,22 @@ class  roboGalleryModuleSizeV1  extends roboGalleryModuleAbstraction{
 
 	private static function getCorrectSize( $val ){
 		$correctVal = $val;
-		if( strpos( $val, '%')===false && strpos( $val, 'px')===false ){
+		if(strpos( $val, '%')!==false ) {
+			$val = (int) $val;
+			$correctVal = $val.'%';
+		}else if(strpos( $val, 'em')!==false){
+			$val = number_format((float)$val, 2, '.', '');
+			$correctVal = $val.'em';
+		}else if(strpos( $val, 'rem')!==false){
+			$val = number_format((float)$val, 2, '.', '');
+			$correctVal = $val.'rem';
+		}else if(strpos( $val, 'vh')!==false){
+			$val = (int)$val;
+			$correctVal = $val.'vh';
+		}else if(strpos( $val, 'vw')!==false){
+			$val = (int)$val;
+			$correctVal = $val.'vw';
+		}else {
 			$val = (int) $val;
 			$correctVal = $val.'px';
 		}

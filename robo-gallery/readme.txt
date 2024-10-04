@@ -4,7 +4,7 @@ Donate link: https://robosoft.co/robogallery
 Tags: gallery, photo gallery, image gallery, wordpress gallery plugin, responsive gallery
 Requires at least: 3.3
 Tested up to: 6.6
-Stable tag: 3.2.21
+Stable tag: 3.2.22
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -238,6 +238,9 @@ Plugin implemented in native WordPress style. All code is implemented based on W
 If any problem occurs, please contact us.
 
 == Changelog ==
+
+= 3.2.22 =
+*  Fixed media manager fields issues, align field issue, private post fix 
 
 = 3.2.21 =
 *  Compatibility with WordPress 6.6
@@ -739,5 +742,5 @@ If any problem occurs, please contact us.
 
 == Upgrade Notice ==
 
-= 3.2.21 =
-Compatibility with WordPress 6.6
+= 3.2.22 =
+Fixed media manager fields issues, align field issue, private post fix
