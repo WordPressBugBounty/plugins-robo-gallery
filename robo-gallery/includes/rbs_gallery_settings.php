@@ -1,14 +1,5 @@
 <?php
-/* 
-*      Robo Gallery     
-*      Version: 3.2.14 - 40722
-*      By Robosoft
-*
-*      Contact: https://robogallery.co/ 
-*      Created: 2021
-*      Licensed under the GPLv2 license - http://opensource.org/licenses/gpl-2.0.php
-
- */
+/* @@copyright@@ */
 
 if (! defined('WPINC')) {
     exit;
@@ -58,12 +49,12 @@ class RoboGallerySettings
         register_setting('robo_gallery_settings_assets', ROBO_GALLERY_PREFIX.'cssFiles');
         register_setting('robo_gallery_settings_assets', ROBO_GALLERY_PREFIX.'jsFiles');
 
-
         $args = array(
-			'type' => 'string', 
-			'sanitize_callback' => 'sanitize_key',
-			'default' => NULL,
-		);
+            'type' => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default' => NULL,
+        );
+
         register_setting('robo_gallery_settings_youtube', ROBO_GALLERY_PREFIX.'youtubeApiKey', $args);
         register_setting('robo_gallery_settings_youtube', ROBO_GALLERY_PREFIX.'youtubeCacheTime');
 
@@ -247,7 +238,7 @@ class RoboGallerySettings
 
     public function youtubeOptions()
     {
-        $option_youtube = sanitize_key( get_option(ROBO_GALLERY_PREFIX.'youtubeApiKey', '') );
+        $option_youtube =  sanitize_text_field( get_option(ROBO_GALLERY_PREFIX.'youtubeApiKey', '') ); 
         ?>
             <tr>
                 <th scope="row"><?php _e('Youtube Api Key', 'robo-gallery'); ?></th>

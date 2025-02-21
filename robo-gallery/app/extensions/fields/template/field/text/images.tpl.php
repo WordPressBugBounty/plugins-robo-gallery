@@ -53,7 +53,7 @@ wp_localize_script( ROBO_GALLERY_ASSETS_PREFIX.'-field-type-gallery', 'roboGalle
 
 wp_enqueue_style ( ROBO_GALLERY_ASSETS_PREFIX.'-field-type-gallery', ROBO_GALLERY_FIELDS_URL.'asset/fields/gallery/style.css', array( ), '' );
 
-if ( $value == null || empty( $value ) || $value == ' ' || $value == '' ) $value = '';
+$value = is_array($value) ? implode(',', $value) : $value; 
 ?>
 
 <?php if ($label) : ?>
@@ -69,7 +69,6 @@ if ( $value == null || empty( $value ) || $value == ' ' || $value == '' ) $value
 	<button type="button" data-id="<?php echo $id; ?>" class="success large button expanded roboGalleryFieldImagesButton">
 		<?php _e('Manage Images', 'robo-gallery'); ?>
 	</button>
-	<?php $value = is_array($value) ? implode(',', $value) : $value; ?>
 	<input id="<?php echo $id; ?>" <?php echo $attributes; ?> type="hidden" name="<?php echo $name; ?>" value="<?php echo $value; ?>">
 </div>
 

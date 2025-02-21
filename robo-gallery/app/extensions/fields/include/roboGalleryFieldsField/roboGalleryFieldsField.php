@@ -269,9 +269,48 @@ class roboGalleryFieldsField{
 
 
 	protected function normalize($value){
-		if ($this->cbSanitize && is_callable($this->cbSanitize)) {
-			$value = call_user_func($this->cbSanitize, $value);
+		if ($this->cbSanitize ){
+			if( is_callable($this->cbSanitize)) {
+				$value = call_user_func($this->cbSanitize, $value);
+			}
+
+			if ( method_exists( $this, $this->cbSanitize ) ) {
+				$value = call_user_func( array($this, $this->cbSanitize), $value);
+			}
 		}
+
 		return $value;
+	}
+
+
+	public function sanitizeDigitArrayAsString($value){
+		 $array = $this->sanitizeArray($value);
+
+		for ($i = 0; $i < count($array); $i++) {
+			$array[$i] = (int) $array[$i];
+		}
+
+		return implode( ',', $array );
+	}
+
+	public function sanitizeArrayAsString($value){
+		$array = $this->sanitizeArray($value);
+		return implode( ',', $array );
+	}
+
+	public function sanitizeArray($value){
+		if( is_null($value) ){
+			return array();
+		}
+		
+		if( is_string($value) ){
+			$array = explode( ',', $value );
+		}else{
+			$array = $value;
+		}
+		
+		if( !is_array($array) ){ return array(); }
+
+		return $array;
 	}
 }

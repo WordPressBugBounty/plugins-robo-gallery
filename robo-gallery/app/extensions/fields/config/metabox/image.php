@@ -53,6 +53,7 @@ return array(
 			'is_lock' => false,
 			'prefix' => null,
 			'name' => 'galleryImages',
+			'cb_sanitize' => 'sanitizeDigitArrayAsString',
 			'default' => '',
 		),
 		
