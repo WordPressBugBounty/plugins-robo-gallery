@@ -1,13 +1,12 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 3.2.14 - 40722
+*      Version: 5.0.0 - 91909
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
-*      Created: 2021
-*      Licensed under the GPLv2 license - http://opensource.org/licenses/gpl-2.0.php
-
+*      Created: 2025
+*      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 class roboGalleryFieldsField{
@@ -256,7 +255,7 @@ class roboGalleryFieldsField{
 		$token = "";
 
 		for ($i=0; $i < $length; $i++) {
-			$token .= $codeAlphabet[mt_rand(0, $max)];
+			$token .= $codeAlphabet[wp_rand(0, $max)];
 		}
 
 		return $token;
@@ -287,7 +286,7 @@ class roboGalleryFieldsField{
 		 $array = $this->sanitizeArray($value);
 
 		for ($i = 0; $i < count($array); $i++) {
-			$array[$i] = (int) $array[$i];
+		$array[$i] = (int) $array[$i];
 		}
 
 		return implode( ',', $array );
@@ -304,7 +303,9 @@ class roboGalleryFieldsField{
 		}
 		
 		if( is_string($value) ){
-			$array = explode( ',', $value );
+			$value = trim($value);
+			if( $value === '' ) return array();
+			 $array = explode( ',', $value );
 		}else{
 			$array = $value;
 		}
@@ -313,4 +314,5 @@ class roboGalleryFieldsField{
 
 		return $array;
 	}
+
 }

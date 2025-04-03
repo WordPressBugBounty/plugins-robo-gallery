@@ -5,4 +5,8 @@ return array(
 	'mosaic' 			=>  include  ROBO_GALLERY_APP_EXTENSIONS_PATH.'galleryType/themes/mosaic.php',
 	'masonry' 			=>  include  ROBO_GALLERY_APP_EXTENSIONS_PATH.'galleryType/themes/masonry.php',
 	'polaroid' 			=>  include  ROBO_GALLERY_APP_EXTENSIONS_PATH.'galleryType/themes/polaroid.php',
+
+	'robogrid'			=>  array (
+		'gallery_type' => 'robogrid',
+	),
 );

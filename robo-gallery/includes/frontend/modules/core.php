@@ -1,13 +1,12 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 3.2.14 - 40722
+*      Version: 5.0.0 - 91909
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
-*      Created: 2021
-*      Licensed under the GPLv2 license - http://opensource.org/licenses/gpl-2.0.php
-
+*      Created: 2025
+*      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
  
 if ( ! defined( 'WPINC' ) )  die;
@@ -59,13 +58,21 @@ class roboGalleryModuleCore{
 		$this->modules['loader'] 	= new roboGalleryModuleLoader( $this );
 		$this->modules['protection']= new roboGalleryModuleProtection( $this );
 
-
+		$type_source = $this->getMeta('gallery_type_source');
 
 		if( $this->gallery->gallery_type == 'slider' ){
 			$this->modules['layout.slider'] 		= new roboGalleryModuleLayoutSlider( $this );
 			$this->modules['options.slider'] 		= new roboGalleryModuleOptionsSlider( $this );
 			$this->modules['assets.slider'] 		= new roboGalleryModuleAssetsSlider( $this );
 			$this->modules['content.slider'] 		= new roboGalleryModuleContentSlider( $this );
+		} elseif($this->gallery->gallery_type == 'custom'  && $type_source == 'custom-342' ){
+			$this->modules['layout.simple'] 		= new roboGalleryModuleLayoutSimple( $this );
+			$this->modules['assets.simple'] 		= new roboGalleryModuleAssetsSimple( $this );
+			$this->modules['content.simple'] 		= new roboGalleryModuleContentSimple( $this );
+		}  elseif($this->gallery->gallery_type == 'robogrid'   ){
+			$this->modules['layout.robogrid'] 		= new roboGalleryModuleLayoutRoboGrid( $this );
+			$this->modules['assets.robogrid'] 		= new roboGalleryModuleAssetsRoboGrid( $this );
+			$this->modules['content.robogrid'] 		= new roboGalleryModuleContentRoboGrid( $this );
 		} else {
 			$this->modules['resize.v1'] 		= new roboGalleryModuleResizeV1( $this );		
 			$this->modules['assets.v1'] 		= new roboGalleryModuleAssetsV1( $this );

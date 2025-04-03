@@ -1,102 +1,154 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 3.2.14 - 40722
+*      Version: 5.0.0 - 91909
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
-*      Created: 2021
-*      Licensed under the GPLv2 license - http://opensource.org/licenses/gpl-2.0.php
-
+*      Created: 2025
+*      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 /* todo: singleton */
 
-if ( ! defined( 'WPINC' ) ) exit;
+if (!defined('WPINC')) {
+    exit;
+}
 
-class roboGalleryModuleCacheDB {
+class roboGalleryModuleCacheDB
+{
 
-	private $core = null;
-	private $cache_time = 3000;	
-	private $table_name = '';
-	private $wpdb = null;
+    private $core       = null;
+    private $cache_time = 3000;
+    private $table_name = '';
 
-	public function __construct( $core ) {
-		$this->core = $core;
-		$this->init();
-		$this->checkVersion();
-	}
+    public function __construct($core)
+    {
+        $this->core = $core;
+        $this->init();
+        $this->checkVersion();
+    }
 
-	private function init(){
-		global $wpdb;
-		
-		$this->wpdb 	  = $wpdb;
-		$this->table_name = $wpdb->prefix.'robogallery_cache';
-		$this->cache_time = (int) get_site_option( ROBO_GALLERY_PREFIX.'dbcache_time', 3000);
-		//$this->wpdb->show_errors();
-	}
+    private function init()
+    {
+        global $wpdb;
+        $this->table_name = $wpdb->prefix . 'robogallery_cache';
+        $this->cache_time = (int) get_site_option(ROBO_GALLERY_PREFIX . 'dbcache_time', 3000);
+        $this->initClearCache();
+    }
 
-	private function checkVersion() { 
-	    $saved_db_version = (int) get_site_option( ROBO_GALLERY_PREFIX.'dbcache_version', -1);
-	    
-	    if( $saved_db_version==-1 ) add_site_option( ROBO_GALLERY_PREFIX.'dbcache_version', 0);
-	    
-	    if ( $saved_db_version < 100 && $this->createTables() ) {
-	    	update_site_option( ROBO_GALLERY_PREFIX.'dbcache_version', 100);
-	    }
-	}
+    private function checkVersion()
+    {
+        $saved_db_version = (int) get_site_option(ROBO_GALLERY_PREFIX . 'dbcache_version', -1);
 
-	private function createTables(){
-		$charset_collate = $this->wpdb->get_charset_collate();
-		$sql = "CREATE TABLE IF NOT EXISTS ".$this->table_name ." (
-			id int(11) NOT NULL AUTO_INCREMENT,
-			cache_id varchar(255) DEFAULT NULL,
-			cache_content longtext NOT NULL,
-			time bigint(11) DEFAULT '0' NOT NULL,			
-			UNIQUE KEY id (id)
-		)  $charset_collate;";
-		$result = $this->wpdb->get_results($sql);		
-		return true;
-	}
+        if ($saved_db_version == -1) {
+            add_site_option(ROBO_GALLERY_PREFIX . 'dbcache_version', 0);
+        }
 
-	public function update( $resourceId, $data ){
-		$oldCache = $this->getContent( $resourceId );
-		
-		if ( is_array($oldCache) ){
-			echo 'run delete';
-			$this->delete( $resourceId );
-		}
- 		
-		$this->wpdb->insert(
-			$this->table_name, 
-			array(
-				'cache_id' 		=> $resourceId,
-				'cache_content' => json_encode($data),
-				'time' 			=> time()
-			),
-			array( '%s', '%s' ,'%d')
-		);
-		//print_r($this->wpdb);
-	}
+        global $wpdb;
+        if (!in_array($this->table_name, $wpdb->Tables())) {
+            $this->createTables();
+        }
 
-	public function delete( $resourceId ){		
-		return $this->wpdb->delete( $this->table_name, array( 'cache_id' => $resourceId ), array( '%s' ) );
-	}
+        if ($saved_db_version < 100) {
+            update_site_option(ROBO_GALLERY_PREFIX . 'dbcache_version', 100);
+        }
+    }
 
-	public function getContent( $resourceId, $cache_time = 0 ){		return false;
-		$sql = $this->wpdb->prepare( 'SELECT * FROM '.$this->table_name.' WHERE cache_id = %s limit 1', $resourceId );
-		$row = $this->wpdb->get_row( $sql );	
-		//var_dump($row);
-		if( !is_object($row) || !$row->cache_content || !$row->time ) return false;	
-		
-		if(!$cache_time) $cache_time = $this->cache_time;
+    public function initClearCache()
+    {
+        if (!wp_next_scheduled(ROBO_GALLERY_PREFIX . 'clear_db_cache_hook')) {
+            wp_schedule_event(time(), 'hourly', ROBO_GALLERY_PREFIX . 'clear_db_cache_hook');
+        }
+        add_action('clear_db_cache_hook', array($this, 'clear_old_cache'));
+    }
 
-		if( time() - $row->time >= $this->cache_time ){
-			$this->delete($resourceId);
-			return false;	
-		} 
+    public function clear_old_cache($resourceId = '')
+    {
+        global $wpdb;
 
-		return json_decode( $row->cache_content, 1 );		
-	}
+        if (!$resourceId) {
+            $wpdb->get_results(
+                $wpdb->prepare("DELETE FROM {$this->table_name} WHERE time < %d", array(
+                    time(),
+                )
+                )
+            );
+            return;
+        }
+
+        $wpdb->get_results(
+            $wpdb->prepare("DELETE FROM {$this->table_name}  WHERE time < %d AND cache_id = %s ",
+                array(
+                    time(),
+                    $resourceId,
+                )
+            )
+        );
+    }
+
+    private function createTables()
+    {
+        global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
+        $wpdb->query(
+            "CREATE TABLE IF NOT EXISTS {$this->table_name} (
+                    id int(11) NOT NULL AUTO_INCREMENT,
+                    cache_id varchar(255) DEFAULT NULL,
+                    cache_content longtext NOT NULL,
+                    time bigint(11) DEFAULT '0' NOT NULL,
+                    UNIQUE KEY id (id)
+		        ) {$charset_collate} ;"
+        );
+    }
+
+    public function update($resourceId, $data, $time_end)
+    {
+        $oldCache = $this->getContent($resourceId);
+
+        if (is_array($oldCache)) {
+            $this->clear_old_cache($resourceId);
+        }
+
+        global $wpdb;
+        $wpdb->insert(
+            $this->table_name,
+            array(
+                'cache_id'      => $resourceId,
+                'cache_content' => json_encode($data),
+                'time'          => $time_end,
+            ),
+            array('%s', '%s', '%d')
+        );
+    }
+
+    public function delete($resourceId)
+    {
+        global $wpdb;
+        return $wpdb->delete($this->table_name, array('cache_id' => $resourceId));
+    }
+
+    public function getContent($resourceId)
+    {
+
+        global $wpdb;
+        $row = $wpdb->get_row(
+            $wpdb->prepare("SELECT * FROM {$this->table_name} WHERE cache_id = %s order by time DESC  limit 1",
+                array(
+                    $resourceId,
+                )
+            )
+        );
+
+        if (!is_object($row) || !$row->cache_content || !$row->time) {
+            return false;
+        }
+
+        if (time() > $row->time) {
+            $this->clear_old_cache();
+            return false;
+        }
+        return json_decode($row->cache_content, 1);
+    }
 
 }

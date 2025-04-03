@@ -43,7 +43,7 @@ ROBO_GALLERY_TYR_PATH_DIR
 */
 
 
-if( $keyPath = Robo_Gallery_Key::getKeyPath() /*&& 2==3*/ ){	
+if( $keyPath = Robo_Gallery_Key::getKeyPath() ){	
 	include_once( $keyPath );
 } 
 

@@ -1,13 +1,12 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 3.2.14 - 40722
+*      Version: 5.0.0 - 91909
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
-*      Created: 2021
-*      Licensed under the GPLv2 license - http://opensource.org/licenses/gpl-2.0.php
-
+*      Created: 2025
+*      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 if ( ! defined( 'WPINC' ) ) exit;
@@ -27,8 +26,8 @@ class  roboGalleryModuleHoverV1 extends roboGalleryModuleAbstraction{
 	private $zoomIcon 	= '';
 	private $titleHover = '';
 	private $descHover 	= '';
-	
-	private $templateHover 	= '';
+
+	private $templateHover  = '';
 	
 	public function init(){
 		$this->initScss();
@@ -144,9 +143,9 @@ class  roboGalleryModuleHoverV1 extends roboGalleryModuleAbstraction{
 				$hoverHTML =  str_replace( 
 					array('@TITLE@','@CAPTION@','@DESC@', '@LINK@', '@VIDEOLINK@'), 
 					array( 
-						$img['data']->post_title,
-						$img['data']->post_excerpt,
-						$img['data']->post_content,
+						esc_attr($img['data']->post_title),
+						esc_attr($img['data']->post_excerpt),
+						esc_attr($img['data']->post_content),
 						$img['link'],
 						$img['videolink'],
 					), 

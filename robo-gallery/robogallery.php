@@ -3,7 +3,7 @@
 Plugin Name: Robo Gallery
 Plugin URI: https://robosoft.co/gallery
 Description: Gallery modes photo gallery, images gallery, video gallery, Polaroid gallery, gallery lightbox, portfolio gallery, responsive gallery
-Version: 3.2.24
+Version: 5.0.0
 Author: RoboSoft
 Author URI: https://robosoft.co/gallery
 License: GPLv3 or later
@@ -13,14 +13,15 @@ Domain Path: /languages
 
 if( !defined('WPINC') ) die;
 
-define("ROBO_GALLERY_VERSION", 				'3.2.24' ); 
-
+define("ROBO_GALLERY_VERSION", '5.0.0'); 
 
 define("ROBO_GALLERY", 						1 );
 
 define("ROBO_GALLERY_DEV", false);
 
+// Define the base directory and file of the project
 define("ROBO_GALLERY_MAIN_FILE", 			__FILE__ );
+define('ROBO_GALLERY_BASE_DIR',             __DIR__); // Project root where the "app" folder is located
 
 define("ROBO_GALLERY_OPTIONS", 				'rbs_opt_' ); 
 
@@ -33,11 +34,7 @@ define("ROBO_GALLERY_NAMESPACE", 			'robo_gallery_');
 define("ROBO_GALLERY_ASSETS_PREFIX", 		'robo_gallery_assets_');
 
 define("ROBO_GALLERY_PATH", 				plugin_dir_path( ROBO_GALLERY_MAIN_FILE ) );
-define("ROBO_GALLERY_URL", 					plugin_dir_url( __FILE__ ));
-
-define("ROBO_GALLERY_SPECIAL", 				0 ); 
-define("ROBO_GALLERY_EVENT_DATE", 			'2016-12-08' ); 
-define("ROBO_GALLERY_EVENT_HOUR", 			20 ); 
+define("ROBO_GALLERY_URL", 					plugin_dir_url( ROBO_GALLERY_MAIN_FILE ) );
 
 define("ROBO_GALLERY_INCLUDES_PATH", 		ROBO_GALLERY_PATH.'includes/');
 
@@ -71,8 +68,11 @@ define('ROBO_GALLERY_URL_UPDATEKEY', 'https://robosoft.co/go.php?product=gallery
 
 
 
+include_once( ROBO_GALLERY_PATH.'autoload.php' );
+
 /* activation */
-include_once ROBO_GALLERY_APP_EXTENSIONS_PATH.'activation/init.php';
+new \RoboGallery\app\extensions\activation\Install();
+//include_once ROBO_GALLERY_APP_EXTENSIONS_PATH.'activation/init.php';
 
 /* core function */
 include_once ROBO_GALLERY_APP_EXTENSIONS_PATH.'core/init.php';
@@ -88,3 +88,4 @@ require_once ROBO_GALLERY_INCLUDES_PATH.'rbs_gallery_init.php';
 
 /* app */
 require_once ROBO_GALLERY_APP_PATH.'app.php';
+

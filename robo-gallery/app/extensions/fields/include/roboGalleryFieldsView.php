@@ -1,13 +1,12 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 3.2.14 - 40722
+*      Version: 5.0.0 - 91909
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
-*      Created: 2021
-*      Licensed under the GPLv2 license - http://opensource.org/licenses/gpl-2.0.php
-
+*      Created: 2025
+*      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 class roboGalleryFieldsView{
@@ -17,7 +16,7 @@ class roboGalleryFieldsView{
 		$templatePath = ROBO_GALLERY_FIELDS_TEMPLATE . $template . '.tpl.php';
 
 		if (!file_exists($templatePath)) {
-			throw new Exception(__("Could not find template. Template: {$template}"));
+			throw new Exception("Could not find template. Template: {$template}");
 		}
 		extract($vars);
 		require $templatePath;

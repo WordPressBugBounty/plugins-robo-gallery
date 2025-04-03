@@ -1,13 +1,12 @@
 <?php 
 /* 
 *      Robo Gallery     
-*      Version: 3.2.14 - 40722
+*      Version: 5.0.0 - 91909
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
-*      Created: 2021
-*      Licensed under the GPLv2 license - http://opensource.org/licenses/gpl-2.0.php
-
+*      Created: 2025
+*      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */ 
 
 if ( !class_exists( 'rbsGalleryDashboard' ) ){
@@ -111,6 +110,7 @@ if ( !class_exists( 'rbsGalleryDashboard' ) ){
         {
         	$returnHTML = '';
             $this->active_tab = isset($_GET['tab']) && $_GET['tab'] ? sanitize_title($_GET['tab']) : $this->config[0]['name'];
+
             foreach ($this->config as $item) {
 
                 $link = '#';
@@ -141,24 +141,36 @@ if ( !class_exists( 'rbsGalleryDashboard' ) ){
             ?>
             <div class="wrap about-wrap">
                 <div class="rbsDashboardGallery-external-button">
-                    <h1 class="rbsDashboardGallery-title"><?php _e($this->title, "robo-gallery"); ?>
-                        <a href="<?php echo $this->url_external_button1; ?>" target="_blank" class="rbsDashboardGallery-button one"><?php _e( 'Demos','robo-gallery' ); ?></a>
-                        <a href="<?php echo $this->url_external_button2; ?>" target="_blank" class="rbsDashboardGallery-button"><?php _e( 'Pro version','robo-gallery' ); ?></a>
-                    </h1>
+                    <h1 class="rbsDashboardGallery-title"><?php echo $this->title; ?></h1>
                 </div>
 
                 <div class="about-text">
                     <?php 
-                    	_e('Robo Gallery is advanced responsive photo gallery plugin.', 'robo-gallery'); 
-                    	echo '<br/>';
-                    	_e('Flexible gallery images management tools. Links, videos and gallery lightbox support. ', 'robo-gallery'); 
-                    	echo '<br/>';
-                    	_e('In our gallery you can easily customize layouts and interface styles. ', 'robo-gallery'); 
-                    	echo '<br/>';
-                    	echo sprintf(  
-                    		__( 'If you have some questions or any kind of problems with gallery installation or configuration feel free to <a href="%s" target="_blank">post ticket here</a>', 'robo-gallery' ), 
-                    		'https://wordpress.org/support/plugin/robo-gallery'
+                    	_e('Robo Gallery is an advanced, responsive photo gallery plugin with flexible image management tools. 
+                        It supports links, video, slider, and a built-in lightbox. 
+                        Easily customize layouts and interface styles to match your needs. 
+                        If you have any questions or need assistance with installation or configuration, feel free to reach out.', 'robo-gallery'); 
+
+                        echo '<span style="margin: 0 10px;">[</span>';
+                        echo wp_sprintf(  
+                    		'<a href="%s" target="_blank">%s</a>',
+                    		$this->url_external_button1,
+                            __('DEMOS', 'robo-gallery'),
                     	); 
+                        echo '<span style="margin: 0 10px;">|</span>';
+                        echo wp_sprintf(  
+                    		'<a href="%s" target="_blank" >%s</a>',
+                    		$this->url_external_button2,
+                            __('Get Pro Version', 'robo-gallery'),
+                    	); 
+                        echo '<span style="margin: 0 10px;">|</span>';
+                        echo wp_sprintf(  
+                    		'<a href="%s" target="_blank">%s</a>',
+                    		'https://wordpress.org/support/plugin/robo-gallery',
+                            __('Support', 'robo-gallery'),
+                    	); 
+                        echo '<span style="margin: 0 10px;">]</span>';
+                        
                     	?>
                 </div>
 

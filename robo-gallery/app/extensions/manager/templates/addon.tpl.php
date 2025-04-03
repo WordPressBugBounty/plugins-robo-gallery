@@ -98,10 +98,14 @@ if( $commercial && !$status['download'] ) 		$class=" addon-link ";
 		</a>
 	<?php } ?> 
 
-	<div class="addon-desc"><?php _e($desc); ?></div>
+	<div class="addon-desc"><?php echo $desc; ?></div>
 	
 </div>
 
 <div class="download-error" style="display: none;">
-	<?php  echo sprintf( __("Oops ... Something went wrong. WordPress don't able to download add-on. Please try again later or download it manually from <a class='thickbox open-plugin-details-modal' href='%s'>[here]</a>. In the case if this situation repeat contact our [support team]",'robo-gallery'), $informationUrl ); ?>
+	<?php  echo wp_sprintf( 
+		/* translators:  $s: support link  */
+		__("Oops ... Something went wrong. WordPress don't able to download add-on. Please try again later or download it manually from <a class='thickbox open-plugin-details-modal' href='%s'>[here]</a>. In the case if this situation repeat contact our [support team]",'robo-gallery'), 
+		$informationUrl 
+		); ?>
 </div>

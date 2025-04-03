@@ -4,203 +4,214 @@ Donate link: https://robosoft.co/robogallery
 Tags: gallery, photo gallery, image gallery, wordpress gallery plugin, responsive gallery
 Requires at least: 3.3
 Tested up to: 6.7
-Stable tag: 3.2.24
+Stable tag: 5.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Rbs Image Gallery is an advanced responsive photo gallery plugin. Flexible gallery images management tools. Links, videos, slider and gallery lightbox support.
+Rbs Image Gallery is a powerful image gallery and photo gallery plugin with advanced features to create responsive galleries with a beautiful lightbox
 
 == Description ==
 
-Gallery on your website it's really attractive and a very important part of your pages. If you looking for a fast, easy plugin with a simple and very beautiful, highly customizable design [ALL DEMOS YOU CAN FIND HERE](https://www.robogallery.co/gallery-showcase/) 
+A gallery on your website is not just a visual element it's an essential part of your pages that enhances engagement and user experience. If you're looking for a fast, lightweight, and easy-to-use image gallery plugin with a sleek, modern, and highly customizable design, this is the perfect solution. Effortlessly create stunning galleries that adapt to any layout, ensuring seamless integration with your website's style while maintaining top-notch performance.
+
+🖼️ [Explore New Demos 2025](https://www.robogallery.co/gallery-showcase/) | [View Classic Demos](https://www.robogallery.co/gallery-showcase/) | [Upgrade to Pro](https://www.robogallery.co/#pricing) 💎
+
+
+### 🏆 Benefits of Robo Gallery v5
+
+* #### Next-Level Grid Layouts 🎨
+  Experience cutting-edge grid designs with our brand-new **Fusion Grid**, offering seamless flexibility and stunning visual appeal. Explore **horizontal and vertical masonry** for a dynamic, modern look, a revamped mosaic layout, **justify gallery** for perfect alignment, and an **enhanced polaroid** mode featuring an advanced content panel for rich descriptions, interactive buttons, and social sharing options. Transform your gallery into a visually captivating masterpiece!
+
+* #### Mobile-Friendly Excellence 📱
+  Our new grid system features **smart dynamic modes** that automatically adjust layouts for the best **responsive experience** across all devices, from desktops to smartphones and tablets. We've specially **optimized hover animations** to ensure smooth performance and visual appeal on any screen. Additionally, we've fine-tuned layouts, hover effects, and the lightbox to function flawlessly and look stunning on **all mobile devices**, providing an immersive, seamless gallery experience even on **Retina & Ultra HD** (up to 16K) displays.
+
+* #### Advanced Navigation & Links 🔗
+  Enjoy ultimate flexibility with **smart navigation** and linking options. Choose from **Google-style** "Load More" pagination, classic **multi-page pagination**, or infinite **lazy loading** for seamless browsing. Enhance user experience with breadcrumbs, search, and tag-based filtering. Create albums and cover galleries, **mix linked images, lightbox photos, and videos** in a single gallery, and define **custom links** for each image to direct visitors anywhere you need!
+
+* #### Enhanced Lightbox Features ⚡
+  The new lightbox offers **fullscreen and slideshow** modes for a seamless viewing experience. It supports **social sharing, zoom, download**, and displays titles and descriptions, enhancing how users interact with your photo and image galleries.
+
+* #### Unlimited Albums 📁
+  Create albums with **unlimited nesting levels**, offering ultimate flexibility for organizing your galleries. Build **cover galleries** that contain only albums, structure albums with nested albums, **photos, linked images, and videos**. Effortlessly mix resources to create dynamic, multi-layered image galleries that adapt to any content needs while keeping everything neatly arranged.
+    
+* #### Social Sharing Revolutionized 🌟 
+  Boost engagement with hover-based social sharing across 20+ platforms, including **Facebook, Telegram, LinkedIn, Reddit, WhatsApp, Pinterest, Twitter, and more**. Now, visitors can instantly share your stunning galleries with just a click. Enjoy seamless integration of **social sharing options** in hover effects, polaroid layouts, and lightbox views, ensuring maximum reach and visibility for your images and videos across all major social networks.
+
+* #### Video Gallery ▶️
+  Showcase videos from various sources, including **YouTube playlists and channels**. Supports 10+ platforms like **Facebook, Twitch, Vimeo, SoundCloud, and Wistia**, delivering a dynamic and immersive video experience!
+
+* #### Advanced SEO and Performance 📈
+  Optimized code and caching options ensure **faster load times** and improved search engine visibility. **Customizable links** allow easy integration with the gallery, enhancing user engagement. Alt text for images ensures better accessibility and **SEO performance**, boosting both site speed and ranking in search results.
 
 https://www.youtube.com/watch?v=7ejiww-ekHE
 
-With our plugin, even newbies in WordPress will be able to create their first gallery in a few minutes and at the same time Wordpress professionals get advanced tools and freedom of creativity. Just download this plugin and you'll not look for any other plugin anymore! [Gallery Showcase with the previews of all views](https://www.robogallery.co/gallery-showcase/)
+### Customizable Views
 
-> #### Demos
->
->[All Gallery Demos](https://www.robogallery.co/gallery-showcase/)
->
->[Portfolio Gallery](https://robogallery.co/demo/gallery/portfolio-gallery/)
->
->[Hash Tags](https://robogallery.co/demo/gallery/hashtags/)
->
->[Masonry Gallery](https://robogallery.co/demo/gallery/masonry-gallery/)
->
->[Youtube Video](https://robogallery.co/demo/gallery/youtube-video-gallery/)
->
->[Blog Style](https://robogallery.co/demo/gallery/blog-style-gallery/)
->
->[Vimeo Video](https://robogallery.co/demo/gallery/vimeo-video-gallery/)
->
->[Multi Categories Cars Demo](https://robogallery.co/demo/gallery/cars-gallery-demo/)
->
->[Grid Layout Demo with Fade hover effect](https://robogallery.co/demo/gallery/custom-layout/)
->
->[Multi Categories Polaroid style Movie Demo with classic layout](https://robogallery.co/demo/gallery/gallery-demo-movie/)
->
->[Design Sketch Demo with grid layout](https://robogallery.co/demo/gallery/gallery-design/)
->
->[Multi Categories Demo with custom interface colors and classic layout](https://robogallery.co/demo/gallery/push-effect-demo/)
->
->[Video Demo with grid layout](https://robogallery.co/demo/gallery/design-video-gallery/)
+With over 200 gallery design configuration options, our photo gallery plugin offers unmatched flexibility for creating the perfect display of your images, photos, and albums. Choose from multiple gallery types, including grid, masonry, justify, mosaic, polaroid, and slider, to showcase your photo gallery or image gallery exactly how you envision. New in Robo Gallery are innovative features like the fusion grid, horizontal masonry, vertical masonry, advanced polaroid styles, enhanced hover effects, and a lightbox with full-screen, slideshow mode, and download options, providing endless possibilities for customizing your galleries.
 
+### Gallery Lightbox
 
-= Key Features =
-*   **No Right click / Content protection** -  in Robo gallery possible to disable right click to prevent copying of the gallery content.  Content copy protection is very important for every photographer's portfolio photos.
-*   **Lightbox no right-click / Content protection** -  in Robo gallery possible to disable right-click to prevent copying of the gallery lightbox content.  Content copy protection is very important for every photographer's portfolio photos.
-*   **One click setup** - implemented one-click wizard with the 5 types: image grid, mosaic, masonry, polaroid, and youtube gallery.
-*   **No limits** - no limits for the number of instances with 5 free types: photo grid, mosaic, masonry, polaroid, and youtube grid.
-*   **No limits for images/photos** - no limits for the number of images/photos in every album.
-*   **Gutenberg block** - implemented Gutenberg gallery block for simple and fast configuration of the plugin in Gutenberg editor.
-*   **Fully responsive and Mobile features** - plugin implemented with advanced settings for different devices' screen sizes.
-*   **Fade effects** - one of the hover animations it's a classic fade effect. 
-*   **Batch images upload** - advanced media manager which allows uploading batch of images with one click. Just drag and drop a set of the gallery images and it's uploaded automatically to the server.
-*   **Auto-resizing for thumbnails and images** - media manager allow you to make additional customization of the images, rotary, flip, crop, and manually resize.
-*   **Customizable 15 hover effects** - all hover effects work in cooperation with interface configuration options. You can easily change the style and colors of the hover animation elements.
-*   **Implemented to avoid AJAX libs conflicts** - code implemented in native WordPress style as a result our plugin doesn't have any conflicts and works really stable.
-*   **Polaroid gallery** - with our plugin you can create a Polaroid layout just with a few clicks.
-*   **Advanced Polaroid Styles** - Polaroid styles are implemented with advanced functionality. Implemented left, right and center image titles alignment. Polaroid description panel of the image's background color selector. 
-*   **Build in colors selector** - you can easily change the color of any interface element.
-*   **Social sharing** - gallery lightbox supports social sharing on Twitter, Facebook, google plus and Pinterest.
-*   **Build in borders and shadows settings** - borders and shadows have advanced options for configuration design and style of this gallery interface elements.
-*   **Font settings** - build in advanced text style editor options. With these options, you can fully customize the title, caption, and description of every image
-*   **Different resolutions** - implemented advanced size control options where you can define layout or fixed size for the interface elements on different screen resolutions
-*   **Implemented in native WordPress style using native classes** - native for WordPress implemented without any hacks and tricks
-*   **Multi Categories** - multi categories albums support. You can create your own galleries tree, depending on your needs
-*   **Classic layout** - layout could have a classic style or grid layout, and every item on the page could have its own styles and settings
-*   **Advanced pagination function** - pagination function implemented in google load more style
-*   **Work in IE, Firefox, Safari, Opera, Chrome** - work properly in all the latest versions of the popular browsers
-*   **Lazy loading option** - implemented advanced lazy loading options, for the case when you have big sets of images you can define the amount of the galleries images for the first load and for the next steps of the load more options
-*   **Advanced cache options** - implemented advanced images caching options
-*   **Overlay effects** - all hover effects of the thumbnails are highly customizable and have a full set of options
-*   **Backend text settings preview** - all images titles, captions, and descriptions are highly customizable also we have a life preview of the changes in the backend
-*   **Resizing crop function** - in media managed you'll find a great set of very useful features for example images crop, and manual resizing
-*   **Optional mobile touch support** - our plugin supports mobile devices and you can customize responsive gallery layout settings for different screen sizes
-*   **Custom ordering of the images** - ordering for all images  could be easily changed manually in the media manager or you can find order by options in general settings
-*   **Ability to insert plugin to the WordPress post, page, widget** - every item could be inserted in to post, page or widget with a build shortcode tag or using a wizard button - shortcode generator in post or page editor
-*   **Lightbox social buttons** - in plugin settings you can turn on/off social buttons
-*   **Lightbox background color** - in lightbox settings you can change the color of the background with a comfortable color selector
-*   **Lightbox background transparency** - in lightbox settings you can change the transparency of the background with a comfortable color selector
-*   **Lightbox font color** - in lightbox settings you can change the color of the font with a comfortable color selector
-*   **Lightbox font transparency** - in lightbox settings you can change the transparency of the font with a comfortable color selector
-*   **Advanced Compatibility** -  implement advanced compatibility options to avoid conflict with libraries of other plugins and themes. You can switch between modes to find the proper value for your case.
-*   **Advanced Social Sharing** -  advanced social sharing functionality in a lightbox. Implemented deep linking functionality for the images social sharing services Facebook, Twitter, Pinterest, Google+, VK
-*   **Click Thumbnails** - advanced click functionality. You can use click-on buttons or on the gallery thumbnails to enlarge images or open the image link.  With the new functionality, you can combine absolutely different features of the clicking functionality.
-*   **Alignment** - alignment of the photo gallery in the post or page depends on your needs. You don't need to use HTML tags or some CSS tricks this function gonna help you to align your image gallery the way you need. Possible to select one from implemented alignment modes: left, right, and center for image alignment inside post or page content.
-*   **Padding** - new padding options. Define custom values in pixels for padding thumbnails block in post or page content. Is it possible to define padding from the left, right, top and bottom side
-*   **Post Generator** - new function for the automatic post creation with a gallery tag inside it. Advanced post manager implemented with additional functions for customization and management of all your posts in one place.
-*   **Description Panel** - new image description panel in a lightbox with a few different themes. The settings section makes you able to change content panel theme styles. In the description panel, you can define a few content sources. Image title, image caption or image description.
-*   **Swipe in Lightbox** - lightbox supports the swipe effect on multiple mobile devices. Swipe properly work in the lightbox for all images. Tested for Android and iOS.
-*   **Advanced Link Button Design** - front end interface have link button. This button provides linking functionality on every thumbnail. 
-This interface button has a wide range of front-end interface customization options. You can easily change this button color, border and icon.
-*   **Hover Description Template** - every image contain description field. In additional parameters of the image hover, you can define some HTML tags or build-in tags for customization of the image description.
-*   **Plugin Compatibility Settings** - in plugin settings you can customize general plugin settings to avoid conflicts with other plugins or WordPress themes.
-*   **Admin Interface Modes** - in plugin settings you can customize plugin interface settings to avoid conflicts with another plugin.
-*   **Video Links** - in the media manager every image have a separate option for a video link. Video links could be specified to the youtube feed or Vimeo.
-*   **Images Custom Ratio** - in plugin settings you can define a custom ratio for every picture. Every gallery could have personal settings for this option.
-*   **Thumbnails Fade Effect** - implemented Fade effect for the hover of the photo thumbnails. With such a hover animation effect become more attractive and eye-catching.
-*   **Advanced Load more function** - implemented very attractive navigation mode. Auto pre-loading images like an endless list of images. Load more functions have a lot of customization options to make it work the way you need.
-*   **SEO code optimization** - implemented a few front-end code output modes. One simplified mode with all core front-end code elements and another mode with additional not visible elements. This option has additional modes. These SEO output modes give you default output mode, thumbnail, and thumbnail+links mode.
-*   **Template** - in our plugin, we have an advanced template engine for images description. Every hover text of the image could be edited and customized with built-in template options.
-*   **Cache** - incredible new super cache option makes your page load ten times faster. This function use absolutely new model of the image load. When you enable cache for big-size galleries it's gonna be much faster and more effective to use our plugin. Your visitors will be really surprised by the speed of the page load.
-*   **Support Videos** - every image has an option where possible to define a video link for every particular picture.
-*   **Elementor Block** - in the Elementor page builder you can use the built-in Elementor block in our plugin.
-*   **Slider** - possible to create an image slider with mobile-friendly interface and support touchscreen devices. In slideshow mode, you can upload photos to the image slideshow and configure different interface elements to navigate between slides. Possible to create an unlimited amount of photo sliders with different text on the description panel. You can use a title, caption or photo description as a text source for every slide of the image slider.
+Enhance your gallery with a built-in image lightbox that beautifully displays images, photos, and videos in a sleek, responsive interface. The photo lightbox supports external sources like YouTube, Facebook, Twitch, Streamable, Vimeo, Wistia, Mixcloud, and DailyMotion, allowing you to showcase diverse content effortlessly. Customize titles and descriptions, activate slideshow mode with play/stop controls, and enable zoom, fullscreen, and image download options. With social sharing features, visitors can easily share their favorite images, making your image gallery more interactive and engaging.
 
+### Interactive Hover Effects
 
+Enhance your photo gallery with 18+ stunning hover animations, designed to bring your images to life. These hover effects offer dynamic transitions, customizable layouts, and the ability to add titles, descriptions, zoom, and link buttons. The latest hover animations introduce social share functionality, making your image gallery more interactive. With the hover template mode, you can further personalize your galleries by integrating custom HTML and CSS elements, ensuring a unique and engaging user experience.
 
-= Pro Key Features =
+### Polaroid Gallery
 
-*   **50+ pre-configured styles** - one-click setup of the gallery with required type and theme styles. These styles are classified into 6 categories with different types of grid layouts and interface views.
-*   **Advanced Youtube Gallery** - pre-configured 6 views for the youtube feeds mode. Every instance has a full set of design configuration controls.
-*   **Advanced Photo Grid Themes** - pre-configured 8 views for the image grid view with additional advanced interface and layout configuration settings.
-*   **Advanced Masonry Themes** - pre-configured 8 views for the masonry grid views with additional advanced interface and layout configuration settings. Added smart resizing mode for the resizing images automatically for the building of the masonry grid layout. 
-*   **Advanced Mosaic Themes** - pre-configured 6 views for the mosaic grid views with additional advanced interface and layout configuration settings.
-*   **Advanced Polaroid Themes** - pre-configured 8 views for the polaroid grid views with additional advanced interface and layout configuration settings.
-*   **Advanced Wall Style Themes** - pre-configured 8 views for the wall style grid view with additional advanced interface and layout configuration settings.
-*   **Advanced Menu Settings** - full access to the configuration of the top grid filters and navigation buttons. With the configuration of the navigation menu styles and modes. 
-*   **Advanced Tags Navigation** - tags navigation mode for the top navigation menu.
-*   **Advanced Polaroid Settings** - configuration of the polaroid content source and design for the description panel.
-*   **Advanced Size Settings** - set of size options, grid spacing, column management, and mobile-friendly settings for mobile devices.
-*   **Advanced Lightbox Settings** - customizable colors, styles and visibility of the navigation elements in the lightbox popup.
-*   **Advanced Hover Settings** - multiply colors configuration for the overlay, buttons and all text for the additional hover elements like title, caption and description.
-*   **Advanced Pagination Settings** - configuration of the load more function workflow. Modification of the styles and colors of the pagination interface element.
-*   **Advanced Layout Settings** - image grid settings, different layout settings for the desktop site version and mobile devices. Android or iOS, mobile-friendly gallery layout.
-*   **Advanced Resizing Settings** - for the masonry grid implemented a new automatic, advanced thumbnail resizing function.
-*   **Youtube Playlist** - fast import of the youtube playlist videos in a few clicks.  
-*   **Youtube Channel** - fast import of the youtube channel videos in a few clicks.  
-*   **Image Link** - every image have a personal link field. You can set a different link for every image.
-*   **Tags for images** - every image contain description field. In additional parameters of the image hover, you can define some HTML tags or build-in tags for customization of the image description.
-*   **Grid layout** - in plugin implemented not only a classic gallery layout, but also a grid layout for the modern style with different sizes of thumbnails.
-*   **Smart Links** - implemented smart image links and video links parsing algorithm. Implemented auto-detection links with turned-off link navigation buttons
-*   **Hover layout template** - hover effects have a set of advanced options. For example, you can customize the layout of the hover effect with build tags
-*   **Customizable Grid** - every image has additional options for customization of the layout of the photos, as result, you can build a fully custom gallery grid, depending on your needs. You can decide which size of the thumbnails matrix you need on your website
-*   **Customizable hover icons** - all icons of the gallery buttons are fully customizable and every icon could be easily changed with the build icons wizard
-*   **Gallery widget** - every item could be inserted in to post, page or widget with a build shortcode tag or using a wizard button - shortcode generator in the post or page editor
-*   **Clone** - if you have hundreds of galleries on the website this feature is really useful for you! Clone settings of one gallery to apply it to another one. So you can copy styles of the source item to as many galleries as you need with just one click.
-*   **Custom Thumbnails Shadows** - shadow it's a very stylish element of the thumbnail images on the front end. You can make your pages looks absolutely different with different-styled shadow.
-*   **Statistics** - every item has very useful and simple statistics functionality. You can easily check every photo's views. In settings, statistic values could be reset.
-*   **Backup** - implemented multifunctional galleries backup function. With this mode, you can easily transfer settings and gallery images from one server to another. Backup functionality has a mode to make export only album settings or full backup with images and settings.
-*   **Multisite Support** - implemented multi site support. You can install a plugin in the admin dashboard and enable the plugin for all child blogs.
-*   **Drag and Drop Categories Manager** - in plugin implemented an advanced categories manager with drag and drop functionality.
+Showcase your images with a stylish portfolio gallery, featuring multiple grid types like regular, masonry, mosaic, and justified layouts. The classic polaroid gallery elegantly presents descriptions below thumbnails, adding a vintage aesthetic to your photo gallery. The enhanced polaroid mode takes customization further, allowing you to place content panels on any side of the thumbnail top, left, right, or bottom. These panels can include titles, descriptions, lightbox buttons, social share icons, zoom options, and direct links. With advanced styling and layout flexibility, you can create a unique and engaging image gallery that enhances visual storytelling and user interaction.
 
-= Next Release Functionality Announce =
+### Mobile-Friendly & Responsive Galleries
 
+Enjoy a seamless experience with fully responsive galleries optimized for all devices, from smartphones to tablets and desktops. Every photo gallery layout, including grids, masonry, and mosaics, adapts perfectly to any screen size. With support for Retina and Ultra HD displays up to 16K, your images always look sharp and vibrant. Hover animations are fine-tuned for mobile interaction, ensuring smooth transitions and effects on touchscreens. The lightbox, navigation, and user interface are all designed for effortless browsing on both mobile and desktop, delivering a flawless image gallery experience anywhere.
 
-> #### Useful Links 
->
->[Technical Support](https://robosoft.co/robogallery)
->
->[More Details](https://robosoft.co/robogallery) 
+### Gallery Albums
 
+Organize your photo galleries with unlimited nesting levels, creating a seamless structure for images, albums, and videos. Build cover galleries that contain only albums or mix albums with photos, linked images, and embedded videos. Effortlessly create multi-layered image galleries with smooth navigation, ensuring easy access to content. Customize layouts to match your vision, whether you need a compact structure or an expansive album collection. Perfect for photographers, artists, and businesses, this feature provides the ultimate flexibility for managing, displaying, and categorizing visual content in a dynamic and engaging way.
+
+### Navigation & Gallery Interface
+
+Enhance your photo gallery experience with an intuitive and fully customizable navigation system. Featuring a top gallery menu, thumbnail navigation, and a powerful search field, users can effortlessly find images, photos, and galleries using captions, titles, descriptions, or tags. Enable the tag-based menu for dynamic image sorting and filtering, allowing visitors to explore content seamlessly. Integrated breadcrumbs navigation ensures smooth transitions within gallery albums, keeping users oriented as they browse through nested image galleries. With advanced pagination, load more options, and lazy load functionality, your galleries remain fast, user-friendly, and perfectly structured for any display size.
+
+### Social Media Sharing
+
+Boost your gallery's reach with seamless social media sharing options. Share images, photos, and entire galleries directly from the lightbox, thumbnails, and hover effects. Social share buttons are available in the enhanced Polaroid mode, lightbox, and hover animations, allowing effortless sharing to 18+ platforms, including Twitter, Reddit, WhatsApp, Facebook, LinkedIn, Pinterest, Tumblr, and more. Maximize engagement by integrating your image gallery with social media, ensuring your content gets the visibility it deserves.
+
+### Image Slider
+
+Enhance your gallery with a stunning image slider that delivers smooth, elegant transitions. Create fully responsive slideshows that showcase images and photos beautifully on any device. Add captions, customize navigation controls, and enjoy a seamless, lightweight experience. Adjust autoplay settings, transition effects, and slideshow speed for a personalized presentation. The slider seamlessly integrates with gallery layouts, ensuring an engaging and interactive way to showcase your photos, images, and albums. Perfect for portfolios, presentations, and dynamic content displays.
+
+### Video Gallery
+
+Transform your gallery into a powerful video showcase with seamless support for multiple platforms. Embed videos from YouTube playlists, channels, and over 10+ sources, including Facebook, Twitch, Vimeo, SoundCloud, Wistia, and more. Enjoy a fully responsive video gallery with smooth playback, customizable layouts, and an engaging user experience. Perfect for displaying video content alongside images and photos, creating a dynamic multimedia gallery that enhances interaction and visual appeal.
+
+### Bulk Images Uploader & Server Import
+
+Effortlessly upload and organize large collections of images with the new bulk uploader tool. Import photos directly from server folders and create multiple galleries in just one click. Configure titles, captions, descriptions, tags, links, and video URLs in a simple config file, ensuring seamless gallery creation with all metadata automatically applied. This tool is ideal for managing extensive photo galleries, automating bulk imports, and reducing manual work. Easily handle thousands of images with structured organization, maintain consistency across multiple galleries, and streamline content management for large-scale projects. Whether you're working with photos, linked images, or videos, this uploader ensures fast and efficient gallery setup with minimal effort.
+
+### Performance
+
+Our photo gallery plugin is optimized to deliver exceptional performance for displaying images, albums, and galleries on your website. Each feature is designed to operate smoothly, ensuring that your photo galleries and image displays load quickly and maintain high-quality visuals without compromising your website's speed or user experience.
+
+### Cache
+
+The plugin utilizes advanced caching techniques to improve the performance of your image galleries, photo albums, and lightbox features. By efficiently storing data and minimizing repetitive server requests, it ensures faster loading times for photos and galleries, enhancing the overall browsing experience for your visitors.
+
+### Optimization
+
+This image gallery plugin is fully optimized for WordPress, ensuring seamless integration with a variety of themes and plugins. Whether you're showcasing photos in lightbox galleries or creating organized albums, our clean, efficient code minimizes resource usage and maximizes functionality. Regular updates ensure your photo galleries and image displays remain optimized for the best performance.
+
+### 💎 Pro Key Features
+
+* **Fully Customizable Gallery Interface** – Modify layouts, colors, styles, and effects to match your design needs.
+
+* **Unlimited Albums & Nested Structure** – Create albums with no depth limits and mix photos, linked images, videos, and albums effortlessly.
+
+* **Enhanced Polaroid Mode** – Add advanced content panels to thumbnails with title, description, zoom, link, and social share buttons.
+
+* **YouTube Gallery Support** – Display entire playlists and channels seamlessly within your gallery.
+
+* **12 Highly Customizable Layouts** – Choose from grid, masonry, mosaic, polaroid, justify, slider, and more, all optimized for mobile and desktop.
+
+* **55 Pre-Defined Gallery Themes** – Instantly apply professionally designed styles to your galleries.
+
+* **18 Fully Customizable Hover Effects** – Enhance user interaction with unique animations, buttons, and overlays.
+
+* **Editable Hover Template** – Create custom hover designs using HTML & CSS for ultimate flexibility.
+
+* **Gallery Search** – Enable visitors to find images quickly by searching titles, descriptions, and tags.
+
+* **Custom Links** – Add links to images, albums, or external pages for enhanced navigation and engagement.
+
+### What's Next 🔥
+
+As we step into 2025, a new era begins for Robo Gallery. The release of Version 5 marks just the start of an exciting journey. We're committed to an active development process that will bring even more innovative functionality to enhance your experience.
+
+Here's a glimpse of what's coming soon:
+
+* **Tons of New Animation Effects:** Expect a dynamic range of stunning effects to elevate your galleries.
+* **Post Grid Functionality:** Seamlessly integrate and showcase posts in beautifully designed grids.
+* **Fresh Layouts and Themes:** New, modern designs to keep your galleries visually captivating.
+* **Advanced Image Slider:** A powerful, customizable slider with enhanced controls and sleek transitions.
+* **Expanded Gallery Sources:** Integrate your galleries with new sources like Instagram, Pinterest, Flickr, Unsplash, Pexels, Pixabay, Google Drive, OneDrive, and Dropbox for greater flexibility and creativity.
+
+Stay with us as we break new ground and roll out exciting updates every two weeks to keep transforming what's possible with Robo Gallery. The future is brighter than ever!
+
+### 🖼️ All Demos
+
+[Explore New Demos 2025](https://www.robogallery.co/gallery-showcase-v5/)
+
+[Classic Gallery Demos](https://www.robogallery.co/gallery-showcase/)
+
+[Portfolio Gallery](https://robogallery.co/demo/gallery/portfolio-gallery/)
+
+[Hash Tags](https://robogallery.co/demo/gallery/hashtags/)
+
+[Masonry Gallery](https://robogallery.co/demo/gallery/masonry-gallery/)
+
+[Youtube Video](https://robogallery.co/demo/gallery/youtube-video-gallery/)
+
+[Blog Style](https://robogallery.co/demo/gallery/blog-style-gallery/)
+
+[Vimeo Video](https://robogallery.co/demo/gallery/vimeo-video-gallery/)
+
+[Multi Categories Cars Demo](https://robogallery.co/demo/gallery/cars-gallery-demo/)
+
+[Grid Layout Demo with Fade hover effect](https://robogallery.co/demo/gallery/custom-layout/)
+
+[Multi Categories Polaroid style Movie Demo with classic layout](https://robogallery.co/demo/gallery/gallery-demo-movie/)
+
+[Design Sketch Demo with grid layout](https://robogallery.co/demo/gallery/gallery-design/)
+
+[Multi Categories Demo with custom interface colors and classic layout](https://robogallery.co/demo/gallery/push-effect-demo/)
+
+[Video Demo with grid layout](https://robogallery.co/demo/gallery/design-video-gallery/)
 
 == Installation ==
 
-You don't need to do any additional configurations or manual code changes. You can install it through the regular installer of WordPress. Just download the plugin and install it manually or automatically using the WordPress repository. If you have some questions related to our plugin feel free to contact our support team we are happy to help you!
+You don't need any additional configurations or manual code changes. Simply install it using WordPress's built-in installer. Download the plugin and install it manually or automatically from the WordPress repository. If you have any questions about our plugin, feel free to contact our support team - we're always happy to help!
 
 == Frequently Asked Questions ==
 
-= How to upload images to the gallery? =
+= How to Upload Images to the Gallery? =
 
-When you create a new gallery or open an already existent item for edit on the right side of the edit settings section you'll see the images manager button. When you open the images manager you'll be able there to edit all media resources settings. Upload, edit or delete. In the images manager, you can use the drag and drop images upload tool.
+When you create a new gallery or edit an existing one, you'll find the Images Manager button on the right side of the settings section. Open the Images Manager to upload, edit, or delete media resources. You can also use the drag-and-drop upload tool for easy image management.
 
-= How to change the quality of the thumbnails? =
+= How to Change the Quality of the Thumbnails? =
 
-The quality of the thumbnails could be easily changed in size option/thumbnails options/source
+You can adjust the thumbnail quality in the Size Options, Thumbnails Options, Source settings.
 
-= Where it's possible to define vertical and horizontal paddings? =
+= Where Can I Define Vertical and Horizontal Paddings? =
 
-In settings, you can define horizontal and vertical paddings between thumbnails
+You can set horizontal and vertical paddings between thumbnails in the gallery settings.
 
-= Do you have some limits for image size? =
+= Are There Any Limits on Image Size? =
 
-No, we don't have any limits for image size.
+No, there are no restrictions on image size.
 
-= How I can create a custom (grid) layout of the thumbnails? =
+= How Can I Create a Custom Grid Layout for Thumbnails? =
 
-Our plugin implemented a layout based on column amount. So you can general amount of columns in your gallery grid and define a custom amount of columns which every image gonna take. As result, you can customize the layout of the grid
+Our plugin uses a column-based layout system. You can set the total number of columns in your gallery grid and customize the number of columns each image occupies. This allows you to create a fully customized gallery grid layout.
 
-= Is it possible to insert the video as a gallery link? =
+= Is It Possible to Insert a Video as a Gallery Link? =
 
-Yes. When you open media manager you'll see their list of images. Click on some images and on the right side you'll see image options. Every image has a video link field in the image options, where you can define some custom links to the online video.
+Yes! In the Media Manager, select an image, and on the right side, you'll find Image Options. Each image has a video link field, where you can add a custom video URL.
 
-= How to define the size of the gallery images thumbnails? =
+= How to Define the Size of Gallery Thumbnails? = 
 
-Our thumbnail layout is fully responsive and thumbnail size depends on a lot of factors. It calculates thumbnails automatically depending on the general size and layout settings.  First of all, you can define ratio values for the thumbnails. Size of the thumbnails could be selected from standard pre-defined WordPress sizes: thumbnail, medium, large, full
+Our thumbnail layout is fully responsive, and sizes are calculated dynamically based on general size and layout settings. You can define the aspect ratio for thumbnails and choose from WordPress's predefined sizes: thumbnail, medium, large, or full.
 
-= How to load more function work? =
+= How Does the "Load More" Function Work? =
 
-In the admin section, you can define the number of images for the first load after clicking on load more button. Load more it's such google style pagination functionality that makes you able to limit the number of images for the first load
+In the admin panel, you can set the number of images loaded initially. Clicking the Load More button loads additional images dynamically, providing a Google-style pagination experience.
 
-= How do change the number of columns in the layout? =
+= How Do I Change the Number of Columns in the Layout? =
 
-In general settings, you can find thumbnail column options which could depend on the device screen size. You can define different gallery column amounts for different resolutions.
+In the General Settings, you'll find the Thumbnail Column options. You can set different column numbers based on screen size, allowing for a responsive gallery layout across all devices.
 
-= How to enable swipe mode for a lightbox? =
+= How to Enable Swipe Mode in the Lightbox? =
 
-When you open settings in the list of options you can find the lightbox settings block. There are switch-on swipe options if you wish to enable this mode in the gallery lightbox.
+In the Lightbox Settings section, you'll find a Swipe Mode option. Enable this setting to allow users to swipe through images in the lightbox on mobile devices.
 
 == Screenshots ==
 
@@ -238,6 +249,18 @@ Plugin implemented in native WordPress style. All code is implemented based on W
 If any problem occurs, please contact us.
 
 == Changelog ==
+
+= 5.0.0 (03-04-2025) =
+* New Grid System - Introducing brand-new layouts for ultimate flexibility.
+* Advanced Hover Effects - fresh, customizable animations for a modern look.
+* Unlimited Albums - Create multi-level albums with unlimited depth and mix images, albums, and videos in one gallery.
+* Enhanced Polaroid Mode - Now with social share, zoom, and an advanced text content panel for more engaging galleries.
+* New Lightbox - Featuring slideshow mode, social sharing, zoom, download, and full-screen mode for the best viewing experience.
+* Classic Pagination & Breadcrumbs - Better navigation with structured multi-page galleries.
+* New Video Gallery - Supports 9 platforms, including YouTube, Facebook, Twitch, Vimeo, SoundCloud, Wistia, and more.
+* Social Sharing - Integrated with 20+ platforms, including Twitter, Reddit, WhatsApp, Facebook, LinkedIn, Pinterest, and Tumblr.
+* Retina & Ultra HD Support - Fully optimized for high-resolution screens, including 16K Ultra HD.
+* Cover Gallery Mode - Create visually stunning album covers for easy navigation and a beautiful presentation.
 
 = 3.2.24 =
 *  Fix YouTube API issue, fixed media manager field issues 
@@ -745,5 +768,14 @@ If any problem occurs, please contact us.
 
 == Upgrade Notice ==
 
-= 3.2.24 =
-Fix YouTube API issue, fixed media manager field issues 
+= 5.0.0 (03-04-2025) =
+* New Grid System - Introducing brand-new layouts for ultimate flexibility.
+* Advanced Hover Effects - fresh, customizable animations for a modern look.
+* Unlimited Albums - Create multi-level albums with unlimited depth and mix images, albums, and videos in one gallery.
+* Enhanced Polaroid Mode - Now with social share, zoom, and an advanced text content panel for more engaging galleries.
+* New Lightbox - Featuring slideshow mode, social sharing, zoom, download, and full-screen mode for the best viewing experience.
+* Classic Pagination & Breadcrumbs - Better navigation with structured multi-page galleries.
+* New Video Gallery - Supports 9 platforms, including YouTube, Facebook, Twitch, Vimeo, SoundCloud, Wistia, and more.
+* Social Sharing - Integrated with 20+ platforms, including Twitter, Reddit, WhatsApp, Facebook, LinkedIn, Pinterest, and Tumblr.
+* Retina & Ultra HD Support - Fully optimized for high-resolution screens, including 16K Ultra HD.
+* Cover Gallery Mode - Create visually stunning album covers for easy navigation and a beautiful presentation.

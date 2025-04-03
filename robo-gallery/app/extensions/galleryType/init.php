@@ -1,17 +1,17 @@
 <?php 
 /* 
 *      Robo Gallery     
-*      Version: 3.2.14 - 40722
+*      Version: 5.0.0 - 91909
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
-*      Created: 2021
-*      Licensed under the GPLv2 license - http://opensource.org/licenses/gpl-2.0.php
-
+*      Created: 2025
+*      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 
 include_once ROBO_GALLERY_APP_EXTENSIONS_PATH.'galleryType/initThemeOptions.php';
+include_once ROBO_GALLERY_APP_EXTENSIONS_PATH.'galleryType/changeGalleryType.php';
 
 class roboGalleryClass_Type extends roboGalleryClass{
 	
@@ -24,7 +24,7 @@ class roboGalleryClass_Type extends roboGalleryClass{
 	private $modulePath = '';
 
 	private $gallertTypeField = '';
-
+	private $gallertTypeSourceField = '';
 
 
 	public function __construct(){		
@@ -33,7 +33,8 @@ class roboGalleryClass_Type extends roboGalleryClass{
 		$this->bodyClass = ROBO_GALLERY_NAMESPACE.'theme_listing';
 
 		$this->gallertTypeField = ROBO_GALLERY_PREFIX.'gallery_type';
-		
+		$this->gallertTypeSourceField = ROBO_GALLERY_PREFIX.'gallery_type_source';
+
 		if( !defined('ROBO_GALLERY_TYPE_GRID') ) define('ROBO_GALLERY_TYPE_GRID', 'grid');		
 		
 
@@ -151,7 +152,9 @@ class roboGalleryClass_Type extends roboGalleryClass{
 		    6  => __( 'Robo Gallery published.', 'robo-gallery' ),
 		    7  => __( 'Robo Gallery saved.', 'robo-gallery' ),
 		    8  => __( 'Robo Gallery submitted.', 'robo-gallery' ),
-		    9  => sprintf(
+			
+		    9  => wp_sprintf(
+					/* translators:  %1: post date format  $s: post date  */
 		        	__( 'Robo Gallery scheduled for: <strong>%1$s</strong>.', 'robo-gallery' ),
 		        	date_i18n( __( 'M j, Y @ G:i' ), 
 		        	strtotime( $post->post_date ) 
@@ -187,9 +190,12 @@ class roboGalleryClass_Type extends roboGalleryClass{
 		$post_id = (int) $post_id;
 		if( $post_id==false ) return ;		
 		$typeGallery = get_post_meta( $post_id, $this->gallertTypeField , true );
+		$typeSourceGallery = get_post_meta( $post_id, $this->gallertTypeSourceField , true );
 
 		if( !$typeGallery || $typeGallery=='grid' ) $typeGallery = 'Grid';
 		if( $typeGallery=='gridpro' ) $typeGallery = 'Grid Pro';
+
+		if( $typeGallery=='robogrid' ) $typeGallery = 'Fusion Grid';
 
 		if( $typeGallery=='wallstylepro' ) $typeGallery = 'Wallstyle Pro';
 
@@ -208,7 +214,12 @@ class roboGalleryClass_Type extends roboGalleryClass{
 		if( $typeGallery=='polaroid' ) $typeGallery = 'Polaroid';
 		if( $typeGallery=='polaroidpro' ) $typeGallery = 'Polaroid Pro';
 
-		if( $typeGallery=='custom' ) $typeGallery = 'Custom';		
+		if( $typeGallery=='custom' ){
+			$typeGallery = 'Custom';	
+			if($typeSourceGallery == 'custom-342'){
+				$typeGallery .= ' V2';
+			}
+		} 	
 
 		printf(
 			'<strong>%s</strong>',
@@ -252,6 +263,9 @@ class roboGalleryClass_Type extends roboGalleryClass{
 		wp_localize_script( ROBO_GALLERY_ASSETS_PREFIX.'admin-dialog-v2-cfg', 'robo_js_config', array(
 				'imagesUrl' 	=> $this->moduleUrl . 'build/',
 				'createUrl' 	=> admin_url('post-new.php?post_type='.ROBO_GALLERY_TYPE_POST.'&'.$this->gallertTypeField.'='),
+				'createUrl' 	=> admin_url('post-new.php?post_type='.ROBO_GALLERY_TYPE_POST.'&'.$this->gallertTypeField.'='),
+				'changeUrl'		=> admin_url('post.php?action=edit&robo-gallery-newtype='),
+
 				'premiumVersion'=> ROBO_GALLERY_TYR,
 
 				'customThemeEnable'=> $this->customThemeCode ? true : false,
@@ -269,7 +283,14 @@ class roboGalleryClass_Type extends roboGalleryClass{
 
 	public function getDialogScript(){		
 		$script = '; const RoboGalleryTypeBodyClass = "'.$this->bodyClass.'"; ';
-		$script .= file_get_contents( $this->modulePath.'js/themes.select.js' );
+
+		$selectFilePAth = $this->modulePath.'js/themes.select.js';
+		
+		global $wp_filesystem;
+		WP_Filesystem();
+		if ( $wp_filesystem->exists( $selectFilePAth ) ) {
+			$script .= $wp_filesystem->get_contents( $selectFilePAth );
+		}
 		return $script;
 	}
 

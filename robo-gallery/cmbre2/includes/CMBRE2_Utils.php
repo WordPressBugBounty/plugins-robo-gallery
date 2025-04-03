@@ -36,8 +36,10 @@ class CMBRE2_Utils {
 			$img_url = end( $explode );
 		}
 
+		$wild = '%%';
+		$like = $wild . $wpdb->esc_like( $img_url ) . $wild;
 		// And search for a fuzzy match of the file name
-		$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid LIKE '%%%s%%' LIMIT 1;", $img_url ) );
+		$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid LIKE %s LIMIT 1;", $like  ) );
 
 		// If we found an attachement ID, return it
 		if ( ! empty( $attachment ) && is_array( $attachment ) ) {

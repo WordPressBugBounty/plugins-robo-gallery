@@ -1,13 +1,12 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 3.2.14 - 40722
+*      Version: 5.0.0 - 91909
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
-*      Created: 2021
-*      Licensed under the GPLv2 license - http://opensource.org/licenses/gpl-2.0.php
-
+*      Created: 2025
+*      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 if ( ! defined( 'WPINC' ) )  die;
@@ -29,7 +28,7 @@ if(ROBO_GALLERY_DEV){
 
 	wp_enqueue_script(  ROBO_GALLERY_ASSETS_PREFIX.'-field-sortedjs-lib', ROBO_GALLERY_FIELDS_URL.'asset/sortablejs/sortable.js', array(), ROBO_GALLERY_VERSION, true);
 
-	wp_register_script( ROBO_GALLERY_ASSETS_PREFIX.'-field-type-gallery', ROBO_GALLERY_FIELDS_URL.'asset/fields/gallery/script.js', array('jquery', ROBO_GALLERY_ASSETS_PREFIX.'-field-sortedjs-lib'), ROBO_GALLERY_VERSION, true); //.min 
+	wp_register_script( ROBO_GALLERY_ASSETS_PREFIX.'-field-type-gallery', ROBO_GALLERY_FIELDS_URL.'asset/fields/gallery/script.js', array('jquery', ROBO_GALLERY_ASSETS_PREFIX.'-field-sortedjs-lib'), ROBO_GALLERY_VERSION, true); //.min
 } else {
 	wp_enqueue_script(  ROBO_GALLERY_ASSETS_PREFIX.'-field-type-gallery-lib', ROBO_GALLERY_FIELDS_URL.'asset/fields/gallery/js/gallery.lib.min.js', array('jquery'), ROBO_GALLERY_VERSION, true);
 
@@ -53,9 +52,9 @@ wp_localize_script( ROBO_GALLERY_ASSETS_PREFIX.'-field-type-gallery', 'roboGalle
 
 wp_enqueue_style ( ROBO_GALLERY_ASSETS_PREFIX.'-field-type-gallery', ROBO_GALLERY_FIELDS_URL.'asset/fields/gallery/style.css', array( ), '' );
 
-$value = is_array($value) ? implode(',', $value) : $value; 
-?>
+$value = is_array($value) ?  implode( ',', $value ) : $value;
 
+?>
 <?php if ($label) : ?>
 	<div class="field small-12 columns">
 		<label>

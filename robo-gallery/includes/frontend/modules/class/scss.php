@@ -8,6 +8,8 @@ class roboGalleryScss{
     private $core;
     private $gallery;
 
+    private $css = '';
+
     private $scssPath = '';
 
     private $content = '';
@@ -69,6 +71,8 @@ class roboGalleryScss{
 
     public function compile(){
     	if($this->cached){    		
+            $css = file_get_contents( $this->cacheFileUrl);
+            $this->core->setContent( $css, 'CssSource' );
     		$this->includeCss();
     		return ;
     	}
@@ -81,6 +85,8 @@ class roboGalleryScss{
         } else {
             $css = $this->Compiler->compileString( $this->contentImport . $this->content )->getCss();
         }
+
+        $this->core->setContent( $css, 'CssSource' );
 
     	if( !$this->writeCache($css)  ){    		
     		$this->core->setContent( $css, 'CssBefore' );

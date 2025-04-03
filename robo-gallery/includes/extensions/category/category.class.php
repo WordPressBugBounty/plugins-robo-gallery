@@ -1,16 +1,13 @@
 <?php
-/*
+/* 
 *      Robo Gallery     
-*      Version: 1.0
+*      Version: 5.0.0 - 91909
 *      By Robosoft
 *
-*      Contact: https://robosoft.co/robogallery/ 
-*      Created: 2015
-*      Licensed under the GPLv2 license - http://opensource.org/licenses/gpl-2.0.php
-*
-*      Copyright (c) 2014-2019, Robosoft. All rights reserved.
-*      Available only in  https://robosoft.co/robogallery/ 
-*/
+*      Contact: https://robogallery.co/ 
+*      Created: 2025
+*      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
+ */
 
 if ( ! defined( 'WPINC' ) ) exit;
 
@@ -52,7 +49,7 @@ class ROBO_GALLERY_CATEGORY{
     public function addMetaBox(){
         add_meta_box(
             'hierarchy-post-attributes-metabox',
-            __('Categories'),
+            __('Album Hierarchy', 'robo-gallery'),
             array($this, 'metaBoxAttributes'),
             $this->postType,
             'side',
@@ -103,7 +100,11 @@ class ROBO_GALLERY_CATEGORY{
                     )
                 ),
                 'dialog' => array(
-                    'title' => __(sprintf('Edit hierarchy of %s', $postTypeObject->labels->name)),
+                    'title' => wp_sprintf(
+                                    /* translators:  $s: gallery name */
+                                    __('Edit hierarchy of %s', 'robo-gallery'), 
+                                    $postTypeObject->labels->name
+                    ),
                     'button' => array(
                         'save' => array(
                             'label' => __('Save')
@@ -140,7 +141,20 @@ class ROBO_GALLERY_CATEGORY{
         if ($screen && 'add' === $screen->action) {
             return;
         }
+        
 
+        if( !defined('ROBO_GALLERY_TYR') || ROBO_GALLERY_TYR !== 1){
+            echo wp_sprintf( 
+                '<strong>%s</strong><br/> %s  <a target="_blank" href="%s">%s</a>', 
+                __('The free version allows up to 3 nested albums.', 'robo-gallery'),
+                __('For more, please upgrade to the ', 'robo-gallery'),
+                'https://www.robogallery.co/#pricing',
+                __('Pro version', 'robo-gallery'),
+            );
+            echo '<br/>';
+        }
+
+        
                 $path = array(get_the_title($post));
 		        $parent = $post->post_parent ? get_post($post->post_parent) : null;
 		        $directParentId = ($parent && 'publish' == $parent->post_status) ? $parent->ID : 0;
@@ -148,7 +162,7 @@ class ROBO_GALLERY_CATEGORY{
 		            $path[] = get_the_title($parent) . ' >>';
 		            $parent = $parent->post_parent ? get_post($parent->post_parent) : null;
 		        }
-		        $path[] = __('Root Category', 'robo-gallery').' >>';
+		        $path[] = __('Root Gallery', 'robo-gallery').' >>';
 		        $path = array_reverse($path);
 		        ?>
             <input type="hidden" name="parent_id" value="<?php echo $directParentId; ?>">
