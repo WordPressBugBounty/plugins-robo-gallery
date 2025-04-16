@@ -3,8 +3,8 @@ Contributors: gallerysupport, robosoft
 Donate link: https://robosoft.co/robogallery
 Tags: gallery, photo gallery, image gallery, wordpress gallery plugin, responsive gallery
 Requires at least: 3.3
-Tested up to: 6.7
-Stable tag: 5.0.0
+Tested up to: 6.8
+Stable tag: 5.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -250,7 +250,13 @@ If any problem occurs, please contact us.
 
 == Changelog ==
 
-= 5.0.0 (03-04-2025) =
+= 5.0.1 (16-04-2025) =
+* Compatible with WordPress 6.8
+* Fixed notice in the admin section
+* Resolved interface display issue
+* Updated Change Gallery Type option
+
+= 5.0.0 (02-04-2025) =
 * New Grid System - Introducing brand-new layouts for ultimate flexibility.
 * Advanced Hover Effects - fresh, customizable animations for a modern look.
 * Unlimited Albums - Create multi-level albums with unlimited depth and mix images, albums, and videos in one gallery.
@@ -768,14 +774,8 @@ If any problem occurs, please contact us.
 
 == Upgrade Notice ==
 
-= 5.0.0 (03-04-2025) =
-* New Grid System - Introducing brand-new layouts for ultimate flexibility.
-* Advanced Hover Effects - fresh, customizable animations for a modern look.
-* Unlimited Albums - Create multi-level albums with unlimited depth and mix images, albums, and videos in one gallery.
-* Enhanced Polaroid Mode - Now with social share, zoom, and an advanced text content panel for more engaging galleries.
-* New Lightbox - Featuring slideshow mode, social sharing, zoom, download, and full-screen mode for the best viewing experience.
-* Classic Pagination & Breadcrumbs - Better navigation with structured multi-page galleries.
-* New Video Gallery - Supports 9 platforms, including YouTube, Facebook, Twitch, Vimeo, SoundCloud, Wistia, and more.
-* Social Sharing - Integrated with 20+ platforms, including Twitter, Reddit, WhatsApp, Facebook, LinkedIn, Pinterest, and Tumblr.
-* Retina & Ultra HD Support - Fully optimized for high-resolution screens, including 16K Ultra HD.
-* Cover Gallery Mode - Create visually stunning album covers for easy navigation and a beautiful presentation.
+= 5.0.1 (16-04-2025) =
+* Compatible with WordPress 6.8
+* Fixed notice in the admin section
+* Resolved interface display issue
+* Updated Change Gallery Type option

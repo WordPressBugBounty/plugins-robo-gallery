@@ -11,7 +11,8 @@ class Robo_Gallery_Language {
 	}
 
 	public function hooks(){
-		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
+		add_action( 'init', array( $this, 'load_textdomain' ) );
+		//plugins_loaded
 	}
 
 	public function load_textdomain() {

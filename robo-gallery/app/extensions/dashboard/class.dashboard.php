@@ -1,7 +1,7 @@
 <?php 
 /* 
 *      Robo Gallery     
-*      Version: 5.0.0 - 91909
+*      Version: 5.0.1 - 54540
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -189,4 +189,7 @@ if ( !class_exists( 'rbsGalleryDashboard' ) ){
         }
     }
 }
-new rbsGalleryDashboard();
+
+add_action( 'init', function(){
+    new rbsGalleryDashboard();
+} );

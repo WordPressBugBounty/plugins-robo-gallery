@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.0 - 91909
+*      Version: 5.0.1 - 54540
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -14,10 +14,10 @@ if (!defined('WPINC')) {
 }
 
 define("ROBO_GALLERY_ICON_PRO", '<button type="button"  class="btn btn-danger btn-xs rbs-label-pro">Pro</button>');
-define("ROBO_GALLERY_LABEL_PRO", '<span>' . __('Available in', 'robo-gallery') . '</span> ' . ROBO_GALLERY_ICON_PRO);
+define("ROBO_GALLERY_LABEL_PRO", '<span>Available in</span> ' . ROBO_GALLERY_ICON_PRO);
 
 define("ROBO_GALLERY_ICON_UPDATE_PRO", '<button type="button"  class="btn btn-success btn-xs rbs-label-pro">Pro</button>');
-define("ROBO_GALLERY_LABEL_UPDATE_PRO", '<span>' . __('Please update ', 'robo-gallery') . '</span> ' . ROBO_GALLERY_ICON_UPDATE_PRO . '<span>' . __(' key', 'robo-gallery') . '</span> ');
+define("ROBO_GALLERY_LABEL_UPDATE_PRO", '<span>Please update </span> ' . ROBO_GALLERY_ICON_UPDATE_PRO . '<span> key</span> ');
 
 if (is_admin()) {
     $photonic_options = get_option('photonic_options', array());

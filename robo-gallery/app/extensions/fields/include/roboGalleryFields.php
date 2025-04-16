@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.0 - 91909
+*      Version: 5.0.1 - 54540
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -16,7 +16,7 @@ class roboGalleryFields{
 	protected $config;
 
 	protected function __construct(){
-		$this->config = new roboGalleryFieldsConfig();
+		//$this->config = new roboGalleryFieldsConfig();
 	}
 
 	public static function getInstance(){
@@ -27,10 +27,15 @@ class roboGalleryFields{
 	}
 
 	public function init(){
+		add_action('init', 					array($this, 'initConfig'));
 		add_action('init', 					array($this, 'addMetaBoxes'));
 		add_action('admin_enqueue_scripts', array($this, 'enqueueScripts'));
 		add_filter('admin_body_class', 		array($this, 'adminBodyClass'));
 		#no comments
+	}
+
+	public function initConfig(){
+		$this->config = new roboGalleryFieldsConfig();
 	}
 
 	public function addMetaBoxes(){

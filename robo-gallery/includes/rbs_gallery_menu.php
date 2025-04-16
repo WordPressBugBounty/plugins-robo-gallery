@@ -1,7 +1,7 @@
 <?php 
 /* 
 *      Robo Gallery     
-*      Version: 5.0.0 - 91909
+*      Version: 5.0.1 - 54540
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -91,8 +91,8 @@ if(!function_exists('rbs_gallery_menuConfig')){
 			    padding-top: 5px;
 			}
 			'. ( ROBO_GALLERY_TYR==0  ? '
-			#menu-posts-robo_gallery_table ul.wp-submenu li:nth-child(5) a,
-			#adminmenu li.menu-icon-robo_gallery_table ul li:nth-child(5) a{
+			#menu-posts-robo_gallery_table ul.wp-submenu li:nth-child(4) a,
+			#adminmenu li.menu-icon-robo_gallery_table ul li:nth-child(4) a{
 				font-weight: bold;
 				color: #3adb76;
 			}' : '' )
