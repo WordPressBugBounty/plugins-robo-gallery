@@ -1,7 +1,7 @@
 <?php 
 /* 
 *      Robo Gallery     
-*      Version: 5.0.1 - 54540
+*      Version: 5.0.2 - 91160
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -155,19 +155,19 @@ if ( !class_exists( 'rbsGalleryDashboard' ) ){
                         echo wp_sprintf(  
                     		'<a href="%s" target="_blank">%s</a>',
                     		$this->url_external_button1,
-                            __('DEMOS', 'robo-gallery'),
+                            __('DEMOS', 'robo-gallery')
                     	); 
                         echo '<span style="margin: 0 10px;">|</span>';
                         echo wp_sprintf(  
                     		'<a href="%s" target="_blank" >%s</a>',
                     		$this->url_external_button2,
-                            __('Get Pro Version', 'robo-gallery'),
+                            __('Get Pro Version', 'robo-gallery')
                     	); 
                         echo '<span style="margin: 0 10px;">|</span>';
                         echo wp_sprintf(  
                     		'<a href="%s" target="_blank">%s</a>',
                     		'https://wordpress.org/support/plugin/robo-gallery',
-                            __('Support', 'robo-gallery'),
+                            __('Support', 'robo-gallery')
                     	); 
                         echo '<span style="margin: 0 10px;">]</span>';
                         

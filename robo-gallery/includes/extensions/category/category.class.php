@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.1 - 54540
+*      Version: 5.0.2 - 91160
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -149,7 +149,7 @@ class ROBO_GALLERY_CATEGORY{
                 __('The free version allows up to 3 nested albums.', 'robo-gallery'),
                 __('For more, please upgrade to the ', 'robo-gallery'),
                 'https://www.robogallery.co/#pricing',
-                __('Pro version', 'robo-gallery'),
+                __('Pro version', 'robo-gallery')
             );
             echo '<br/>';
         }
