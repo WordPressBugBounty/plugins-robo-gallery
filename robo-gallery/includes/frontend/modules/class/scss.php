@@ -71,7 +71,7 @@ class roboGalleryScss{
 
     public function compile(){
     	if($this->cached){    		
-            $css = file_get_contents( $this->cacheFileUrl);
+            $css = file_get_contents( $this->cacheFilePath);
             $this->core->setContent( $css, 'CssSource' );
     		$this->includeCss();
     		return ;

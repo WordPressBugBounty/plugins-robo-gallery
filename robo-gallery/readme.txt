@@ -4,7 +4,7 @@ Donate link: https://robosoft.co/robogallery
 Tags: gallery, photo gallery, image gallery, wordpress gallery plugin, responsive gallery
 Requires at least: 3.3
 Tested up to: 6.8
-Stable tag: 5.0.2
+Stable tag: 5.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -249,6 +249,11 @@ Plugin implemented in native WordPress style. All code is implemented based on W
 If any problem occurs, please contact us.
 
 == Changelog ==
+
+= 5.0.3 (06-05-2025) =
+* Resolved YouTube API key security issue
+* Fixed cache-related notice issue
+* Fixed CSS conflict with multiple instances on the same page
 
 = 5.0.2 (17-04-2025) =
 * Resolved dashboard error on WordPress 6.5.5
@@ -778,6 +783,7 @@ If any problem occurs, please contact us.
 
 == Upgrade Notice ==
 
-= 5.0.2 (17-04-2025) =
-* Resolved dashboard error on WordPress 6.5.5
-* Fixed interface issues in the navigation and Polaroid sections
+= 5.0.3 (06-05-2025) =
+* Resolved YouTube API key security issue
+* Fixed cache-related notice issue
+* Fixed CSS conflict with multiple instances on the same page

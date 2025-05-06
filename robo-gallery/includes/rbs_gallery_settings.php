@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.2 - 91160
+*      Version: 5.0.3 - 23465
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -59,7 +59,7 @@ class RoboGallerySettings
 
         $args = array(
             'type' => 'string',
-            'sanitize_callback' => 'sanitize_text_field',
+            'sanitize_callback' => array( $this, 'sanitizeYoutubeKey' ),
             'default' => NULL,
         );
 
@@ -244,9 +244,32 @@ class RoboGallerySettings
         <?php
     }
 
+
+    function sanitizeYoutubeKey($input) {
+        $input = sanitize_text_field( $input ); // Sanitize the input string to remove any unwanted characters
+
+        // Regular expression pattern to validate the string
+        $pattern = '/^AIza[0-9A-Za-z\-_]{35}$/';
+    
+        // Check if the input string fully matches the pattern
+        if (preg_match($pattern, $input)) {
+            return $input; // Return the string as is if it matches the pattern
+        }
+    
+        // Remove all characters that are not allowed ([0-9A-Za-z\-_])
+        $filtered = preg_replace('/[^0-9A-Za-z\-_]/', '', $input);
+    
+        // Truncate the string to a maximum of 39 characters (4 for "AIza" + 35 additional characters)
+        $filtered = substr($filtered, 0, 39);
+    
+        return $filtered;
+    }
+    
+
+
     public function youtubeOptions()
     {
-        $option_youtube =  sanitize_text_field( get_option(ROBO_GALLERY_PREFIX.'youtubeApiKey', '') ); 
+        $option_youtube =  $this->sanitizeYoutubeKey( get_option(ROBO_GALLERY_PREFIX.'youtubeApiKey', '') ); 
         ?>
             <tr>
                 <th scope="row"><?php _e('Youtube Api Key', 'robo-gallery'); ?></th>
