@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.3 - 23465
+*      Version: 5.0.4 - 28838
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -60,6 +60,22 @@ class roboGalleryModuleLayoutRoboGrid extends roboGalleryModuleAbstraction
         return '100%';
     }
 
+
+    function getMaxWidthStyleFromOptions()
+    {
+        if (isset($this->options['maxWidthValue']) && (int) $this->options['maxWidthValue']) {
+
+            $widthType = "%";
+            if (isset($this->options['maxWidthType']) && $this->options['maxWidthType']) {
+                $widthType = CssUnits::getCorrectSizeUnits($this->options['maxWidthType']);
+            }
+
+            return (int) $this->options['maxWidthValue'] . $widthType;
+        }
+
+        return '';
+    }
+
     function getAlignStyleFromOptions()
     {
         if ( !isset($this->options['align']) ||  !$this->options['align']) {
@@ -100,9 +116,14 @@ class roboGalleryModuleLayoutRoboGrid extends roboGalleryModuleAbstraction
                 $this->element->addElementStyle('robogrid', 'margin', $align);
             }
         }
+        
 
         $this->element->addElementStyle('robogrid', 'width', $width);
-        
+
+        $maxWidth =  $this->getMaxWidthStyleFromOptions();
+        if($maxWidth){
+            $this->element->addElementStyle('robogrid', 'max-width', $maxWidth);
+        }
         
         //$this->element->addElementStyle('robogrid', 'padding', '0');
        // $this->element->addElementStyle('robogrid', 'margin', '0');

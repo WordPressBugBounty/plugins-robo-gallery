@@ -39,6 +39,20 @@ class ROBOGALLERY_REST_OPTIONS
                 'group'   => 'general',
             ],
 
+            'maxWidthValue'                => [
+                'type'     => 'text',
+                'sanitize' => 'integer',
+                'default'  => 100,
+                'group'    => 'general',
+            ],
+
+            'maxWidthType'                 => [
+                'type'    => 'select',
+                'options' => ['%', 'px', 'rem', 'em', 'vw'],
+                'default' => '%',
+                'group'   => 'general',
+            ],
+
             'orderby'                   => [
                 'type'    => 'select',
                 'options' => ['order', 'orderU', 'random', 'title', 'titleU', 'date', 'dateU'],
