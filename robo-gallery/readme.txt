@@ -4,7 +4,7 @@ Donate link: https://robosoft.co/robogallery
 Tags: gallery, photo gallery, image gallery, wordpress gallery plugin, responsive gallery
 Requires at least: 3.3
 Tested up to: 6.8
-Stable tag: 5.0.4
+Stable tag: 5.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -249,6 +249,16 @@ Plugin implemented in native WordPress style. All code is implemented based on W
 If any problem occurs, please contact us.
 
 == Changelog ==
+
+= 5.0.5 (16-06-2025) =
+* Fixed an issue with the gallery instance configuration
+* Improved support for various link structures
+* Added a new static hover effect
+* Introduced an inverted hover effect mode
+* Added highlight option for hover title
+* Added highlight option for hover description
+* Added new color option for highlight effects
+* Added a quick home icon link to the breadcrumb navigation
 
 = 5.0.4 (13-05-2025) =
 * Fixed enhanced polaroid mobile layout
@@ -787,6 +797,12 @@ If any problem occurs, please contact us.
 
 == Upgrade Notice ==
 
-= 5.0.4 (13-05-2025) =
-* Fixed enhanced polaroid mobile layout
-* Added option maximum width
+= 5.0.5 (16-06-2025) =
+* Fixed an issue with the gallery instance configuration
+* Improved support for various link structures
+* Added a new static hover effect
+* Introduced an inverted hover effect mode
+* Added highlight option for hover title
+* Added highlight option for hover description
+* Added new color option for highlight effects
+* Added a quick home icon link to the breadcrumb navigation

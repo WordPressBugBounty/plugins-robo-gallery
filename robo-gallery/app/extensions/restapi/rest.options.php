@@ -123,9 +123,23 @@ class ROBOGALLERY_REST_OPTIONS
 
             /* thumbnails  */
 
+            'hoverInvert'                 => [
+                'type'     => 'checkbox',
+                'sanitize' => 'boolean',
+                'default'  => true,
+                'group'    => 'thumbnails',
+            ],
+
+            'hoverHighlight'                 => [
+                'type'     => 'checkbox',
+                'sanitize' => 'boolean',
+                'default'  => true,
+                'group'    => 'thumbnails',
+            ],
+
             'hoverEffect'               => [
                 'type'    => 'select',
-                'options' => ['zoe', 'lily', 'sadie', 'disable'],
+                'options' => ['zoe', 'lily', 'sadie', 'static','disable'],
                 'default' => 'lily',
                 'group'   => 'thumbnails',
             ],
@@ -136,11 +150,24 @@ class ROBOGALLERY_REST_OPTIONS
                 'default'  => '#ffffff',
                 'group'    => 'thumbnails',
             ],
+            'hoverTitleBackgroundColor'            => [
+                'type'     => 'text',
+                'sanitize' => 'string',
+                'default'  => 'rgba(0, 0, 0, 0.71)',
+                'group'    => 'thumbnails',
+            ],
 
             'hoverDescriptionColor'            => [
                 'type'     => 'text',
                 'sanitize' => 'string',
                 'default'  => '#000000',
+                'group'    => 'thumbnails',
+            ],
+
+            'hoverDescriptionBackgroundColor'            => [
+                'type'     => 'text',
+                'sanitize' => 'string',
+                'default'  => 'rgba(255, 255, 255, 0.67)',
                 'group'    => 'thumbnails',
             ],
 

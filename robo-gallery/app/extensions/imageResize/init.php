@@ -1,7 +1,7 @@
 <?php 
 /* 
 *      Robo Gallery     
-*      Version: 5.0.4 - 28838
+*      Version: 5.0.5 - 31754
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -17,7 +17,8 @@ class roboGalleryClass_ImageResize extends roboGalleryClass{
 	public function __construct(){
 		
 		add_image_size( 'RoboGalleryMansoryImagesCenter', 	600, 1024, 	array("center", "center") 	);		
-		add_image_size( 'RoboGalleryMansoryImagesTop', 		600, 1024, 	array("top", "center") 		);		
+		add_image_size( 'RoboGalleryMansoryImagesCenter', 	600, 1024, 	array("center", "center") 	);		
+		add_image_size('RoboGalleryPreload', 100);	
 		
 		$this->moduleUrl 	= plugin_dir_url( 	__FILE__ );
 		$this->modulePath 	= plugin_dir_path( 	__FILE__ );

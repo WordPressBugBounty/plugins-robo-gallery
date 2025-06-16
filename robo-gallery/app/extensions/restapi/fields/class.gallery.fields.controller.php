@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.4 - 28838
+*      Version: 5.0.5 - 31754
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -90,8 +90,13 @@ class ROBOGALLERY_REST_GalleryFields_Controller
 
                 self::prepareStringValue($response, $optionConfig, 'hoverColor', $options);
 
+                self::prepareBooleanValue($response, $optionConfig, 'hoverInvert', $options);
+                self::prepareBooleanValue($response, $optionConfig, 'hoverHighlight', $options);
+                
                 self::prepareStringValue($response, $optionConfig, 'hoverTitleColor', $options);
+                self::prepareStringValue($response, $optionConfig, 'hoverTitleBackgroundColor', $options);
                 self::prepareStringValue($response, $optionConfig, 'hoverDescriptionColor', $options);
+                self::prepareStringValue($response, $optionConfig, 'hoverDescriptionBackgroundColor', $options);
                 self::prepareStringValue($response, $optionConfig, 'hoverBackgroundColor', $options);
 
                 self::prepareStringValue($response, $optionConfig, 'loadingColor', $options);

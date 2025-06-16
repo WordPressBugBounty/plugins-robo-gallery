@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.4 - 28838
+*      Version: 5.0.5 - 31754
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -147,23 +147,29 @@ class roboGalleryModuleLayoutRoboGrid extends roboGalleryModuleAbstraction
         . '>'
         . '</div>'
 
-        . '<script>' . $this->compileJavaScript() . '</script>'
+        . '<script>' . $this->getJS() . '</script>'
 
         . $this->core->getContent('End');
     }
 
-    public function compileJavaScript()
+    public function getJS()
     {
-        $this->jsOptions->setValue('restUrl', get_rest_url());
-        $this->jsOptions->setValue('wp_rest', wp_create_nonce('wp_rest'));
-      // $this->jsOptions->setValue('errorImageUrl',  plugin_dir_url( __FILE__ ).'images/' );
-        $this->jsOptions->setValue('errorImageUrl',  esc_url( site_url( 'wp-content/plugins/robo-gallery/images/', __FILE__ ) ) );
-        $this->jsOptions->setValue('debug', true);
+    //     $this->jsOptions->setValue('restUrl', get_rest_url());
+    //     $this->jsOptions->setValue('wp_rest', wp_create_nonce('wp_rest'));
+    //   // $this->jsOptions->setValue('errorImageUrl',  plugin_dir_url( __FILE__ ).'images/' );
+    //     $this->jsOptions->setValue('errorImageUrl',  esc_url( site_url( 'wp-content/plugins/robo-gallery/images/', __FILE__ ) ) );
+    //     $this->jsOptions->setValue('debug', true);
 
-        return " var robogallery_config_id_{$this->id} = " .
-        $this->core->jsOptions->getOptionList()
-            . ";"
-        ;
+        return ' var robogallery_config_id_'.$this->id.' = {
+            "restUrl": "'.get_rest_url().'",
+            "wp_rest": "'.wp_create_nonce('wp_rest').'",
+            "errorImageUrl": "'.esc_url(site_url('wp-content/plugins/robo-gallery/images/')).'",
+            "debug": false
+        };';
+        // .
+        //$this->core->jsOptions->getOptionList()
+        //    . ";"
+        //;
     }
 
 }

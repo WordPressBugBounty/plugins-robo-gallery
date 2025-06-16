@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.4 - 28838
+*      Version: 5.0.5 - 31754
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -17,6 +17,14 @@ wp_register_script(
     true
 );
 
+wp_enqueue_script(
+    ROBO_GALLERY_ASSETS_PREFIX . 'robogrid-options-demo',
+    ROBO_GALLERY_URL . 'includes/frontend/modules/robogrid/assets/main.js',
+    [],
+    ROBO_GALLERY_VERSION,
+    true
+);
+
 $js_vars = [
     'endpoint'     => get_rest_url(null, 'robogallery/v1'),
     'images_nonce' => wp_create_nonce('wp_rest'),
@@ -24,22 +32,24 @@ $js_vars = [
 
 global $post;
 if (isset($post->ID)) {
-    echo "<script>window['robogallery_new_id']=" . $post->ID . ";</script>" ;
+    echo "<script>window['robogallery_new_id']=" . $post->ID . ";</script>";
 }
 
 wp_enqueue_script(ROBO_GALLERY_ASSETS_PREFIX . 'robogrid-options');
 wp_localize_script(ROBO_GALLERY_ASSETS_PREFIX . 'robogrid-options', 'robogridVars', $js_vars);
 
 $blockPro = true;
-if ( defined('ROBO_GALLERY_TYR') && ROBO_GALLERY_TYR == 1) {
-    if( defined('ROBO_GALLERY_KEY') && ROBO_GALLERY_KEY == 1) {
-        if( rbsGalleryUtils::compareVersion('3.0') ){
+if (defined('ROBO_GALLERY_TYR') && ROBO_GALLERY_TYR == 1) {
+    if (defined('ROBO_GALLERY_KEY') && ROBO_GALLERY_KEY == 1) {
+        if (rbsGalleryUtils::compareVersion('3.0')) {
             $blockPro = false;
         }
     }
 }
 
-echo '<div class="RoboGalleryOptions" robogallery_id="' . $post->ID . '"></div>
+echo '
+<div class="RoboGalleryOptions" robogallery_id="' . $post->ID . '"></div>
+<div class="RoboGalleryV5Wrapper" robogallery_id="' . $post->ID . '"></div>
 <script>
 window["robogallery_option_url"] = "' . ROBO_GALLERY_FIELDS_URL . 'template/content/robogrid/";
 window["robogallery_config"] = {
@@ -48,5 +58,10 @@ window["robogallery_config"] = {
     wp_rest: "' . wp_create_nonce('wp_rest') . '",
     blockPro: ' . ($blockPro ? 'true' : 'false') . ',
 };
-</script>
-';
+window["robogallery_config_id_' . $post->ID . '"] = {
+    restUrl: "' . get_rest_url() . '",
+    wp_rest: "' . wp_create_nonce('wp_rest') . '",
+    errorImageUrl: "' . esc_url(site_url('wp-content/plugins/robo-gallery/images/')) . '",
+    debug: true,
+};
+</script>';
