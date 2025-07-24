@@ -4,7 +4,7 @@ Donate link: https://robosoft.co/robogallery
 Tags: gallery, photo gallery, image gallery, wordpress gallery plugin, responsive gallery
 Requires at least: 3.3
 Tested up to: 6.8
-Stable tag: 5.0.5
+Stable tag: 5.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -71,7 +71,7 @@ Organize your photo galleries with unlimited nesting levels, creating a seamless
 
 ### Navigation & Gallery Interface
 
-Enhance your [photo gallery](https://www.robogallery.co/showcase/gallery/interior-beige/) experience with an intuitive and fully customizable navigation system. Featuring a top gallery menu, thumbnail navigation, and a powerful search field, users can effortlessly find images, photos, and galleries using captions, titles, descriptions, or tags. Enable the tag-based menu for dynamic image sorting and filtering, allowing visitors to explore content seamlessly. Integrated breadcrumbs navigation ensures smooth transitions within [gallery albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid), keeping users oriented as they browse through nested image galleries. With advanced pagination, load more options, and lazy load functionality, your galleries remain fast, user-friendly, and perfectly structured for any display size.
+The new Fusion Grid introduces a fully reimagined [photo gallery](https://www.robogallery.co/showcase/gallery/interior-beige/) menu with advanced navigation features. Choose between Wide and Compact display modes to match your layout and user experience preferences. The updated menu system now supports a powerful dropdown structure with unlimited nesting levels, allowing you to organize even the most complex gallery hierarchies with ease. You can also enable a dedicated Sidebar Menu, available as a standalone option or in combination with the top menu, giving you maximum flexibility in how you present your gallery. Personalize every detail with custom themes, selecting from predefined palettes or your own color choices, and customize all menu labels to suit your content. Integrated breadcrumbs navigation ensures smooth transitions within [gallery albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid), keeping users oriented as they browse through nested image galleries. With advanced pagination, load more options, and lazy load functionality, your galleries remain fast, user-friendly, and perfectly structured for any display size.
 
 ### Social Media Sharing
 
@@ -88,6 +88,10 @@ Transform your gallery into a powerful video showcase with seamless support for 
 ### Bulk Images Uploader & Server Import
 
 Effortlessly upload and organize large collections of images with the new bulk uploader tool. Import photos directly from server folders and create multiple galleries in just one click. Configure titles, captions, descriptions, tags, links, and video URLs in a simple config file, ensuring seamless gallery creation with all metadata automatically applied. This tool is ideal for managing extensive photo galleries, automating bulk imports, and reducing manual work. Easily handle thousands of images with structured organization, maintain consistency across multiple galleries, and streamline content management for large-scale projects. Whether you're working with photos, linked images, or videos, this uploader ensures fast and efficient gallery setup with minimal effort.
+
+### Display Anywhere
+
+Each gallery you create is automatically saved as a custom post, making it easy to manage and reuse. You can insert galleries anywhere on your website using the dedicated Gallery Widget, Gutenberg block, Elementor widget, or classic shortcodes whether it's a post, page, or sidebar.
 
 ### Performance
 
@@ -249,6 +253,15 @@ Plugin implemented in native WordPress style. All code is implemented based on W
 If any problem occurs, please contact us.
 
 == Changelog ==
+
+= 5.0.6 (24-07-2025) =
+* Fixed lightbox rendering issues and improved image loading behavior
+* Resolved multiple theme compatibility issues affecting gallery display
+* Introduced new multilevel dropdown navigation menu for Fusion Grid
+* Added support for Wide and Compact menu display modes
+* Implemented sidebar menu with unlimited depth and navigation levels
+* Added menu themes, choose from predefined palettes or set custom colors
+* Enabled full customization of navigation button labels and text
 
 = 5.0.5 (16-06-2025) =
 * Fixed an issue with the gallery instance configuration
@@ -797,12 +810,11 @@ If any problem occurs, please contact us.
 
 == Upgrade Notice ==
 
-= 5.0.5 (16-06-2025) =
-* Fixed an issue with the gallery instance configuration
-* Improved support for various link structures
-* Added a new static hover effect
-* Introduced an inverted hover effect mode
-* Added highlight option for hover title
-* Added highlight option for hover description
-* Added new color option for highlight effects
-* Added a quick home icon link to the breadcrumb navigation
+= 5.0.6 (24-07-2025) =
+* Fixed lightbox rendering issues and improved image loading behavior
+* Resolved multiple theme compatibility issues affecting gallery display
+* Introduced new multilevel dropdown navigation menu for Fusion Grid
+* Added support for Wide and Compact menu display modes
+* Implemented sidebar menu with unlimited depth and navigation levels
+* Added menu themes, choose from predefined palettes or set custom colors
+* Enabled full customization of navigation button labels and text

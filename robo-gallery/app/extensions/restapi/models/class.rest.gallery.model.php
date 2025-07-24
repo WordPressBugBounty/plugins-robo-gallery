@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.5 - 31754
+*      Version: 5.0.6 - 12273
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -32,7 +32,7 @@ class ROBOGALLERY_REST_Gallery_Model
 
         $response = array();
 
-        if (!$gallery_id) {
+        if (! $gallery_id) {
             return $response;
         }
 
@@ -42,7 +42,7 @@ class ROBOGALLERY_REST_Gallery_Model
             $imageIds = self::orderign_images($imageIds, $orderby);
         }
 
-        if (empty($imageIds) || !is_array($imageIds) || !count($imageIds)) {
+        if (empty($imageIds) || ! is_array($imageIds) || ! count($imageIds)) {
             return $response;
         }
         $response = array_map(function ($item) {return (int) $item;}, $imageIds);
@@ -59,16 +59,16 @@ class ROBOGALLERY_REST_Gallery_Model
     /**
      *   Sorting images ids by param orderby
      *   *imageIds - int[]  image ids
-     *   *orderby - string order | orderU | title| titleU | date | dateU | random 
+     *   *orderby - string order | orderU | title| titleU | date | dateU | random
      */
     public static function orderign_images($imageIds, $orderby)
     {
 
-        if (!is_array($imageIds)) {
-            return array();
+        if (! is_array($imageIds)) {
+            return [];
         }
 
-        if (count($imageIds) < 2 || !$orderby) {
+        if (count($imageIds) < 2 || ! $orderby) {
             return $imageIds;
         }
 
@@ -125,9 +125,8 @@ class ROBOGALLERY_REST_Gallery_Model
             });
         }
 
-        return array_map(function ($item) {return  $item->ID;}, $imgs);
+        return array_map(function ($item) {return $item->ID;}, $imgs);
     }
-
 
     /**
      *
@@ -136,7 +135,7 @@ class ROBOGALLERY_REST_Gallery_Model
      */
     public static function sanitize_images_ids($imageIds)
     {
-        if (!is_array($imageIds)) {
+        if (! is_array($imageIds)) {
             return array();
         }
 
@@ -155,11 +154,11 @@ class ROBOGALLERY_REST_Gallery_Model
     {
         $response = array();
 
-        if (!$gallery_id) {
+        if (! $gallery_id) {
             return $response;
         }
 
-        if (class_exists('upz\\robogallery_key\\app\\restapi\\GalleryFieldsPro') ) {
+        if (class_exists('upz\\robogallery_key\\app\\restapi\\GalleryFieldsPro')) {
             return \upz\robogallery_key\app\restapi\GalleryFieldsPro::get_gallery_children($gallery_id, $root_gallery_id);
         }
 
@@ -168,7 +167,7 @@ class ROBOGALLERY_REST_Gallery_Model
         }
 
         $children = get_children($gallery_id);
-        if (!count($children)) {
+        if (! count($children)) {
             return $response;
         }
 
@@ -186,6 +185,92 @@ class ROBOGALLERY_REST_Gallery_Model
             );
         }
         return $response;
+    }
+
+/**
+ * return children tree.
+ *
+ * @param int    $root_gallery_id   gallery ID.
+ * @return array                    array
+ */
+    public static function get_gallery_hierarchical_children($root_gallery_id = 0)
+    {
+
+        if (! is_numeric($root_gallery_id) || $root_gallery_id < 0) {
+            return [];
+        }
+        $args = [
+            'post_type'      => ROBO_GALLERY_TYPE_POST,
+            'posts_per_page' => -1,
+            'post_status'    => 'publish',
+            'orderby'        => 'menu_order',
+            'order'          => 'ASC',
+        ];
+
+        $all_posts = get_posts($args);
+
+        if (empty($all_posts)) {
+            return [];
+        }
+
+        $parent_exists = false;
+        foreach ($all_posts as $post) {
+            if ($post->ID == $root_gallery_id) {
+                $parent_exists = true;
+                break;
+            }
+        }
+
+        if (! $parent_exists) {
+            return [];
+        }
+
+        $posts_by_id = [];
+        foreach ($all_posts as $post) {
+            $posts_by_id[$post->ID] = [
+                'id'       => $post->ID,
+                'title'    => $post->post_title,
+                'post_parent'    => $post->post_parent,
+                'children' => [],
+            ];
+
+        }
+
+        foreach ($posts_by_id as $id => &$post) {
+            $parent_id = $post['post_parent'];
+
+            if ($parent_id && isset($posts_by_id[$parent_id])) {
+                $posts_by_id[$parent_id]['children'][] = &$posts_by_id[$id];
+            }
+        }
+
+        $m_l = class_exists('upz\\robogallery_key\\app\\restapi\\GalleryFieldsPro') ? 20 : 2;
+
+        function build_tree($node_id, $posts_by_id,  $m_l, $l=0)
+        {
+            if ($l >  $m_l) {
+                return null;
+            }
+
+            if (! isset($posts_by_id[$node_id])) {
+                return null;
+            }
+
+            $node = $posts_by_id[$node_id];
+
+            if ($l < $m_l) {
+                foreach ($node['children'] as &$child) {
+                    $child_id = $child['id'];
+                    $child    =  build_tree($child_id, $posts_by_id,  $m_l, $l + 1);
+                }
+            } else {
+                $node['children'] = [];
+            }
+
+            return $node;
+        }
+
+        return build_tree($root_gallery_id, $posts_by_id,  $m_l);
     }
 
 }

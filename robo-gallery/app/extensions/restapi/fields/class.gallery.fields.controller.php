@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.5 - 31754
+*      Version: 5.0.6 - 12273
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -52,8 +52,15 @@ class ROBOGALLERY_REST_GalleryFields_Controller
                     return $response;
                 }
                 
-                //if( $object['id'] == $root_gallery_id) {
+                if( $object['id'] == $root_gallery_id) {
+                    $response['hierarchical_children'] = ROBOGALLERY_REST_Gallery_Model::get_gallery_hierarchical_children( $root_gallery_id);
+                } else {
+                    $response['hierarchical_children'] = array();
+                } 
+                
                     $response['children'] = ROBOGALLERY_REST_Gallery_Model::get_gallery_children($id, $root_gallery_id);
+                    
+
                 //} else {
                 //    $response['children'] = array();
                 //}
@@ -103,6 +110,11 @@ class ROBOGALLERY_REST_GalleryFields_Controller
                 self::prepareIntegerValue($response, $optionConfig, 'loadingSize', $options);
 
                 self::prepareBooleanValue($response, $optionConfig, 'breadcrumbs', $options);
+                self::prepareStringValue($response, $optionConfig, 'topMenuMode', $options);
+                self::prepareBooleanValue($response, $optionConfig, 'sideMenu', $options);
+                self::prepareStringValue($response, $optionConfig, 'rootGalleryInMenu', $options);
+                self::prepareStringValue($response, $optionConfig, 'rootGalleryLabel', $options);
+                self::prepareStringValue($response, $optionConfig, 'navigationInterfaceColor', $options);
                 self::prepareBooleanValue($response, $optionConfig, 'infiniteScroll', $options);
 
                 self::prepareArrayValue($response, $optionConfig, 'lightboxButtons', $options);
@@ -114,6 +126,11 @@ class ROBOGALLERY_REST_GalleryFields_Controller
                 self::prepareStringValue($response, $optionConfig, 'polaroidBackgroundColor', $options);
                 self::prepareStringValue($response, $optionConfig, 'polaroidTitleSource', $options);
                 self::prepareStringValue($response, $optionConfig, 'polaroidDescriptionSource', $options);
+   
+                self::prepareStringValue($response, $optionConfig, 'labelButtonLoadMore', $options);
+                self::prepareStringValue($response, $optionConfig, 'labelButtonUp', $options);
+                self::prepareStringValue($response, $optionConfig, 'labelButtonMenu', $options);
+                self::prepareStringValue($response, $optionConfig, 'labelSidebarMenuTitle', $options);
 
                 self::prepareIntegerValue($response, $optionConfig, 'polaroidDescriptionSize', $options);
 

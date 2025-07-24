@@ -11,70 +11,70 @@ class ROBOGALLERY_REST_OPTIONS
 
         return [
 
-            'widthAuto'                 => [
+            'widthAuto'                       => [
                 'type'     => 'checkbox',
                 'sanitize' => 'boolean',
                 'default'  => true,
                 'group'    => 'general',
             ],
 
-            'align'                => [
+            'align'                           => [
                 'type'    => 'select',
                 'options' => ['left', 'right', 'center', 'no'],
-                'default'  => 'center',
-                'group'    => 'general',
+                'default' => 'center',
+                'group'   => 'general',
             ],
 
-            'widthValue'                => [
+            'widthValue'                      => [
                 'type'     => 'text',
                 'sanitize' => 'integer',
                 'default'  => 100,
                 'group'    => 'general',
             ],
 
-            'widthType'                 => [
+            'widthType'                       => [
                 'type'    => 'select',
                 'options' => ['%', 'px', 'rem', 'em', 'vw'],
                 'default' => '%',
                 'group'   => 'general',
             ],
 
-            'maxWidthValue'                => [
+            'maxWidthValue'                   => [
                 'type'     => 'text',
                 'sanitize' => 'integer',
                 'default'  => 100,
                 'group'    => 'general',
             ],
 
-            'maxWidthType'                 => [
+            'maxWidthType'                    => [
                 'type'    => 'select',
                 'options' => ['%', 'px', 'rem', 'em', 'vw'],
                 'default' => '%',
                 'group'   => 'general',
             ],
 
-            'orderby'                   => [
+            'orderby'                         => [
                 'type'    => 'select',
                 'options' => ['order', 'orderU', 'random', 'title', 'titleU', 'date', 'dateU'],
                 'default' => 'order',
                 'group'   => 'general',
             ],
 
-            'layout'                    => [
+            'layout'                          => [
                 'type'    => 'select',
                 'options' => ['grid', 'masonry', 'columns', 'rows'],
                 'default' => 'grid',
                 'group'   => 'general',
             ],
 
-            'layoutAdjustment'          => [
+            'layoutAdjustment'                => [
                 'type'     => 'checkbox',
                 'sanitize' => 'boolean',
                 'default'  => true,
                 'group'    => 'general',
             ],
 
-            'targetRowHeight'           => [
+            'targetRowHeight'                 => [
                 'type'     => 'text',
                 'sanitize' => 'integer',
                 'default'  => 500,
@@ -82,7 +82,7 @@ class ROBOGALLERY_REST_OPTIONS
                 'params'   => ['min' => 50, 'max' => 1000],
             ],
 
-            'columns'                   => [
+            'columns'                         => [
                 'type'     => 'text',
                 'sanitize' => 'integer',
                 'default'  => 0,
@@ -90,7 +90,7 @@ class ROBOGALLERY_REST_OPTIONS
                 'params'   => ['min' => 0, 'max' => 100],
             ],
 
-            'spacing'      => [
+            'spacing'                         => [
                 'type'     => 'text',
                 'sanitize' => 'integer',
                 'default'  => 10,
@@ -98,14 +98,14 @@ class ROBOGALLERY_REST_OPTIONS
                 'params'   => ['min' => 0, 'max' => 20],
             ],
 
-            'loadingColor'              => [
+            'loadingColor'                    => [
                 'type'     => 'text',
                 'sanitize' => 'string',
                 'default'  => '#686868',
                 'group'    => 'thumbnails',
             ],
 
-            'loadingSize'               => [
+            'loadingSize'                     => [
                 'type'     => 'text',
                 'sanitize' => 'integer',
                 'group'    => 'thumbnails',
@@ -113,7 +113,7 @@ class ROBOGALLERY_REST_OPTIONS
                 'params'   => ['min' => 1, 'max' => 20],
             ],
 
-            'shadow'                   => [
+            'shadow'                          => [
                 'type'     => 'text',
                 'sanitize' => 'integer',
                 'default'  => 0,
@@ -123,69 +123,67 @@ class ROBOGALLERY_REST_OPTIONS
 
             /* thumbnails  */
 
-            'hoverInvert'                 => [
+            'hoverInvert'                     => [
                 'type'     => 'checkbox',
                 'sanitize' => 'boolean',
                 'default'  => true,
                 'group'    => 'thumbnails',
             ],
 
-            'hoverHighlight'                 => [
+            'hoverHighlight'                  => [
                 'type'     => 'checkbox',
                 'sanitize' => 'boolean',
                 'default'  => true,
                 'group'    => 'thumbnails',
             ],
 
-            'hoverEffect'               => [
+            'hoverEffect'                     => [
                 'type'    => 'select',
-                'options' => ['zoe', 'lily', 'sadie', 'static','disable'],
+                'options' => ['zoe', 'lily', 'sadie', 'static', 'disable'],
                 'default' => 'lily',
                 'group'   => 'thumbnails',
             ],
 
-            'hoverTitleColor'            => [
+            'hoverTitleColor'                 => [
                 'type'     => 'text',
                 'sanitize' => 'string',
                 'default'  => '#ffffff',
                 'group'    => 'thumbnails',
             ],
-            'hoverTitleBackgroundColor'            => [
+            'hoverTitleBackgroundColor'       => [
                 'type'     => 'text',
                 'sanitize' => 'string',
                 'default'  => 'rgba(0, 0, 0, 0.71)',
                 'group'    => 'thumbnails',
             ],
 
-            'hoverDescriptionColor'            => [
+            'hoverDescriptionColor'           => [
                 'type'     => 'text',
                 'sanitize' => 'string',
                 'default'  => '#000000',
                 'group'    => 'thumbnails',
             ],
 
-            'hoverDescriptionBackgroundColor'            => [
+            'hoverDescriptionBackgroundColor' => [
                 'type'     => 'text',
                 'sanitize' => 'string',
                 'default'  => 'rgba(255, 255, 255, 0.67)',
                 'group'    => 'thumbnails',
             ],
 
-            'hoverBackgroundColor'      => [
+            'hoverBackgroundColor'            => [
                 'type'     => 'text',
                 'sanitize' => 'string',
                 'default'  => 'rgba(0, 0, 0, 0.71)',
                 'group'    => 'thumbnails',
             ],
 
-            'hoverColor'                => [
+            'hoverColor'                      => [
                 'type'     => 'text',
                 'sanitize' => 'string',
                 'default'  => 'rgba(255, 255, 255, 0.67)',
                 'group'    => 'thumbnails',
             ],
-
-            
 
             // 'textSource'                => array(
             //     'type'    => 'select',
@@ -194,14 +192,14 @@ class ROBOGALLERY_REST_OPTIONS
             //     'group'   => 'thumbnails',
             // ),
 
-            'titleSource'               => [
+            'titleSource'                     => [
                 'type'    => 'select',
                 'options' => ['title', 'caption', 'description', 'disable'],
                 'default' => 'title',
                 'group'   => 'thumbnails',
             ],
 
-            'descriptionSource'         => [
+            'descriptionSource'               => [
                 'type'    => 'select',
                 'options' => ['title', 'caption', 'description', 'disable'],
                 'default' => 'description',
@@ -210,42 +208,42 @@ class ROBOGALLERY_REST_OPTIONS
 
             /* Polaroid panel */
 
-            'polaroidMode'              => [
+            'polaroidMode'                    => [
                 'type'    => 'select',
                 'options' => ['top', 'left', 'bottom', 'right', 'disable'],
                 'default' => 'disable',
                 'group'   => 'polaroid',
             ],
 
-            'polaroidTitleSource'       => [
+            'polaroidTitleSource'             => [
                 'type'    => 'select',
                 'options' => ['title', 'caption', 'description', 'disable'],
                 'default' => 'title',
                 'group'   => 'polaroid',
             ],
 
-            'polaroidDescriptionSource' => [
+            'polaroidDescriptionSource'       => [
                 'type'    => 'select',
                 'options' => ['title', 'caption', 'description', 'disable'],
                 'default' => 'description',
                 'group'   => 'polaroid',
             ],
 
-            'polaroidTextColor'         => [
+            'polaroidTextColor'               => [
                 'type'     => 'text',
                 'sanitize' => 'string',
                 'default'  => '#000000',
                 'group'    => 'polaroid',
             ],
 
-            'polaroidBackgroundColor'   => [
+            'polaroidBackgroundColor'         => [
                 'type'     => 'text',
                 'sanitize' => 'string',
                 'default'  => '#ffffff',
                 'group'    => 'polaroid',
             ],
 
-            'polaroidDescriptionSize'   => [
+            'polaroidDescriptionSize'         => [
                 'type'     => 'text',
                 'sanitize' => 'integer',
                 'default'  => 50,
@@ -255,8 +253,6 @@ class ROBOGALLERY_REST_OPTIONS
 
             /* Album */
 
-            
-
             'albumHideCoverImage'             => [
                 'type'     => 'checkbox',
                 'sanitize' => 'boolean',
@@ -264,14 +260,14 @@ class ROBOGALLERY_REST_OPTIONS
                 'group'    => 'album',
             ],
 
-            'albumIconColor'            => [
+            'albumIconColor'                  => [
                 'type'     => 'text',
                 'sanitize' => 'string',
                 'default'  => '#ffffff',
                 'group'    => 'album',
             ],
 
-            'albumIcon'                 => [
+            'albumIcon'                       => [
                 'type'     => 'text',
                 'sanitize' => 'string',
                 'default'  => 'Folder',
@@ -285,63 +281,105 @@ class ROBOGALLERY_REST_OPTIONS
 //     'group'    => 'lightbox',
 // ),
 
-            'pagination'                => [
-                'type'    => 'select',
-                'options' => ['loadmore', 'pagination', 'disable'],
-                'default' => 'loadmore',
-                'group'   => 'navigation',
+            'navigationInterfaceColor'        => [
+                'type'     => 'text',
+                'sanitize' => 'string',
+                'default'  => 'rgb(25,118,210)',
+                'group'    => 'navigation',
             ],
 
-            'imagesPerPage'             => [
+            'imagesPerPage'                   => [
                 'type'     => 'text',
                 'sanitize' => 'integer',
                 'default'  => 12,
                 'group'    => 'navigation',
             ],
 
-            'breadcrumbs'               => [
+            'pagination'                      => [
+                'type'    => 'select',
+                'options' => ['loadmore', 'pagination', 'disable'],
+                'default' => 'loadmore',
+                'group'   => 'navigation',
+            ],
+
+            'imagesPerPage'                   => [
+                'type'     => 'text',
+                'sanitize' => 'integer',
+                'default'  => 12,
+                'group'    => 'navigation',
+            ],
+
+            'breadcrumbs'                     => [
                 'type'     => 'checkbox',
                 'sanitize' => 'boolean',
                 'default'  => true,
                 'group'    => 'navigation',
             ],
 
-            'infiniteScroll'            => [
+            'topMenuMode'                     => [
+                'type'    => 'select',
+                'options' => ['off', 'compact', 'wide'],
+                'default' => 'wide',
+                'group'   => 'navigation',
+            ],
+
+            'sideMenu'                        => [
                 'type'     => 'checkbox',
                 'sanitize' => 'boolean',
                 'default'  => true,
                 'group'    => 'navigation',
             ],
 
+            'rootGalleryInMenu'               => [
+                'type'    => 'select',
+                'options' => ['title', 'label', 'hide'],
+                'default' => 'title',
+                'group'   => 'navigation',
+            ],
 
-            'autoPlay'                  => [
+            'rootGalleryLabel'                => [
+                'type'     => 'text',
+                'sanitize' => 'string',
+                'default'  => 'Root Gallery',
+                'group'    => 'navigation',
+            ],
+
+            'infiniteScroll'                  => [
+                'type'     => 'checkbox',
+                'sanitize' => 'boolean',
+                'default'  => true,
+                'group'    => 'navigation',
+            ],
+
+            /* ======================================================= */
+
+            'autoPlay'                        => [
                 'type'     => 'checkbox',
                 'sanitize' => 'boolean',
                 'default'  => false,
                 'group'    => 'lightbox',
             ],
 
-            'timeout'                   => [
+            'timeout'                         => [
                 'type'     => 'text',
                 'sanitize' => 'integer',
                 'default'  => 1500,
                 'group'    => 'lightbox',
             ],
 
-            'lightboxTitleSource'       => [
+            'lightboxTitleSource'             => [
                 'type'    => 'select',
                 'options' => ['title', 'caption', 'description', 'disable'],
                 'default' => 'title',
                 'group'   => 'lightbox',
             ],
 
-            'lightboxDescriptionSource' => [
+            'lightboxDescriptionSource'       => [
                 'type'    => 'select',
                 'options' => ['title', 'caption', 'description', 'disable'],
                 'default' => 'description',
                 'group'   => 'lightbox',
             ],
-
 
 // 'downloadButton'   => array(
 //     'type'     => 'checkbox',
@@ -374,12 +412,41 @@ class ROBOGALLERY_REST_OPTIONS
 //     'default'  => true,
 //     'group'    => 'lightbox',
 // ),
-            'lightboxButtons'           => [
+            'lightboxButtons'                 => [
                 'type'     => 'multiselect',
                 'sanitize' => 'string',
                 'options'  => ['fullscreen', 'zoom', 'slideshow', 'share', 'download'],
                 'default'  => ['fullscreen', 'zoom'],
                 'group'    => 'lightbox',
+            ],
+
+
+
+            'labelButtonLoadMore'                 => [
+                'type'     => 'text',
+                'sanitize' => 'string',
+                'default'  => 'Load More',
+                'group'    => 'labels',
+            ],
+
+            'labelButtonUp'                 => [
+                'type'     => 'text',
+                'sanitize' => 'string',
+                'default'  => 'Up',
+                'group'    => 'labels',
+            ],
+
+            'labelButtonMenu'                 => [
+                'type'     => 'text',
+                'sanitize' => 'string',
+                'default'  => 'Menu',
+                'group'    => 'labels',
+            ],
+            'labelSidebarMenuTitle'                 => [
+                'type'     => 'text',
+                'sanitize' => 'string',
+                'default'  => 'Gallery Menu',
+                'group'    => 'labels',
             ],
 
         ];
