@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.6 - 12273
+*      Version: 5.0.7 - 14892
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -178,87 +178,6 @@ class RoboGalleryRestAPI
             // ),
         ));
     }
-
-    // public static function add_gallery_fields()
-    // {
-
-    //     register_rest_field(ROBO_GALLERY_TYPE_POST, 'robofields', array(
-
-    //         'get_callback'    => function ($object) {
-
-    //             $response = array(
-    //                 'title'      => null,
-    //                 'children'   => null,
-    //                 'images'     => null,
-
-    //                 'widthAuto'  => null,
-    //                 'widthValue' => null,
-    //                 'widthType'  => null,
-    //                 'orderby'    => null,
-    //                 'layout'     => null,
-    //                 'columns'     => null,
-    //             );
-
-    //             if (!isset($object['id']) || !$object['id']) {
-    //                 return $response;
-    //             }
-    //             $id= $object['id'];
-
-    //             $options = get_post_meta($id, 'robo-gallery-options', false);
-
-    //             $orderby = isset($options['orderby']) ? $options['orderby'] : 'order';
-    //             $response['orderby'] = $orderby;
-
-
-    //             $response['title']    = get_post_field('post_title', $id, 'raw');
-    //             $response['children'] = ROBOGALLERY_REST_Gallery_Model::get_gallery_children($id);
-    //             $response['images']   = ROBOGALLERY_REST_Gallery_Model::get_gallery_images($id, $orderby) ;
-
-    //             $response['widthAuto'] = isset($options['widthAuto']) && $options['widthAuto'] ? true : false;
-
-    //             $response['widthValue'] = isset($options['widthValue']) ? (int) $options['widthValue'] : 100;
-    //             $response['widthType']  = isset($options['widthType']) ? $options['widthType'] : '%';
-                
-    //             $response['layout']  = isset($options['layout']) ? $options['layout'] : 'grid';
-    //             $response['columns']  = isset($options['columns']) ? $options['columns'] : 6;
-
-    //             return $response;
-    //         },
-    //         'update_callback' => function ($value, $post, $field_name) {
-    //             print_r($value);
-    //             print_r($post);
-    //             print_r($field_name);
-    //             // Update the field/meta value.
-    //             //update_post_meta($object->ID, 'rsg_galleryImages', $value);
-    //         },
-
-    //         'schema'          => array(
-    //             'type'        => 'array',
-
-    //             'title'       => 'string',
-    //             'description' => 'string',
-    //             'children'    => 'array',
-
-    //             'widthAuto'   => 'bool',
-    //             'widthValue'  => 'integer',
-    //             'widthType'   => 'string',
-    //             'orderby'     => 'string',
-    //             'layout'      => 'string',
-    //             'columns'      => 'integer',
-
-    //             'arg_options' => array(
-    //                 'sanitize_callback' => function ($arg) {
-    //                     print_r($arg);
-    //                     return $arg;
-    //                 }, //array( this, 'sanitize_images_ids' ),
-
-    //                 'validate_callback' => function ($imageIds) {
-    //                     return is_array($imageIds); // array_filter($imageIds, 'is_int');
-    //                 },
-    //             ),
-    //         ),
-    //     ));
-    // }
 
 }
 

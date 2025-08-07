@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.6 - 12273
+*      Version: 5.0.7 - 14892
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -469,8 +469,6 @@ class ROBOGALLERY_REST_Options_Controller extends ROBOGALLERY_REST_Controller
             );
         }
 
-     
-
         $final_values = array();
         $allow_items = $option['options'];
         foreach ($values as $value) {
@@ -651,7 +649,7 @@ class ROBOGALLERY_REST_Options_Controller extends ROBOGALLERY_REST_Controller
      */
     public function get_items_permissions_check($request)
     {
-       // return true; /* @@@ */
+
         if (!current_user_can('edit_post', $request->get_param("gallery_id"))) {
             return new \WP_Error(
                 'robogallery_rest_cannot_view',
@@ -672,7 +670,7 @@ class ROBOGALLERY_REST_Options_Controller extends ROBOGALLERY_REST_Controller
      */
     public function update_items_permissions_check($request)
     {
-       // return true;
+
         if (!current_user_can('edit_post', $request->get_param("gallery_id"))) {
             return new \WP_Error(
                 'robogallery_rest_cannot_edit',

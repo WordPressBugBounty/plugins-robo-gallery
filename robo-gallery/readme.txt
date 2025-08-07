@@ -4,7 +4,7 @@ Donate link: https://robosoft.co/robogallery
 Tags: gallery, photo gallery, image gallery, wordpress gallery plugin, responsive gallery
 Requires at least: 3.3
 Tested up to: 6.8
-Stable tag: 5.0.6
+Stable tag: 5.0.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -253,6 +253,13 @@ Plugin implemented in native WordPress style. All code is implemented based on W
 If any problem occurs, please contact us.
 
 == Changelog ==
+
+= 5.0.7 (07-08-2025) =
+* Fixed layout issues in Fusion Grid menu for mobile devices
+* Fixed breadcrumbs layout on mobile view
+* Updated mobile navigation behavior
+* Resolved dropdown menu issues in Fusion Grid
+* Fixed multi-level depth navigation problems
 
 = 5.0.6 (24-07-2025) =
 * Fixed lightbox rendering issues and improved image loading behavior
@@ -810,11 +817,9 @@ If any problem occurs, please contact us.
 
 == Upgrade Notice ==
 
-= 5.0.6 (24-07-2025) =
-* Fixed lightbox rendering issues and improved image loading behavior
-* Resolved multiple theme compatibility issues affecting gallery display
-* Introduced new multilevel dropdown navigation menu for Fusion Grid
-* Added support for Wide and Compact menu display modes
-* Implemented sidebar menu with unlimited depth and navigation levels
-* Added menu themes, choose from predefined palettes or set custom colors
-* Enabled full customization of navigation button labels and text
+= 5.0.7 (07-08-2025) =
+* Fixed layout issues in Fusion Grid menu for mobile devices
+* Fixed breadcrumbs layout on mobile view
+* Updated mobile navigation behavior
+* Resolved dropdown menu issues in Fusion Grid
+* Fixed multi-level depth navigation problems

@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.6 - 12273
+*      Version: 5.0.7 - 14892
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -58,12 +58,8 @@ class ROBOGALLERY_REST_GalleryFields_Controller
                     $response['hierarchical_children'] = array();
                 } 
                 
-                    $response['children'] = ROBOGALLERY_REST_Gallery_Model::get_gallery_children($id, $root_gallery_id);
+                $response['children'] = ROBOGALLERY_REST_Gallery_Model::get_gallery_children($id, $root_gallery_id);
                     
-
-                //} else {
-                //    $response['children'] = array();
-                //}
 
                 $options = get_post_meta($id, 'robo-gallery-options', true);
 
