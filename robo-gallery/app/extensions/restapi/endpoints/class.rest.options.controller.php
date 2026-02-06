@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.7 - 14892
+*      Version: 5.1.0 - 50521
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -396,7 +396,7 @@ class ROBOGALLERY_REST_Options_Controller extends ROBOGALLERY_REST_Controller
         $options = $this->get_options($request['gallery_id']);
 
         if (is_wp_error($options)) {
-            return $option;
+            return $options;
         }
 
         $options = $this->options_to_name_array($options);

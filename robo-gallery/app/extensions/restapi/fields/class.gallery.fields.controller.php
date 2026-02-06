@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.7 - 14892
+*      Version: 5.1.0 - 50521
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -44,7 +44,8 @@ class ROBOGALLERY_REST_GalleryFields_Controller
                 if (! isset($object['id']) || ! $object['id']) {
                     return $response;
                 }
-                $id = $object['id'];
+
+                $id = (int) $object['id'];
 
                 // check root_gallery param
                 $root_gallery_id = (int) $request->get_param('root_gallery');
@@ -64,6 +65,8 @@ class ROBOGALLERY_REST_GalleryFields_Controller
                 $options = get_post_meta($id, 'robo-gallery-options', true);
 
                 $optionConfig = ROBOGALLERY_REST_OPTIONS::getOptionConfig();
+
+                $tokenValue = get_post_meta($id, '_robogallery_token', true);
 
                 $orderby = isset($options['orderby']) ? sanitize_text_field($options['orderby']) : 'order';
 
@@ -106,6 +109,9 @@ class ROBOGALLERY_REST_GalleryFields_Controller
                 self::prepareIntegerValue($response, $optionConfig, 'loadingSize', $options);
 
                 self::prepareBooleanValue($response, $optionConfig, 'breadcrumbs', $options);
+
+                
+
                 self::prepareStringValue($response, $optionConfig, 'topMenuMode', $options);
                 self::prepareBooleanValue($response, $optionConfig, 'sideMenu', $options);
                 self::prepareStringValue($response, $optionConfig, 'rootGalleryInMenu', $options);
@@ -129,6 +135,26 @@ class ROBOGALLERY_REST_GalleryFields_Controller
                 self::prepareStringValue($response, $optionConfig, 'labelSidebarMenuTitle', $options);
 
                 self::prepareIntegerValue($response, $optionConfig, 'polaroidDescriptionSize', $options);
+
+                /* access */
+                self::prepareStringValue($response, $optionConfig, 'accessMode', $options);
+                self::prepareBooleanValue($response, $optionConfig, 'accessModePrivate', $options);
+                self::prepareBooleanValue($response, $optionConfig, 'accessModeToken', $options);
+                
+                
+               
+        
+                if($this->getItemEditPermissionsCheck( $request )) {
+                    self::prepareStringValue($response, $optionConfig, 'accessModePassword', $options);
+
+                  //  $options['accessModeTokenValue'] = $tokenValue;
+                   // self::prepareStringValue($response, $optionConfig, 'accessModeTokenValue', $options);
+                } else {
+                    $response['accessModePassword'] = '******';
+                   // $response['accessModeTokenValue'] = '******';
+                }
+                /* proofing */
+                self::prepareBooleanValue($response, $optionConfig, 'proofingEnable', $options);
 
                 $response['pagination']    = isset($options['pagination']) ? $options['pagination'] : 'disable';
                 $response['imagesPerPage'] = isset($options['imagesPerPage']) ? (int) $options['imagesPerPage'] : 10;
@@ -192,6 +218,17 @@ class ROBOGALLERY_REST_GalleryFields_Controller
     static function prepareBooleanValue(&$response, $config, $name, $options)
     {
         $response[$name] = isset($options[$name]) ? (bool) $options[$name] : $config[$name]['default'];
+    }
+
+      /**
+     * Makes sure the current user has access to EDIT the settings APIs.
+     *
+     * @param WP_REST_Request $request Full data about the request.
+     * @return boolean
+     */
+    public function getItemEditPermissionsCheck($request)
+    {
+        return current_user_can('edit_post', $request->get_param("gallery_id"));
     }
 
 }

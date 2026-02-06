@@ -288,13 +288,6 @@ class ROBOGALLERY_REST_OPTIONS
                 'group'    => 'navigation',
             ],
 
-            'imagesPerPage'                   => [
-                'type'     => 'text',
-                'sanitize' => 'integer',
-                'default'  => 12,
-                'group'    => 'navigation',
-            ],
-
             'pagination'                      => [
                 'type'    => 'select',
                 'options' => ['loadmore', 'pagination', 'disable'],
@@ -442,11 +435,56 @@ class ROBOGALLERY_REST_OPTIONS
                 'default'  => 'Menu',
                 'group'    => 'labels',
             ],
+
             'labelSidebarMenuTitle'                 => [
                 'type'     => 'text',
                 'sanitize' => 'string',
                 'default'  => 'Gallery Menu',
                 'group'    => 'labels',
+            ],
+
+
+            'proofingEnable'                        => [
+                'type'     => 'checkbox',
+                'sanitize' => 'boolean',
+                'default'  => false,
+                'group'    => 'proofing',
+            ],
+
+
+            'accessMode'                      => [
+                'type'    => 'select',
+                'options' => ['public', 'token', 'users', 'password'],
+                'default' => 'public',
+                'group'   => 'access',
+            ],
+
+            'accessModePrivate'                      => [
+                'type'    => 'checkbox',
+                'sanitize' => 'boolean',
+                'default' => false,
+                'group'   => 'access',
+            ],
+
+            'accessModeToken'                      => [
+                'type'    => 'checkbox',
+                'sanitize' => 'boolean',
+                'default' => true,
+                'group'   => 'access',
+            ],
+
+            // 'accessModeTokenValue'                      => [
+            //     'type'    => 'text',
+            //     'sanitize' => 'string',
+            //     'default' => '',
+            //     'group'   => 'access',
+            // ],
+
+            'accessModePassword'                      => [
+                'type'    => 'text',
+                'sanitize' => 'string',
+                'default' => '',
+                'group'   => 'access',
             ],
 
         ];

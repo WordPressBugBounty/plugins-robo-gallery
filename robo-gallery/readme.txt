@@ -1,145 +1,147 @@
-=== Photo Gallery, Images, Slider in Rbs Image Gallery ===
+=== Robo Gallery - Photo & Image Slider ===
 Contributors: gallerysupport, robosoft
 Donate link: https://robosoft.co/robogallery
 Tags: gallery, photo gallery, image gallery, wordpress gallery plugin, responsive gallery
 Requires at least: 3.3
-Tested up to: 6.8
-Stable tag: 5.0.7
+Tested up to: 6.9
+Stable tag: 5.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Rbs Image Gallery is a powerful image gallery and photo gallery plugin with advanced features to create responsive galleries with a beautiful lightbox
+Robo Gallery is a powerful image gallery and photo gallery plugin with advanced features to create responsive galleries with a beautiful lightbox
 
 == Description ==
 
-A gallery on your website is not just a visual element it's an essential part of your pages that enhances engagement and user experience. If you're looking for a fast, lightweight, and easy-to-use image gallery plugin with a sleek, modern, and highly customizable design, this is the perfect solution. Effortlessly create stunning galleries that adapt to any layout, ensuring seamless integration with your website's style while maintaining top-notch performance.
+A gallery on your website is more than just a visual element - it plays an important role in how images are presented and how users interact with your content. If you are looking for a fast, lightweight, and easy-to-use image gallery plugin with a clean, modern, and customizable design, this plugin provides a practical solution. It allows you to create image galleries that adapt to different layouts, integrate smoothly with your website's style, and maintain stable performance across devices.
 
 🖼️ [Explore New Demos 2025](https://www.robogallery.co/robo-gallery-v5/) | [View Classic Demos](https://www.robogallery.co/gallery-showcase/) | [Upgrade to Pro](https://www.robogallery.co/#pricing) 💎
 
 
 ### 🏆 Benefits of Robo Gallery v5
 
-* #### Next-Level Grid Layouts 🎨
-  Experience cutting-edge grid designs with our brand-new **Fusion Grid**, offering seamless flexibility and stunning visual appeal. Explore [horizontal masonry](https://www.robogallery.co/robo-gallery-v5/#horizontal_masonry), [vertical masonry](https://www.robogallery.co/robo-gallery-v5/#vertical_masonry) for a dynamic, modern look, a revamped mosaic layout, [justify gallery](https://www.robogallery.co/robo-gallery-v5/#justify_gallery) for perfect alignment, and an [enhanced polaroid](https://www.robogallery.co/robo-gallery-v5/#enhanced_polaroid) mode featuring an advanced content panel for rich descriptions, interactive buttons, and social sharing options. Transform your gallery into a visually captivating masterpiece!
+* #### Advanced Grid Layouts 🎨  
+  Work with flexible grid layouts using the **Fusion Grid**, designed to support different gallery structures and visual styles. Choose from [horizontal masonry](https://www.robogallery.co/robo-gallery-v5/#horizontal_masonry) and [vertical masonry](https://www.robogallery.co/robo-gallery-v5/#vertical_masonry) for dynamic image placement, a redesigned mosaic layout, or a [justify gallery](https://www.robogallery.co/robo-gallery-v5/#justify_gallery) for consistent image alignment. The [enhanced polaroid](https://www.robogallery.co/robo-gallery-v5/#enhanced_polaroid) mode includes an extended content panel that supports image descriptions, action buttons, and social sharing elements, allowing you to build a structured and visually engaging photo gallery.
 
-* #### Mobile-Friendly Excellence 📱
-  Our new grid system features **smart dynamic modes** that automatically adjust layouts for the best **responsive experience** across all devices, from desktops to smartphones and tablets. We've specially **optimized hover animations** to ensure smooth performance and visual appeal on any screen. Additionally, we've fine-tuned layouts, hover effects, and the lightbox to function flawlessly and look stunning on **all mobile devices**, providing an immersive, seamless gallery experience even on **Retina & Ultra HD** (up to 16K) displays.
+* #### Mobile-Friendly Layouts 📱
+  The grid system includes **dynamic layout modes** that automatically adapt image galleries for a responsive experience across different devices, including desktops, tablets, and smartphones. Hover animations are adjusted to maintain smooth interaction and consistent behavior on various screen sizes. Layouts, hover effects, and the lightbox are configured to work reliably on **mobile devices**, supporting high-resolution images on **Retina and Ultra HD** displays, including large image sizes.
 
 * #### Advanced Navigation & Links 🔗
-  Enjoy ultimate flexibility with **smart navigation** and linking options. Choose from **Google-style** "Load More" pagination, classic **multi-page pagination**, or infinite **lazy loading** for seamless browsing. Enhance user experience with breadcrumbs, search, and tag-based filtering. [Create albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid) and cover galleries, **mix linked images, lightbox photos, and videos** in a single gallery, and define **custom links** for each image to direct visitors anywhere you need!
+  Use **flexible navigation** and linking options to control how users browse your gallery. Choose between "Load More" pagination, classic **multi-page pagination**, or infinite lazy loading for progressive image loading. Improve navigation with breadcrumbs, search, and tag-based filtering. You can [create albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid) and cover galleries, **combine linked images, lightbox images, and videos** within a single gallery, and assign custom links to individual images to direct visitors to specific pages or external resources.
 
-* #### Enhanced Lightbox Features ⚡
-  The new lightbox offers **fullscreen and slideshow** modes for a seamless viewing experience. It supports **social sharing, zoom, download**, and displays titles and descriptions, enhancing how users interact with your photo and image galleries.
+* #### Lightbox Features ⚡
+  The lightbox includes **fullscreen and slideshow** modes to support comfortable image viewing. It provides options for **social sharing, zoom, and download**, and can display image titles and descriptions, helping users interact more effectively with photo and image galleries.
 
 * #### Unlimited Albums 📁
-  Create albums with **unlimited nesting levels**, offering ultimate flexibility for organizing your galleries. Build **cover galleries** that contain only [albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid), structure albums with [nested albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid), **photos, linked images, and videos**. Effortlessly mix resources to create dynamic, multi-layered image galleries that adapt to any content needs while keeping everything neatly arranged.
-    
-* #### Social Sharing Revolutionized 🌟 
-  Boost engagement with hover-based [social sharing](https://www.robogallery.co/robo-gallery-v5/#enhanced_polaroid) across 20+ platforms, including **Facebook, Telegram, LinkedIn, Reddit, WhatsApp, Pinterest, Twitter, and more**. Now, visitors can instantly share your stunning galleries with just a click. Enjoy seamless integration of [social sharing options](https://www.robogallery.co/robo-gallery-v5/#enhanced_polaroid) in hover effects, polaroid layouts, and lightbox views, ensuring maximum reach and visibility for your images and videos across all major social networks.
+  Create albums with **multiple nesting levels** to organize galleries in a structured way. You can build **cover galleries** that contain only [albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid), organize content using [nested albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid), and include **photos, linked images, and videos**. This allows you to combine different media types within image galleries while keeping content clearly organized.
+
+* #### Social Sharing Options 🌟 
+  Add hover-based [social sharing](https://www.robogallery.co/robo-gallery-v5/#enhanced_polaroid) across more than 20 platforms, including **Facebook, Telegram, LinkedIn, Reddit, WhatsApp, Pinterest, Twitter**, and others. Social sharing options can be used within hover effects, polaroid layouts, and lightbox views, helping visitors share images and videos across popular social networks.
 
 * #### Video Gallery ▶️
-  Showcase videos from various sources, including **YouTube playlists and channels**. Supports 10+ platforms like **Facebook, Twitch, Vimeo, SoundCloud, and Wistia**, delivering a dynamic and immersive video experience!
+  Display videos from multiple sources, including **YouTube playlists and channels**. The video gallery supports platforms such as **Facebook, Twitch, Vimeo, SoundCloud, and Wistia**, allowing you to include video content alongside image galleries.
 
-* #### Advanced SEO and Performance 📈
-  Optimized code and caching options ensure **faster load times** and improved search engine visibility. [Customizable links](https://www.robogallery.co/showcase/gallery/my-team/) allow easy integration with the gallery, enhancing user engagement. Alt text for images ensures better accessibility and **SEO performance**, boosting both site speed and ranking in search results.
+* #### SEO and Performance 📈
+  The plugin uses **optimized code and caching options** to support efficient loading and consistent performance. [Customizable links](https://www.robogallery.co/showcase/gallery/my-team/) can be used within the gallery to connect images with relevant pages or resources. Support for image alt text helps improve accessibility and contributes to clearer image descriptions for search engines.
 
 https://www.youtube.com/watch?v=7ejiww-ekHE
 
 ### Customizable Views
 
-With over 200 gallery design configuration options, our photo gallery plugin offers unmatched flexibility for creating the perfect display of your images, photos, and [albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid). Choose from multiple gallery types, including grid, masonry, justify, mosaic, [polaroid](https://www.robogallery.co/robo-gallery-v5/#enhanced_polaroid), and slider, to showcase your photo gallery or image gallery exactly how you envision. New in Robo Gallery are innovative features like the fusion grid, [horizontal masonry](https://www.robogallery.co/robo-gallery-v5/#horizontal_masonry), [vertical masonry](https://www.robogallery.co/robo-gallery-v5/#vertical_masonry), [advanced polaroid](https://www.robogallery.co/robo-gallery-v5/#enhanced_polaroid) styles, enhanced hover effects, and a lightbox with full-screen, slideshow mode, and download options, providing endless possibilities for customizing your galleries.
+With a wide range of gallery configuration options, this photo gallery plugin allows you to control how images, photos, and [albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid) are displayed. You can choose from multiple gallery types, including grid, masonry, justify, mosaic, [polaroid](https://www.robogallery.co/robo-gallery-v5/#enhanced_polaroid), and slider, to present your photo gallery or image gallery in different layouts. Available features include the fusion grid, [horizontal masonry](https://www.robogallery.co/robo-gallery-v5/#horizontal_masonry), [vertical masonry](https://www.robogallery.co/robo-gallery-v5/#vertical_masonry), advanced polaroid styles, configurable hover effects, and a lightbox with fullscreen, slideshow, and download options, giving you flexible ways to customize your galleries.
 
 ### Gallery Lightbox
 
-Enhance your gallery with a built-in image lightbox that beautifully displays images, photos, and videos in a sleek, responsive interface. The photo lightbox supports external sources like YouTube, Facebook, Twitch, Streamable, Vimeo, Wistia, Mixcloud, and DailyMotion, allowing you to showcase diverse content effortlessly. Customize titles and descriptions, activate slideshow mode with play/stop controls, and enable zoom, fullscreen, and image download options. With social sharing features, visitors can easily share their favorite images, making your image gallery more interactive and engaging.
+Enhance your gallery with a built-in image lightbox designed to display images, photos, and videos in a responsive interface. The photo lightbox supports external sources such as YouTube, Facebook, Twitch, Streamable, Vimeo, Wistia, Mixcloud, and DailyMotion, allowing you to include different media types within your image gallery. You can configure titles and descriptions, enable slideshow mode with play and stop controls, and use zoom, fullscreen, and image download options. Social sharing features allow visitors to share images directly from the lightbox.
 
 ### Interactive Hover Effects
 
-Enhance your photo gallery with 18+ stunning hover animations, designed to bring your images to life. These hover effects offer dynamic transitions, customizable layouts, and the ability to add titles, descriptions, zoom, and link buttons. The latest hover animations introduce social share functionality, making your image gallery more interactive. With the hover template mode, you can further personalize your galleries by integrating custom HTML and CSS elements, ensuring a unique and engaging user experience.
+Enhance your photo gallery with a set of hover animations that add interactive behavior to images. Hover effects support transitions, layout customization, and options to display titles, descriptions, zoom controls, and link buttons. Some hover modes include social sharing functionality, helping users share images from the gallery. The hover template mode allows you to extend hover layouts using custom HTML and CSS, providing additional control over how galleries are presented.
 
 ### Polaroid Gallery
 
-Showcase your images with a stylish portfolio gallery, featuring multiple grid types like regular, masonry, mosaic, and justified layouts. The classic [polaroid gallery](https://www.robogallery.co/robo-gallery-v5/#enhanced_polaroid) elegantly presents descriptions below thumbnails, adding a vintage aesthetic to your photo gallery. The [enhanced polaroid](https://www.robogallery.co/robo-gallery-v5/#enhanced_polaroid) mode takes customization further, allowing you to place content panels on any side of the thumbnail top, left, right, or bottom. These panels can include titles, descriptions, lightbox buttons, social share icons, zoom options, and direct links. With advanced styling and layout flexibility, you can create a unique and engaging image gallery that enhances visual storytelling and user interaction.
+Showcase images using a portfolio-style gallery with several layout options, including regular grid, masonry, mosaic, and justified views. The classic [polaroid gallery](https://www.robogallery.co/robo-gallery-v5/#enhanced_polaroid) displays image descriptions below thumbnails, providing a distinctive presentation for photo galleries. The [enhanced polaroid](https://www.robogallery.co/robo-gallery-v5/#enhanced_polaroid) mode extends customization options by allowing content panels to be placed on any side of the thumbnail top, left, right, or bottom. These panels can include titles, descriptions, lightbox controls, social sharing icons, zoom options, and custom links, giving you flexible ways to structure an image gallery.
 
 ### Mobile-Friendly & Responsive Galleries
 
-Enjoy a seamless experience with fully responsive galleries optimized for all devices, from smartphones to tablets and desktops. Every photo gallery layout, including grids, masonry, and mosaics, adapts perfectly to any screen size. With support for Retina and Ultra HD displays up to 16K, your images always look sharp and vibrant. Hover animations are fine-tuned for mobile interaction, ensuring smooth transitions and effects on touchscreens. The lightbox, navigation, and user interface are all designed for effortless browsing on both mobile and desktop, delivering a flawless image gallery experience anywhere.
+The gallery layouts are designed to adapt to different screen sizes, including smartphones, tablets, and desktop devices. Photo gallery views such as grids, masonry, and mosaic layouts adjust automatically for responsive display. Support for **high-resolution images** on Retina and Ultra HD displays allows images to remain clear on modern screens. Hover animations are adjusted for mobile interaction, and the lightbox, navigation, and user interface are structured to support browsing on both **mobile and desktop devices**.
 
 ### Gallery Albums
 
-Organize your photo galleries with unlimited nesting levels, creating a seamless structure for images, albums, and videos. Build cover galleries that contain only albums or mix [albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid) with photos, linked images, and embedded videos. Effortlessly create multi-layered image galleries with smooth navigation, ensuring easy access to content. Customize layouts to match your vision, whether you need a compact structure or an expansive [album](https://www.robogallery.co/robo-gallery-v5/#fusion_grid) collection. Perfect for photographers, artists, and businesses, this feature provides the ultimate flexibility for managing, displaying, and categorizing visual content in a dynamic and engaging way.
+Organize photo galleries using albums with multiple nesting levels to structure images, albums, and videos. You can build cover galleries that contain only albums or combine [albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid) with photos, linked images, and embedded videos. This makes it possible to create multi-level image galleries with clear navigation and structured access to content. Layout options can be adjusted to fit different use cases, from compact album structures to larger [album](https://www.robogallery.co/robo-gallery-v5/#fusion_grid) collections, supporting a wide range of gallery organization needs.
 
 ### Navigation & Gallery Interface
 
-The new Fusion Grid introduces a fully reimagined [photo gallery](https://www.robogallery.co/showcase/gallery/interior-beige/) menu with advanced navigation features. Choose between Wide and Compact display modes to match your layout and user experience preferences. The updated menu system now supports a powerful dropdown structure with unlimited nesting levels, allowing you to organize even the most complex gallery hierarchies with ease. You can also enable a dedicated Sidebar Menu, available as a standalone option or in combination with the top menu, giving you maximum flexibility in how you present your gallery. Personalize every detail with custom themes, selecting from predefined palettes or your own color choices, and customize all menu labels to suit your content. Integrated breadcrumbs navigation ensures smooth transitions within [gallery albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid), keeping users oriented as they browse through nested image galleries. With advanced pagination, load more options, and lazy load functionality, your galleries remain fast, user-friendly, and perfectly structured for any display size.
+The Fusion Grid includes an updated [photo gallery](https://www.robogallery.co/showcase/gallery/interior-beige/) navigation interface with configurable menu options. You can choose between Wide and Compact display modes depending on your layout preferences. The menu system supports dropdown navigation with multiple nesting levels, allowing structured organization of gallery hierarchies. An optional Sidebar Menu can be enabled on its own or combined with the top menu. Menu appearance can be adjusted using predefined themes or custom color settings, and menu labels can be customized. Breadcrumb navigation helps users move through [gallery albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid), while pagination, load more options, and lazy loading support efficient browsing across different screen sizes.
 
 ### Social Media Sharing
 
-Boost your gallery's reach with seamless social media sharing options. Share images, photos, and entire galleries directly from the lightbox, thumbnails, and hover effects. Social share buttons are available in the enhanced Polaroid mode, lightbox, and hover animations, allowing effortless sharing to 18+ platforms, including Twitter, Reddit, WhatsApp, Facebook, LinkedIn, Pinterest, Tumblr, and more. Maximize engagement by integrating your image gallery with social media, ensuring your content gets the visibility it deserves.
+Social media sharing options allow images, photos, and galleries to be shared from thumbnails, hover effects, and the lightbox. Sharing buttons are available in enhanced Polaroid layouts, lightbox views, and hover animations. Supported platforms include Twitter, Reddit, WhatsApp, Facebook, LinkedIn, Pinterest, Tumblr, and other social networks, making it easier to distribute image gallery content across multiple channels.
 
 ### Image Slider
 
-Enhance your gallery with a stunning image slider that delivers smooth, elegant transitions. Create fully responsive slideshows that showcase images and photos beautifully on any device. Add captions, customize navigation controls, and enjoy a seamless, lightweight experience. Adjust autoplay settings, transition effects, and slideshow speed for a personalized presentation. The slider seamlessly integrates with gallery layouts, ensuring an engaging and interactive way to showcase your photos, images, and albums. Perfect for portfolios, presentations, and dynamic content displays.
+The image slider allows you to display images and photos in a responsive slideshow format. Slider options include captions, navigation controls, autoplay settings, transition effects, and adjustable slideshow speed. The slider can be used alongside gallery layouts to present photos, images, and albums in a structured way, supporting different presentation and content display scenarios.
 
 ### Video Gallery
 
-Transform your gallery into a powerful video showcase with seamless support for multiple platforms. Embed videos from YouTube playlists, channels, and over 10+ sources, including Facebook, Twitch, Vimeo, SoundCloud, Wistia, and more. Enjoy a fully responsive video gallery with smooth playback, customizable layouts, and an engaging user experience. Perfect for displaying video content alongside images and photos, creating a dynamic multimedia gallery that enhances interaction and visual appeal.
+Create video galleries with support for multiple platforms. Videos can be embedded from YouTube playlists and channels, as well as other sources such as Facebook, Twitch, Vimeo, SoundCloud, and Wistia. The video gallery is responsive and supports configurable layouts, allowing video content to be displayed alongside images and photos within the same gallery structure.
 
 ### Bulk Images Uploader & Server Import
 
-Effortlessly upload and organize large collections of images with the new bulk uploader tool. Import photos directly from server folders and create multiple galleries in just one click. Configure titles, captions, descriptions, tags, links, and video URLs in a simple config file, ensuring seamless gallery creation with all metadata automatically applied. This tool is ideal for managing extensive photo galleries, automating bulk imports, and reducing manual work. Easily handle thousands of images with structured organization, maintain consistency across multiple galleries, and streamline content management for large-scale projects. Whether you're working with photos, linked images, or videos, this uploader ensures fast and efficient gallery setup with minimal effort.
+Upload and organize large numbers of images using the bulk uploader and server import tools. Photos can be imported directly from server folders, and multiple galleries can be created in a single process. Gallery metadata such as titles, captions, descriptions, tags, links, and video URLs can be defined using a configuration file, allowing metadata to be applied automatically during import. This workflow is suitable for managing large photo galleries and reducing manual setup when working with extensive image collections.
 
 ### Display Anywhere
 
-Each gallery you create is automatically saved as a custom post, making it easy to manage and reuse. You can insert galleries anywhere on your website using the dedicated Gallery Widget, Gutenberg block, Elementor widget, or classic shortcodes whether it's a post, page, or sidebar.
+Each gallery is stored as a custom post type, making it easy to manage and reuse. Galleries can be added to posts, pages, sidebars, and other areas of your website using the Gallery Widget, Gutenberg block, Elementor gallery widget, or classic shortcodes.
 
 ### Performance
 
-Our photo gallery plugin is optimized to deliver exceptional performance for displaying images, albums, and galleries on your website. Each feature is designed to operate smoothly, ensuring that your photo galleries and image displays load quickly and maintain high-quality visuals without compromising your website's speed or user experience.
+The photo gallery plugin is designed to support efficient loading of images, albums, and galleries. Features are implemented to operate consistently, helping photo galleries and image displays load reliably while maintaining visual quality.
 
 ### Cache
 
-The plugin utilizes advanced caching techniques to improve the performance of your image galleries, [photo albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid), and lightbox features. By efficiently storing data and minimizing repetitive server requests, it ensures faster loading times for photos and galleries, enhancing the overall browsing experience for your visitors.
+Caching options are available to help improve the loading behavior of image galleries, [photo albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid), and lightbox features. By reducing repeated server requests and reusing stored data, galleries and photos can load more efficiently during user navigation.
 
 ### Optimization
 
-This image gallery plugin is fully optimized for WordPress, ensuring seamless integration with a variety of themes and plugins. Whether you're showcasing photos in lightbox galleries or creating [organized albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid), our clean, efficient code minimizes resource usage and maximizes functionality. Regular updates ensure your photo galleries and image displays remain optimized for the best performance.
+The image gallery plugin is optimized for use with WordPress themes and plugins. Clean and efficient code helps limit resource usage when displaying galleries, lightbox views, and [organized albums](https://www.robogallery.co/robo-gallery-v5/#fusion_grid). Regular updates focus on maintaining compatibility and stable behavior for photo galleries and image displays.
 
 ### 💎 Pro Key Features
 
-* **Fully Customizable Gallery Interface** – Modify layouts, colors, styles, and effects to match your design needs.
+* **Customizable Gallery Interface** – Adjust layouts, colors, styles, and visual effects to fit different design requirements.
 
-* **Unlimited Albums & Nested Structure** – Create albums with no depth limits and mix photos, linked images, videos, and albums effortlessly.
+* **Unlimited Albums & Nested Structure** – Create albums with multiple nesting levels and combine photos, linked images, videos, and albums within the same gallery.
 
-* **Enhanced Polaroid Mode** – Add advanced content panels to thumbnails with title, description, zoom, link, and social share buttons.
+* **Enhanced Polaroid Mode** – Use content panels on thumbnails to display titles, descriptions, zoom controls, links, and social sharing buttons.
 
-* **YouTube Gallery Support** – Display entire playlists and channels seamlessly within your gallery.
+* **YouTube Gallery Support** – Display YouTube playlists and channels directly inside a gallery layout.
 
-* **12 Highly Customizable Layouts** – Choose from grid, masonry, mosaic, polaroid, justify, slider, and more, all optimized for mobile and desktop.
+* **Multiple Gallery Layouts** – Choose from grid, masonry, mosaic, polaroid, justify, slider, and other layouts designed to work on both mobile and desktop devices.
 
-* **55 Pre-Defined Gallery Themes** – Instantly apply professionally designed styles to your galleries.
+* **Predefined Gallery Themes** – Apply ready-made theme styles to galleries to control colors and visual appearance.
 
-* **18 Fully Customizable Hover Effects** – Enhance user interaction with unique animations, buttons, and overlays.
+* **Configurable Hover Effects** – Use hover animations with buttons, overlays, and interactive elements to enhance image presentation.
 
-* **Editable Hover Template** – Create custom hover designs using HTML & CSS for ultimate flexibility.
+* **Editable Hover Template** – Create custom hover layouts using HTML and CSS to extend default hover behavior.
 
-* **Gallery Search** – Enable visitors to find images quickly by searching titles, descriptions, and tags.
+* **Gallery Search** – Allow visitors to search images by titles, descriptions, and tags within galleries.
 
-* **Custom Links** – Add links to images, albums, or external pages for enhanced navigation and engagement.
+* **Custom Links** – Assign links to images, albums, or external pages to support navigation and content flow.
 
 ### What's Next 🔥
 
-As we step into 2025, a new era begins for Robo Gallery. [The release of Version 5](https://www.robogallery.co/robo-gallery-v5/) marks just the start of an exciting journey. We're committed to an active development process that will bring even more innovative functionality to enhance your experience.
+In 2025, development of Robo Gallery continues with a focus on expanding functionality and improving existing features. The release of [Version 5](https://www.robogallery.co/robo-gallery-v5/) introduces a new foundation for future updates, with ongoing improvements planned as part of the regular development cycle.
 
-Here's a glimpse of what's coming soon:
+Planned areas of development include:
 
-* **Tons of New Animation Effects:** Expect a dynamic range of stunning effects to elevate your galleries.
-* **Post Grid Functionality:** Seamlessly integrate and showcase posts in beautifully designed grids.
-* **Fresh Layouts and Themes:** New, modern designs to keep your galleries visually captivating.
-* **Advanced Image Slider:** A powerful, customizable slider with enhanced controls and sleek transitions.
-* **Expanded Gallery Sources:** Integrate your galleries with new sources like Instagram, Pinterest, Flickr, Unsplash, Pexels, Pixabay, Google Drive, OneDrive, and Dropbox for greater flexibility and creativity.
+* **Additional Animation Effects:** New animation options for gallery elements and hover interactions.
+* **Post Grid Functionality:** Tools to display posts within structured grid layouts.
+* **New Layouts and Themes:** Additional gallery layouts and theme styles for different presentation needs.
+* **Image Slider Improvements:** Extended slider options with configurable controls and transitions.
+* **Additional Gallery Sources:** Planned support for external sources such as Instagram, Pinterest, Flickr, Unsplash, Pexels, Pixabay, Google Drive, OneDrive, and Dropbox.
 
-Stay with us as we break new ground and roll out exciting updates every two weeks to keep transforming what's possible with Robo Gallery. The future is brighter than ever!
+Updates are planned on a regular basis to introduce new features, improvements, and compatibility updates as development progresses.
+
+
 
 ### 🖼️ All Demos
 
@@ -253,6 +255,21 @@ Plugin implemented in native WordPress style. All code is implemented based on W
 If any problem occurs, please contact us.
 
 == Changelog ==
+
+= 5.1.2 (28-12-2025) =
+* Updated plugin description and headings to align with guidelines
+
+= 5.1.1 (03-12-2025) =
+* Compatible with WordPress 6.9
+
+= 5.1.0 (10-10-2025) =
+* Fixed PHP 7.4 issue in access options
+
+= 5.0.9 (09-10-2025) =
+* Fixed sidebar menu issue
+* Added password protection feature
+* Added share via link option with generated access key
+* Improved access management
 
 = 5.0.7 (07-08-2025) =
 * Fixed layout issues in Fusion Grid menu for mobile devices
@@ -817,9 +834,5 @@ If any problem occurs, please contact us.
 
 == Upgrade Notice ==
 
-= 5.0.7 (07-08-2025) =
-* Fixed layout issues in Fusion Grid menu for mobile devices
-* Fixed breadcrumbs layout on mobile view
-* Updated mobile navigation behavior
-* Resolved dropdown menu issues in Fusion Grid
-* Fixed multi-level depth navigation problems
+= 5.1.2 (28-12-2025) =
+* Updated plugin description and headings to align with guidelines

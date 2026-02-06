@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.0.7 - 14892
+*      Version: 5.1.0 - 50521
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -249,7 +249,7 @@ class ROBOGALLERY_REST_Gallery_Model
         function build_tree($node_id, $posts_by_id,  $m_l, $l=0)
         {
             if ($l >  $m_l) {
-                 return null;
+                return null;
             }
 
             if (! isset($posts_by_id[$node_id])) {
