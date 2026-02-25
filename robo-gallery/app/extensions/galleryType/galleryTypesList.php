@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.0 - 50521
+*      Version: 5.1.2 - 54264
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -160,6 +160,12 @@ class GalleryTypeList
     {
         $sources = self::getSources();
         return in_array($source, $sources);
+    }
+
+    public static function sanitizeSource($source){
+        $source = (string)$source;
+        $source = preg_replace('/[^a-z0-9_-]/i', '', $source);
+        return $source;
     }
 }
 

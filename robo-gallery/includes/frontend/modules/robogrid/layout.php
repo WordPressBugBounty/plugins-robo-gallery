@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.0 - 50521
+*      Version: 5.1.2 - 54264
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -77,7 +77,7 @@ class roboGalleryModuleLayoutRoboGrid extends roboGalleryModuleAbstraction
 
     function getAlignStyleFromOptions()
     {
-        if (! isset($this->options[ 'align' ]) || ! $this->options[ 'align' ]) {
+        if ( isset($this->options[ 'align' ]) &&  $this->options[ 'align' ]) {
             switch ($this->options[ 'align' ]) {
                 case 'right':
                     return '0 0 0 auto';
@@ -157,8 +157,8 @@ class roboGalleryModuleLayoutRoboGrid extends roboGalleryModuleAbstraction
         //     $this->jsOptions->setValue('debug', true);
 
         return ' var robogallery_config_id_' . $this->id . ' = {
-            "restUrl": "' . get_rest_url() . '",
-            "wp_rest": "' . wp_create_nonce('wp_rest') . '",
+            "restUrl": "' . esc_attr(get_rest_url()) . '",
+            "wp_rest": "' . esc_attr(wp_create_nonce('wp_rest')) . '",
             "errorImageUrl": "' . esc_url(site_url('wp-content/plugins/robo-gallery/images/')) . '",
             "debug": false
         };';

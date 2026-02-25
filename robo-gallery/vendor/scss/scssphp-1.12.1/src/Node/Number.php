@@ -578,7 +578,7 @@ class Number extends Node implements \ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function output(Compiler $compiler = null)
+    public function output( $compiler = null)
     {
         $dimension = round($this->dimension, self::PRECISION);
 

@@ -49,7 +49,17 @@
  */
 
 /**
- * @mui/material v7.0.0
+ * @license React
+ * use-sync-external-store-with-selector.production.js
+ *
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
+ * @mui/material v7.3.4
  *
  * @license MIT
  * This source code is licensed under the MIT license found in the
@@ -57,7 +67,7 @@
  */
 
 /**
- * @mui/private-theming v7.0.0
+ * @mui/private-theming v7.3.3
  *
  * @license MIT
  * This source code is licensed under the MIT license found in the
@@ -65,7 +75,7 @@
  */
 
 /**
- * @mui/styled-engine v7.0.0
+ * @mui/styled-engine v7.3.3
  *
  * @license MIT
  * This source code is licensed under the MIT license found in the
@@ -73,15 +83,7 @@
  */
 
 /**
- * @mui/system v7.0.0
- *
- * @license MIT
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-/**
- * @mui/utils v7.0.0
+ * @mui/system v7.3.3
  *
  * @license MIT
  * This source code is licensed under the MIT license found in the

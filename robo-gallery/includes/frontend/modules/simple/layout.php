@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.0 - 50521
+*      Version: 5.1.2 - 54264
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -136,10 +136,12 @@ class roboGalleryModuleLayoutSimple extends roboGalleryModuleAbstraction
 
     public function renderMainBlock()
     {
+        $type_source = esc_attr( $this->getMeta('gallery_type_source') );
+
         return
         $this->core->getContent('Begin')
 
-        . '<div id="robo-gallery-simple-wrap' . $this->galleryId . '" class="robo-gallery-simple-wrap robo-gallery-simple-wrap-id' . $this->id . ' robo-gallery-' . $this->getMeta('gallery_type_source') . '">'
+        . '<div id="robo-gallery-simple-wrap' . $this->galleryId . '" class="robo-gallery-simple-wrap robo-gallery-simple-wrap-id' . $this->id . ' robo-gallery-' . $type_source . '">'
 
 			. $this->core->getContent('FirstInit')
 			

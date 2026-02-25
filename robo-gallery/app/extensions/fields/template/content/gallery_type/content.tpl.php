@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.0 - 50521
+*      Version: 5.1.2 - 54264
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -9,7 +9,7 @@
 *      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-echo $type = rbsGalleryUtils::getTypeGallery();
+echo $type = esc_html(rbsGalleryUtils::getTypeGallery());
 
 if( $type == false ){
 	$url = admin_url('post-new.php?post_type=robo_gallery_table&rsg_gallery_type=grid');

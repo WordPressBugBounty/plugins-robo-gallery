@@ -2,7 +2,7 @@
 	<img class="type-logo" src="<?php echo ROBO_GALLERY_URL; ?>app/extensions/galleryType/build/grids/robogrid_active.svg" style="width: 100px; height: 100px; margin: 20px 20px 20px 0; padding: 0; " />
 	<h4><?php _e("Gallery Fusion Grid", 'robo-gallery'); ?></h4>
 	<!--<p>
-		<?php _e("Type", 'robo-gallery'); ?>:<?php echo rbsGalleryUtils::getFullSourceGallery(); ?>
+		<?php _e("Type", 'robo-gallery'); ?>:<?php echo  esc_html(rbsGalleryUtils::getFullSourceGallery()); ?>
 	</p>-->
 	<p>
 	 <?php _e("

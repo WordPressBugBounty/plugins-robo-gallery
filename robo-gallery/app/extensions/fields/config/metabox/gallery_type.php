@@ -1,13 +1,15 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.0 - 50521
+*      Version: 5.1.2 - 54264
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
 *      Created: 2025
 *      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
+
+//use RoboGallery\App\Extension\GalleryTypes\GalleryTypeList;
 
 $type   = rbsGalleryUtils::getTypeGallery();
 $source = rbsGalleryUtils::getSourceGallery();
@@ -50,6 +52,7 @@ return array(
             'type'    => 'hidden',
             'view'    => 'default',
             'name'    => 'gallery_type_source',
+            'cb_sanitize' => 'RoboGallery\App\Extension\GalleryTypes\GalleryTypeList::sanitizeSource',
             'default' => $source,
         ),
 

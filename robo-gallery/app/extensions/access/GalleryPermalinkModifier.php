@@ -26,7 +26,7 @@ class GalleryPermalinkModifier
         $url_parts = wp_parse_url($permalink);
 
         $scheme   = isset($url_parts['scheme']) ? $url_parts['scheme'] . '://' : '';
-        $host     = $url_parts['host'] ?? '';
+        $host     = $url_parts['host'] ? $url_parts['host'] : '';
         $port     = isset($url_parts['port']) ? ':' . $url_parts['port'] : '';
         $path     = isset($url_parts['path']) ? $url_parts['path'] : '';
         $query    = isset($url_parts['query']) ? $url_parts['query'] : '';

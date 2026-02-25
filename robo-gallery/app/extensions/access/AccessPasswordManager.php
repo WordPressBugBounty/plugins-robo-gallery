@@ -33,7 +33,7 @@ class AccessPasswordManager
 
         $data = [
             'ID'            => $post_id,
-            'post_password' => $password ? $password : '',
+            'post_password' => $password ? $password : ''
         ];
         wp_update_post($data);
     }
