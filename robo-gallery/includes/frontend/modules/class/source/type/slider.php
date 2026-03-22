@@ -2,7 +2,7 @@
 
 /* 
 *      Robo Gallery     
-*      Version: 5.1.2 - 54264
+*      Version: 5.1.4 - 48397
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 

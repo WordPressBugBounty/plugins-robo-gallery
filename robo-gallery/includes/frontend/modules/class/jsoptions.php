@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.2 - 54264
+*      Version: 5.1.4 - 48397
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -70,17 +70,17 @@ class  roboGalleryModuleJsOptions{
 	}
 
 	
-	public function setJsFunction($valName, $funcCode){
-		if(is_array($funcCode)){
-			if( count($funcCode)){
-				foreach ($funcCode as $funcName => $funcCodeCur ) {					
-					$this->setJsFunction($valName.'/'.$funcName, $funcCodeCur);
-				}
-			}
-			return ;
-		}
-	    $this->setValue($valName, '|***'.$funcCode.'***|');
-	}
+	// public function setJsFunction($valName, $funcCode){
+	// 	if(is_array($funcCode)){
+	// 		if( count($funcCode)){
+	// 			foreach ($funcCode as $funcName => $funcCodeCur ) {					
+	// 				$this->setJsFunction($valName.'/'.$funcName, $funcCodeCur);
+	// 			}
+	// 		}
+	// 		return ;
+	// 	}
+	//     $this->setValue($valName, '|***'.$funcCode.'***|');
+	// }
 
 
 	public function setOption( $valName ){
@@ -93,18 +93,18 @@ class  roboGalleryModuleJsOptions{
 	}
 
 
-	private static function fixJsFunction( $json ){
-		return  str_replace(
-			array( '"|***', '***|"' ),
-			array( '', 		'' 		),
-			$json
-		);
-	}
+	// private static function fixJsFunction( $json ){
+	// 	return  str_replace(
+	// 		array( '"|***', '***|"' ),
+	// 		array( '', 		'' 		),
+	// 		$json
+	// 	);
+	// }
 
 
 	public function getOptionList(){
 		$json = json_encode( $this->options,  JSON_NUMERIC_CHECK );
-		$json = self::fixJsFunction($json);
+		//$json = self::fixJsFunction($json);
 		return $json;
 	}
 
