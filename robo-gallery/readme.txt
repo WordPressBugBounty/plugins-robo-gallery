@@ -3,8 +3,8 @@ Contributors: gallerysupport, robosoft
 Donate link: https://robosoft.co/robogallery
 Tags: gallery, photo gallery, image gallery, wordpress gallery plugin, responsive gallery
 Requires at least: 3.3
-Tested up to: 7.0
-Stable tag: 5.1.5
+Tested up to: 7.1
+Stable tag: 5.1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -255,6 +255,9 @@ Plugin implemented in native WordPress style. All code is implemented based on W
 If any problem occurs, please contact us.
 
 == Changelog ==
+
+= 5.1.6 (04-09-2026) =
+* Compatible with WordPress 7.1
 
 = 5.1.5 (27-05-2026) =
 * Compatible with WordPress 7.0
@@ -845,5 +848,5 @@ If any problem occurs, please contact us.
 
 == Upgrade Notice ==
 
-= 5.1.5 (27-05-2026) =
-* Compatible with WordPress 7.0
+= 5.1.6 (04-09-2026) =
+* Compatible with WordPress 7.1
