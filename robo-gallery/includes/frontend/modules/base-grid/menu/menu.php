@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -92,8 +92,10 @@ class  roboGalleryModuleMenuV1 extends roboGalleryModuleAbstraction{
 
  	private function initAlign(){
  		$align = $this->getMeta('buttonAlign');
- 		if($align){
- 			$align = ' rbs_gallery_align_'.$align;
+ 		// ends up in a class attribute; meta can be written raw (core custom fields),
+ 		// so accept only a single latin word (left / center / right)
+ 		if( is_string($align) && preg_match('/^[a-zA-Z]+$/', $align) ){
+ 			$align = esc_attr(' rbs_gallery_align_'.$align);
  			$this->core->setContent( $align, 'menuV1.block.class');
  		}
  		 		
@@ -105,7 +107,7 @@ class  roboGalleryModuleMenuV1 extends roboGalleryModuleAbstraction{
  	private function initSearch(){
  		if( ! $this->getMeta('searchEnable') ) return '';
 
-		$searchColor = $this->getMeta('searchColor');
+		$searchColor = $this->getColorMeta('searchColor');
 		if($searchColor){
 			$this->scssVar['searchColor'] = $searchColor;
 			$this->scssContent .= ' 
@@ -125,7 +127,7 @@ class  roboGalleryModuleMenuV1 extends roboGalleryModuleAbstraction{
 		/* Search gallery item block */
 		$retHtml .= '<div class="rbs_search_wrap">';
 			$searchLabel =  $this->getMeta('searchLabel');
-			$retHtml .= '<input type="text" class="rbs-search" placeholder="'.$searchLabel.'" />';
+			$retHtml .= '<input type="text" class="rbs-search" placeholder="'.esc_attr($searchLabel).'" />';
 		$retHtml .= '</div>';
 
 		/* Setup  gallery */

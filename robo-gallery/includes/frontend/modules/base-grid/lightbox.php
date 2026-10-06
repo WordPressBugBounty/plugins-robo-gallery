@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -148,7 +148,7 @@ class  roboGalleryModuleLightboxV1 extends roboGalleryModuleAbstraction{
 		
 
 	private function initBg(){
-		$lightboxBackground = $this->core->getMeta( 'lightboxBackground');
+		$lightboxBackground = $this->getColorMeta( 'lightboxBackground');
 		if( !$lightboxBackground ) return ;
 		$this->scssVar['lightboxBackground'] = $lightboxBackground;
 		$this->scssContent .= '.robo-lightbox-id#{$galleryid}:not(#no-robo-galery) .mfp-ready.mfp-bg{ background-color: $lightboxBackground; }';
@@ -170,7 +170,7 @@ class  roboGalleryModuleLightboxV1 extends roboGalleryModuleAbstraction{
 
 	private function initLightboxText(){
 
-		if( $lightboxColor = $this->getMeta('lightboxColor') ){
+		if( $lightboxColor = $this->getColorMeta('lightboxColor') ){
 			$this->scssVar['lightboxColor'] = $lightboxColor;
 			$this->scssContent .= '
 			.robo-lightbox-id#{$galleryid}:not(#no-robo-galery) .mfp-bottom-bar{
@@ -180,7 +180,10 @@ class  roboGalleryModuleLightboxV1 extends roboGalleryModuleAbstraction{
 
 		if( $this->getMeta('lightboxDescPanel')){
 			$this->jsOptions->setValue( 'descBox',  true );
-			$this->jsOptions->setValue( 'descBoxClass',  'rbs_desc_panel_'.$this->core->getMeta('lightboxDescClass') );
+			// CSS classes are lowercase; older galleries may have stored "Light" (the field's old default)
+			$descClass = strtolower( (string) $this->core->getMeta('lightboxDescClass') );
+			if( !in_array( $descClass, array( 'light', 'dark', 'red', 'blue', 'green', 'pink' ), true ) ) $descClass = 'light';
+			$this->jsOptions->setValue( 'descBoxClass',  'rbs_desc_panel_'.$descClass );
 		}
 
 		if( !$this->getMeta('lightboxTitle') ) $this->jsOptions->setValue( 'hideTitle',  true );

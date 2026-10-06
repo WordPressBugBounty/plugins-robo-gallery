@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -34,10 +34,6 @@ if (is_admin()) {
         remove_action('init', 'gallery_' . $titleMes . 'k_admin_notice_class');
     }
 }
-
-rbs_gallery_include(array('rbs_hooks.php'), ROBO_GALLERY_INCLUDES_PATH);
-
-rbs_gallery_include(array('rbs_gallery_config.php', 'rbs_gallery_button.php', 'rbs_gallery_widget.php'), ROBO_GALLERY_INCLUDES_PATH);
 
 if (!function_exists('rbs_gallery_is_edit_page')) {
 
@@ -88,9 +84,6 @@ if (!function_exists('rbs_gallery_get_current_post_type')) {
 
 function create_post_type_robo_gallery()
 {
-
-    require_once ROBO_GALLERY_INCLUDES_PATH . 'rbs_class_update.php';
-
     $label = array(
         'name'               => 'Robo Gallery',
         'singular_name'      => __('Robo Gallery', 'robo-gallery'),
@@ -134,6 +127,8 @@ function create_post_type_robo_gallery()
 
         'show_in_rest'  => true,
         'rest_base'     => 'robogallery',
+        // same routes/format as core, plus the plugin's direct-link/token read rules
+        'rest_controller_class' => \RoboGallery\app\extensions\restapi\endpoints\GalleryPostsController::class,
 
         /*
 		'publicly_queryable' => true,
@@ -147,42 +142,10 @@ function create_post_type_robo_gallery()
     );
 
     register_post_type(ROBO_GALLERY_TYPE_POST, $args);
-
-    if (
-        is_admin() &&
-        get_option('robo_gallery_after_install', 0) == '1'
-    ) {
-
-        add_action('wp_loaded', 'roboGalleryInstallRefresh');
-    }
+    // rewrite rules flush / overview redirect after activation or update:
+    // app/extensions/activation/Install.php
 }
 add_action('init', 'create_post_type_robo_gallery');
-
-if (!function_exists('roboGalleryInstallRefresh')) {
-    function roboGalleryInstallRefresh()
-    {
-
-        global $wp_rewrite;
-        $wp_rewrite->flush_rules();
-
-        if (delete_option('robo_gallery_after_install')) {
-            update_option('robo_gallery_redirect_overview', true);
-        }
-
-    }
-}
-
-if (!function_exists('roboGalleryRedirectOverview')) {
-    function roboGalleryRedirectOverview()
-    {
-        if (get_option('robo_gallery_redirect_overview', false)) {
-            delete_option('robo_gallery_redirect_overview');
-            wp_redirect(admin_url('edit.php?post_type=' . ROBO_GALLERY_TYPE_POST . '&page=overview&firstview=1'));
-            exit();
-        }
-    }
-}
-add_action('admin_init', 'roboGalleryRedirectOverview');
 
 rbs_gallery_include('cache.php', ROBO_GALLERY_INCLUDES_PATH);
 
@@ -203,10 +166,7 @@ if (!function_exists('rbs_gallery_main_init')) {
             /* Field */
             rbs_gallery_include(array(
                 'toolbox/cmb-field-toolbox.php',
-                'gallery/cmb-field-gallery.php',
                 'size/cmb-field-size.php',
-                'loading/cmb-field-loading.php',
-                'color/jw-cmbre2-rgba-colorpicker.php',
                 'border/cmb-field-border.php',
                 'shadow/cmb-field-shadow.php',
                 'switch/cmb-field-switch.php',
@@ -227,15 +187,6 @@ if (!function_exists('rbs_gallery_main_init')) {
             rbs_gallery_include('rbs_gallery_edit.php', ROBO_GALLERY_INCLUDES_PATH);
         }
 
-        /* only backend */
-        if (is_admin()) {
-            rbs_gallery_include(array(
-                'rbs_gallery_media.php',
-                'rbs_gallery_menu.php',
-                'rbs_gallery_settings.php',
-            ), ROBO_GALLERY_INCLUDES_PATH);
-        }
-
         /* Frontend*/
         rbs_gallery_include(array('rbs_gallery_class.php', 'rbs_gallery_frontend.php'), ROBO_GALLERY_FRONTEND_PATH);
 
@@ -253,11 +204,8 @@ if (!function_exists('rbs_gallery_main_init')) {
             rbs_gallery_include('category/category.init.php', ROBO_GALLERY_EXTENSIONS_PATH);
         }
 
-        // check for v3
-        //rbs_gallery_include('categoryPage/category.init.php',     ROBO_GALLERY_EXTENSIONS_PATH);
-
         /* stats init */
-        if (get_option(ROBO_GALLERY_OPTIONS . 'addon_stats', 0)) {
+        if (\RoboGallery\app\extensions\settings\SettingsPage::isStatsEnabled()) {
             rbs_gallery_include('stats/stats.init.php', ROBO_GALLERY_EXTENSIONS_PATH);
         }
     }

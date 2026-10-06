@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -16,7 +16,7 @@ class roboGalleryFieldsView{
 		$templatePath = ROBO_GALLERY_FIELDS_TEMPLATE . $template . '.tpl.php';
 
 		if (!file_exists($templatePath)) {
-			throw new Exception("Could not find template. Template: {$template}");
+			throw new Exception('Could not find template. Template: ' . esc_html($template));
 		}
 		extract($vars);
 		require $templatePath;
@@ -25,9 +25,8 @@ class roboGalleryFieldsView{
 	public function content($template, array $vars = array()){
 		ob_start();
 		$this->render($template, $vars);
-		$content = ob_get_contents();
-		ob_clean();
 
-		return $content;
+		// ob_get_clean() also closes the buffer (ob_clean() left one open per call)
+		return ob_get_clean();
 	}
 }

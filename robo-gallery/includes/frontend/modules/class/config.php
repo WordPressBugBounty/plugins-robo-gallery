@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -39,6 +39,13 @@ class  roboGalleryModuleConfig{
 		if( !$cache_id ) {
 			$cache_id = uniqid();
 			add_post_meta( $this->options_id, ROBO_GALLERY_PREFIX.'cache_id', $cache_id );
+
+		// cache_id becomes part of the compiled CSS file path (scss.php) and the meta
+		// can be written raw (core custom fields), so anything but a uniqid()-like
+		// token (e.g. "../") is replaced with a fresh one.
+		} elseif( !is_string($cache_id) || !preg_match('/^[a-zA-Z0-9]{1,32}$/', $cache_id) ) {
+			$cache_id = uniqid();
+			update_post_meta( $this->options_id, ROBO_GALLERY_PREFIX.'cache_id', $cache_id );
 		}
 
 		$this->config[ROBO_GALLERY_PREFIX.'cache_id'] = $cache_id;

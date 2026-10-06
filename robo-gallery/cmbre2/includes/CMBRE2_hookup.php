@@ -52,9 +52,8 @@ class CMBRE2_hookup {
 	}
 
 	public function hooks() {
-		// Handle oembed Ajax
-		$this->once( 'wp_ajax_cmbre2_oembed_handler', array( cmbre2_ajax(), 'oembed_handler' ) );
-		$this->once( 'wp_ajax_nopriv_cmbre2_oembed_handler', array( cmbre2_ajax(), 'oembed_handler' ) );
+		// No oEmbed Ajax (wp_ajax_cmbre2_oembed_handler): no field uses the oembed
+		// type, and CMBRE2 is not loaded on admin-ajax.php anyway.
 
 		foreach ( get_class_methods( 'CMBRE2_Show_Filters' ) as $filter ) {
 			add_filter( 'cmbre2_show_on', array( 'CMBRE2_Show_Filters', $filter ), 10, 3 );
@@ -132,74 +131,9 @@ class CMBRE2_hookup {
 		// Only use minified files if SCRIPT_DEBUG is off
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-		if ( ! is_admin() ) {
-			// we need to register colorpicker on the front-end
-			//wp_register_script( 'iris', admin_url( 'js/iris.min.js' ), array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ), CMBRE2_VERSION );
-			/*wp_register_script( 'wp-color-picker', admin_url( 'js/color-picker.min.js' ), array( 'iris' ), CMBRE2_VERSION );
-			wp_localize_script( 'wp-color-picker', 'wpColorPickerL10n', array(
-				'clear'         => 'Clear',
-				'defaultString' => 'Default',
-				'pick'          => 'Select Color',
-				'current'       => 'Current Color',
-			) );*/
-		}
-
-		//wp_register_script( 'jquery-ui-datetimepicker', cmbre2_utils()->url( 'js/jquery-ui-timepicker-addon.min.js' ), array( 'jquery-ui-slider' ), CMBRE2_VERSION );
-
-		// scripts required for cmb
-		$scripts = array( 'jquery', 'jquery-ui-core' /*, 'jquery-ui-datepicker', 'jquery-ui-datetimepicker', 'wp-color-picker'*/ );
-		// styles required for cmb
-		$styles = array(/* 'wp-color-picker' */);
-
-		wp_register_script( 'cmbre2-scripts', cmbre2_utils()->url( "js/cmbre2{$min}.js" ), $scripts, CMBRE2_VERSION );
-
-		wp_localize_script( 'cmbre2-scripts', 'cmbre2_l10', apply_filters( 'cmbre2_localized_data', array(
-			'ajax_nonce'       => wp_create_nonce( 'ajax_nonce' ),
-			'ajaxurl'          => admin_url( '/admin-ajax.php' ),
-			'script_debug'     => defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG,
-			'up_arrow_class'   => 'dashicons dashicons-arrow-up-alt2',
-			'down_arrow_class' => 'dashicons dashicons-arrow-down-alt2',
-			'defaults'         => array(
-				'color_picker' => false,
-				'date_picker'  => array(
-					'changeMonth'     => true,
-					'changeYear'      => true,
-					'dateFormat'      => 'mm/dd/yy',
-					'dayNames'        => explode( ',', 'Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday' ),
-					'dayNamesMin'     => explode( ',', 'Su, Mo, Tu, We, Th, Fr, Sa' ),
-					'dayNamesShort'   => explode( ',', 'Sun, Mon, Tue, Wed, Thu, Fri, Sat' ),
-					'monthNames'      => explode( ',', 'January, February, March, April, May, June, July, August, September, October, November, December' ),
-					'monthNamesShort' => explode( ',', 'Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec' ),
-					'nextText'        => 'Next',
-					'prevText'        => 'Prev',
-					'currentText'     => 'Today',
-					'closeText'       => 'Done',
-					'clearText'       => 'Clear',
-				),
-				'time_picker'  => array(
-					'timeOnlyTitle' => 'Choose Time',
-					'timeText'      => 'Time',
-					'hourText'      => 'Hour',
-					'minuteText'    => 'Minute',
-					'secondText'    => 'Second',
-					'currentText'   => 'Now',
-					'closeText'     => 'Done',
-					'timeFormat'    => 'hh:mm TT',
-					'controlType'   => 'select',
-					'stepMinute'    => 5,
-				),
-			),
-			'strings' => array(
-				'upload_file'  => 'Use this file',
-				'remove_image' => 'Remove Image',
-				'remove_file'  => 'Remove',
-				'file'         => 'File:',
-				'download'     => 'Download',
-				'check_toggle' => 'Select / Deselect All',
-			),
-		) ) );
-
-		wp_register_style( 'cmbre2-styles', cmbre2_utils()->url( "css/cmbre2{$min}.css" ), $styles );
+		// Styles only: cmbre2.js served just the CMB2 features no field here uses
+		// (file upload, multicheck, repeatable groups, oEmbed, pickers).
+		wp_register_style( 'cmbre2-styles', cmbre2_utils()->url( "css/cmbre2{$min}.css" ) );
 
 		self::$registration_done = true;
 	}
@@ -214,7 +148,6 @@ class CMBRE2_hookup {
 			if ( $this->cmb->prop( 'cmb_styles' ) ) {
 				self::enqueue_cmb_css();
 			}
-			self::enqueue_cmb_js();
 		}
 	}
 
@@ -225,7 +158,7 @@ class CMBRE2_hookup {
 		echo '
 		<script type="text/javascript">
 		jQuery(document).ready(function(){
-			$form = jQuery("#' . $this->form_id . '");
+			$form = jQuery("#' . esc_js( $this->form_id ) . '");
 			if ( $form.length ) {
 				$form.attr( {
 					"enctype" : "multipart/form-data",
@@ -314,7 +247,6 @@ class CMBRE2_hookup {
 		if ( $this->cmb->prop( 'cmb_styles' ) ) {
 			self::enqueue_cmb_css();
 		}
-		self::enqueue_cmb_js();
 
 		$this->cmb->show_form( 0, 'user' );
 	}
@@ -422,20 +354,6 @@ class CMBRE2_hookup {
 
 		self::register_scripts();
 		return wp_enqueue_style( 'cmbre2-styles' );
-	}
-
-	/**
-	 * Includes CMBRE2 JS
-	 * @since  2.0.0
-	 */
-	public static function enqueue_cmb_js() {
-		if ( ! apply_filters( 'cmbre2_enqueue_js', true ) ) {
-			return false;
-		}
-
-		self::register_scripts();
-		wp_enqueue_media();
-		return wp_enqueue_script( 'cmbre2-scripts' );
 	}
 
 }

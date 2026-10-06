@@ -4,7 +4,6 @@
 	var roboSliders 		= document.getElementsByClassName('robo-gallery-slider-container');	
 
 	if( roboSliders == null || roboSliders.length < 1 ){
-		console.log('RoboGallery :: Slider :: sliders not found');
 		return ;
 	}
 

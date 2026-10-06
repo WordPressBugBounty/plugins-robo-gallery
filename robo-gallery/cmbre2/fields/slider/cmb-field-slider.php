@@ -12,9 +12,11 @@
 *      Available only in  https://robosoft.co/robogallery/ 
 */
 
+defined('WPINC') || exit;
+
 
 function jt_cmbre2_slider_field( $metakey, $post_id = 0 ) {
-	echo jt_cmbre2_get_slider_field( $metakey, $post_id );
+	echo wp_kses( jt_cmbre2_get_slider_field( $metakey, $post_id ), cmbre2_form_allowed_html() );
 }
 
 function jt_cmbre2_render_slider_field_callback( $field, $value, $object_id, $object_type, $field_type_object ) {
@@ -25,10 +27,10 @@ function jt_cmbre2_render_slider_field_callback( $field, $value, $object_id, $ob
 ?>
 <div class="form-horizontal">
 	<div class="form-group">
-	    <label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id(); ?>'"><?php echo esc_html(  $field->args('name') ); ?></label>
+	    <label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id() ); ?>'"><?php echo esc_html(  $field->args('name') ); ?></label>
 	    <div class="col-sm-<?php echo $level?'8':'10'; ?>">
 		    <?php 
-		    echo $field_type_object->input( array(
+		    echo wp_kses( $field_type_object->input( array(
 						'name'  => $field_type_object->_name( ),
 						'id'    => $field_type_object->_id( ),
 						'value' => (int) $value,
@@ -38,11 +40,11 @@ function jt_cmbre2_render_slider_field_callback( $field, $value, $object_id, $ob
 						'data-slider-min'=> $field->args('min'),
 						'data-slider-max'=> $field->args('max'),
 						'data-slider-step'=> $field->args('step')
-					) ); 
-			echo $field->args('addons')?' '.$field->args('addons'):''; ?>
+					) ), cmbre2_form_allowed_html() ); 
+			echo $field->args('addons')?' '.esc_html($field->args('addons')):''; ?>
 	    </div>
 	    <?php if($level){ ?>
-			<div class="col-sm-2 rbs-block-pro"><?php echo ROBO_GALLERY_LABEL_PRO; ?></div>
+			<div class="col-sm-2 rbs-block-pro"><?php echo wp_kses_post( ROBO_GALLERY_LABEL_PRO ); ?></div>
 		<?php } ?>
 	</div>
 </div>

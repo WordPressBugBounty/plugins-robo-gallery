@@ -1,6 +1,6 @@
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -56,22 +56,11 @@
 			jQuery('#'+el.data('colums-id')).attr('disabled', 'disabled');
 			jQuery('#'+el.data('width-id')).removeAttr('disabled');
 		}
-	}).change();
+	}).trigger('change');
 
-	jQuery('.rbs_action_element').change();
-	jQuery('.rbs_action_element_select').change();
+	jQuery('.rbs_action_element').trigger('change');
+	jQuery('.rbs_action_element_select').trigger('change');
 
-
-	if(!ROBO_GALLERY_TYR){
-		jQuery("#rsg_hover").change( function () {
-			var el = jQuery(this);
-			if(el.val()==2){
-				window['roboGalleryDialog'].dialog("open");
-				el.selectpicker('val', 1);
-			} 
-		});
-	}
-	
 	rbs_init= 0;
 
 	jQuery(document).on("slide slideStop", ".rbs_font_slider.rbs_font_size", function(slideEvt) {
@@ -117,7 +106,10 @@
 			if(type!=0){
 				el.find('.inside').addClass('rbs_disabled_block');
 				if( el.find('.hndle > .rbs_info_clone_text').length==0  ){
-					el.find('.hndle > span').after('<span class="rbs_info_clone_text"> <span class="dashicons dashicons-info"></span> ['+rbs_toolbox_translation.rbs_info_clone_text+']</span>');
+					el.find('.hndle > span').after(
+						jQuery('<span class="rbs_info_clone_text"> <span class="dashicons dashicons-info"></span> </span>')
+							.append(document.createTextNode('[' + rbs_toolbox_translation.rbs_info_clone_text + ']'))
+					);
 				}
 			} else {
 				el.find('.inside').removeClass('rbs_disabled_block');	
@@ -128,6 +120,6 @@
 
 	jQuery('#rsg_options').on("change", function(){
 		rbsAllBlockClass( jQuery(this).val() );
-	}).change();
+	}).trigger('change');
 
 })(jQuery);

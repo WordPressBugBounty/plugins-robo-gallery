@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -49,7 +49,7 @@ class  roboGalleryModuleOptionsSlider extends roboGalleryModuleAbstraction{
 		$this->jsOptions->setValue(
 			'autoplay', 
 			array(
-				'delay' => $this->getMeta( 'delay' ), 
+				'delay' => (int) $this->getMeta( 'delay' ),
 				'disableOnInteraction' => false ,
 			)
 		);
@@ -58,20 +58,25 @@ class  roboGalleryModuleOptionsSlider extends roboGalleryModuleAbstraction{
 
 	public function initSize(){
  		if( !$this->getMeta( 'autoWidth' ) ) {
- 			$width = $this->getMeta('width');
-			$widthStyle = '100%;';
-			if(isset($width['value']) && isset($width['type']) ) $widthStyle = $width['value'].$width['type'];
-			$this->core->element->addElementStyle( 'robo-gallery-slider-block', 'width', $widthStyle );
+			$widthStyle = $this->getSizeStyle( $this->getMeta('width'), array('px', '%'), '100%' );
+			if( $widthStyle ) $this->core->element->addElementStyle( 'robo-gallery-slider-block', 'width', $widthStyle );
 		}
 
 		if( !$this->getMeta( 'autoHeight' ) ) {
-			$height = $this->getMeta('height');
-			$heightCss = '100vh;';
-			if(isset($height['value']) && isset($height['type']) ) $heightCss = $height['value'].$height['type'];			
-			$this->core->element->addElementStyle( 'robo-gallery-slider-block', 'height', $heightCss );
+			$heightCss = $this->getSizeStyle( $this->getMeta('height'), array('px', '%', 'vh'), '100vh' );
+			if( $heightCss ) $this->core->element->addElementStyle( 'robo-gallery-slider-block', 'height', $heightCss );
 		}
 
  	}
+
+	/* width/height are saved as-is by the fields framework (no cb_sanitize),
+	   so only a number plus a unit offered by the field may reach the style attribute.
+	   An invalid stored value yields no style, same as the browser dropping invalid CSS before. */
+	private function getSizeStyle( $size, $allowedUnits, $default ){
+		if( !isset($size['value']) || !isset($size['type']) ) return $default;
+		if( !is_numeric($size['value']) || !in_array($size['type'], $allowedUnits, true) ) return '';
+		return (float) $size['value'] . $size['type'];
+	}
 
 
  	public function initPreload(){

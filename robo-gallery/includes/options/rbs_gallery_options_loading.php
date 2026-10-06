@@ -91,7 +91,7 @@ $loading_group->add_field( array(
 
 $loading_group->add_field( array(
     'name'    => __('Loading Label','robo-gallery'),
-    'default' => 'Loading...',
+    'default' => __('Loading...', 'robo-gallery'),
     'id'	  => ROBO_GALLERY_PREFIX .'LoadingWord',
     'type'    => 'rbstext',
     'before_row' 	=> '
@@ -101,14 +101,14 @@ $loading_group->add_field( array(
 
 $loading_group->add_field( array(
     'name'    => __('Load More Label','robo-gallery'),
-    'default' => 'Load More',
+    'default' => __('Load More', 'robo-gallery'),
     'id'	  => ROBO_GALLERY_PREFIX .'loadMoreWord',
     'type'    => 'rbstext'
 ));
 
 $loading_group->add_field( array(
     'name'    => __('No More Entries Label','robo-gallery'),
-    'default' => 'No More Entries',
+    'default' => __('No More Entries', 'robo-gallery'),
     'id'	  => ROBO_GALLERY_PREFIX .'noMoreEntriesWord',
     'type'    => 'rbstext',
     'after_row'		=>'

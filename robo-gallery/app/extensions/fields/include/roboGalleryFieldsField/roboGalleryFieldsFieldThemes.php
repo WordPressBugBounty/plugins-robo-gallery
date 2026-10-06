@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -38,9 +38,8 @@ class roboGalleryFieldsFieldThemes extends roboGalleryFieldsField{
 			'author'	   => '',
 			'author_name'	   => '',*/
 			'post_status'      => 'publish',
-			'suppress_filters' => true 
-
-		); 
+			// get_posts() suppresses filters by default: no explicit 'suppress_filters' needed
+		);
 		$themes = get_posts($args);
 
 		if( !count($themes) ) $themes =array();

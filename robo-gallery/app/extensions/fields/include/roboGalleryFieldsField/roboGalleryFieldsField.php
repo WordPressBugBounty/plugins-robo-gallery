@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -192,11 +192,6 @@ class roboGalleryFieldsField{
 			'fields' => null,
 		);
 
-		if ($this->isLock) {
-			//$data['name'] = null;
-			//$data['value'] = null;
-		}
-
 		foreach ($this->attributes as $attrName => $attrValue) {
 			$attrValue = is_array($attrValue)
 				? implode(' ', array_map('esc_attr', $attrValue))
@@ -276,20 +271,83 @@ class roboGalleryFieldsField{
 			if ( method_exists( $this, $this->cbSanitize ) ) {
 				$value = call_user_func( array($this, $this->cbSanitize), $value);
 			}
+
+			return $value;
 		}
 
-		return $value;
+		return $this->sanitizeByType($value);
+	}
+
+
+	/**
+	 * Fields without cb_sanitize: the value comes straight from $_POST (and is
+	 * shown again in the editor), so clean it by field type - radio/select keep
+	 * only one of their configured values, textarea keeps line breaks, the rest
+	 * is plain text. null (not submitted) stays null.
+	 */
+	protected function sanitizeByType($value){
+		if (null === $value) {
+			return null;
+		}
+
+		// composite values: each part is cleaned by its own sub-field on save
+		if (is_array($value)) {
+			return map_deep($value, 'sanitize_text_field');
+		}
+
+		if (!is_scalar($value)) {
+			return null;
+		}
+
+		$value = (string) $value;
+
+		switch ($this->type) {
+			case 'radio':
+			case 'select':
+				$allowed = $this->getAllowedValues();
+				if (!$allowed) {
+					return sanitize_text_field($value);
+				}
+				return in_array($value, $allowed, true) ? $value : $this->default;
+
+			case 'textarea':
+				return sanitize_textarea_field($value);
+
+			default:
+				return sanitize_text_field($value);
+		}
+	}
+
+
+	/**
+	 * Values of options['values']: radio lists items array('value' => ..),
+	 * select lists value => label. Disabled (Pro) choices stay in the list.
+	 *
+	 * @return string[]
+	 */
+	private function getAllowedValues(){
+		if (empty($this->options['values']) || !is_array($this->options['values'])) {
+			return array();
+		}
+
+		$allowed = array();
+		foreach ($this->options['values'] as $key => $item) {
+			if (is_array($item)) {
+				if (isset($item['value'])) {
+					$allowed[] = (string) $item['value'];
+				}
+			} else {
+				$allowed[] = (string) $key;
+			}
+		}
+
+		return $allowed;
 	}
 
 
 	public function sanitizeDigitArrayAsString($value){
-		 $array = $this->sanitizeArray($value);
-
-		for ($i = 0; $i < count($array); $i++) {
-		$array[$i] = (int) $array[$i];
-		}
-
-		return implode( ',', $array );
+		// by value, not by index 0..n: posted arrays may have other keys
+		return implode( ',', array_map( 'intval', array_values( $this->sanitizeArray($value) ) ) );
 	}
 
 	public function sanitizeArrayAsString($value){

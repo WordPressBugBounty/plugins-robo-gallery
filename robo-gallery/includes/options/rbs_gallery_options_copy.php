@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -11,11 +11,11 @@
 
 if ( ! defined( 'WPINC' ) ) exit;
 
-if( isset($_GET['post']) ) $id = (int) $_GET['post'];
+$id = 0;
+if( isset($_GET['post']) ) $id = absint( $_GET['post'] );
+if( !$id && isset($_POST['post_ID']) ) $id = absint( $_POST['post_ID'] );
 
-if( !isset($id)  && isset($_POST['post_ID']) ) $id= $_POST['post_ID'];
-
-if( !isset($id) || !$id ) return ;
+if( !$id ) return ;
 
 if( get_option( ROBO_GALLERY_PREFIX.'cloneBlock', 0 ) && !get_post_meta( $id,  ROBO_GALLERY_PREFIX.'options', true ) ){
 	return ;	
@@ -40,6 +40,8 @@ $copy_group->add_field(array(
     'desc2' => __( 'Very useful option for the webmasters who planning to create a lot of galleries. You don\'t have to configure it every time. Just setup styles of the gallery in one place and use the same options for another galleries on your website in another galleries.  Very fast, comfortable, advanced tool to speed up your work flow!', 'robo-gallery' ),
     'id'   => ROBO_GALLERY_PREFIX . 'options', 
     'type' => 'rbsgallery',
+    // only galleries the user can edit (see app/extensions/cloneSource/CloneSource.php)
+    'sanitization_cb' => array( '\RoboGallery\app\extensions\cloneSource\CloneSource', 'sanitize' ),
 	'bootstrap_style'=> 1,
 	'default'		=> 0,
     'before_row' 	=> '

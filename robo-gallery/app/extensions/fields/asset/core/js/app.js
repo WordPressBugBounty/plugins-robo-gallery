@@ -1,6 +1,6 @@
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -8,18 +8,77 @@
 *      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
+/*
+ * Fields framework (gallery edit screen). jQuery on purpose: other scripts may
+ * change a field and call jQuery(...).trigger('change') - native listeners would
+ * not see that, the delegated jQuery handler below does.
+ */
 (function ($) {
-    $(document).ready(function () {
-    	
-        $(document).foundation();
+    'use strict';
 
-        $('[data-dependents]').on('change', function () {
+    // fallback for browsers / non-HTTPS admins without the async clipboard API
+    function copyWithSelection(text) {
+        var $field = $('<textarea readonly></textarea>')
+                .val(text)
+                .css({ position: 'absolute', left: '-9999px' })
+                .appendTo(document.body),
+            copied = false;
+
+        $field[0].select();
+        try {
+            copied = document.execCommand('copy');
+        } catch (e) {}
+        $field.remove();
+
+        return copied;
+    }
+
+    var copiedTimer = null;
+
+    // "Gallery Shortcode" box (config/metabox/shortcode.php)
+    function copyShortcode($button) {
+        var text = $button.attr('data-shortcode') || '',
+            $message = $button.siblings('.robo-gallery-shortcode-copied');
+
+        function done() {
+            $message.text($button.attr('data-copied') || '');
+            clearTimeout(copiedTimer);
+            copiedTimer = setTimeout(function () { $message.text(''); }, 3000);
+        }
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(done, function () {
+                if (copyWithSelection(text)) {
+                    done();
+                }
+            });
+            return;
+        }
+
+        if (copyWithSelection(text)) {
+            done();
+        }
+    }
+
+    $(function () {
+
+        if ('function' === typeof $.fn.foundation) {
+            $(document).foundation();
+        }
+
+        // data-dependents='{"<value>": {"show": ["#id"], "hide": [...]}}' - the keys are jQuery methods
+        $(document).on('change', '[data-dependents]', function () {
             var $this = $(this),
-                attrDependents = $this.attr('data-dependents'),
-                dependents = attrDependents ? JSON.parse(attrDependents) : {},
                 tag = this.nodeName.toLowerCase(),
                 type = 'input' === tag ? $this.attr('type') : tag,
-                value = undefined;
+                dependents = {},
+                value;
+
+            try {
+                dependents = JSON.parse($this.attr('data-dependents') || '{}') || {};
+            } catch (e) {
+                return;
+            }
 
             switch (type) {
                 case 'checkbox':
@@ -31,34 +90,32 @@
                     break;
             }
 
-            if (dependents[value]) {
-                $.each(dependents[value], function (action, selectors) {
-                    $.each(selectors, function (i, selector) {
-                        if ($.isFunction($(selector)[action])) {
-                            $(selector)[action]();
-                        }
-                    })
-                });
+            if (!dependents[value]) {
+                return;
             }
-        });
-        
-        $('.twoj-gallery-option-new').click( function(evn){
-        	evn.preventDefault();
+
+            $.each(dependents[value], function (action, selectors) {
+                $.each(selectors, function (i, selector) {
+                    var $target = $(selector);
+                    if ('function' === typeof $target[action]) {
+                        $target[action]();
+                    }
+                });
+            });
         });
 
-        //$('input[type="checkbox"][data-dependents]:checked').trigger('change');
+        $(document).on('click', '.robo-gallery-shortcode-copy', function () {
+            copyShortcode($(this));
+        });
+
+        // the "New Feature" label is a <button> inside the post form: don't submit it
+        $(document).on('click', '.twoj-gallery-option-new', function (event) {
+            event.preventDefault();
+        });
+
+        // initial state: every checkbox, the checked radio of each group, every select
         $('input[type="checkbox"][data-dependents]').trigger('change');
         $('input[type="radio"][data-dependents]:checked').trigger('change');
         $('select[data-dependents]').trigger('change');
-
-
-        
-
-		/*jQuery(".ui-dialog-titlebar-close").addClass("ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close");
-		
-		jQuery('.twoj-gallery-option-premium').click( function(event ){
-			event.preventDefault();
-			twoJgalleryDialogOptions.dialog("open");
-		});*/
     });
 })(jQuery);

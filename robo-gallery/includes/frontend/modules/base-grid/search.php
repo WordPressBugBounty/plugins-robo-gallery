@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -26,7 +26,7 @@ class  roboGalleryModuleSearchV1 extends roboGalleryModuleAbstraction{
 		$this->core->addEvent('scss.initVariables', 	array($this, 'initVariables'));
 		$this->core->addEvent('scss.initContent', 		array($this, 'initContent'));
  				
-		$searchColor = get_post_meta( $this->gallery->id,  ROBO_GALLERY_PREFIX.'searchColor', true );
+		$searchColor = \RoboGallery\app\extensions\validation\CssColor::sanitize( get_post_meta( $this->gallery->id,  ROBO_GALLERY_PREFIX.'searchColor', true ) );
 		if($searchColor){
 			$this->scssVar['searchColor'] = $searchColor;
 			$this->scssContent .= ' 
@@ -46,7 +46,7 @@ class  roboGalleryModuleSearchV1 extends roboGalleryModuleAbstraction{
 		/* Search gallery item block */
 		$retHtml .= '<div class="rbs_search_wrap">';
 			$searchLabel = get_post_meta( $this->gallery->id,  ROBO_GALLERY_PREFIX.'searchLabel', true );
-			$retHtml .= '<input type="text" class="rbs-search" placeholder="'.$searchLabel.'" />';
+			$retHtml .= '<input type="text" class="rbs-search" placeholder="'.esc_attr($searchLabel).'" />';
 		$retHtml .= '</div>';
 
 		/* Setup  gallery */

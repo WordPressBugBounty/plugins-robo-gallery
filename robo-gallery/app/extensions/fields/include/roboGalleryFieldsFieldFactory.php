@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -21,8 +21,6 @@ class roboGalleryFieldsFieldFactory{
 		if (empty($settings['type'])) {
 			throw new Exception('Empty field type');
 		}
-		
-	/*	if($settings['type']=='skip') return ;*/
 
 		if (empty($settings['view'])) {
 			throw new Exception('Empty field view');

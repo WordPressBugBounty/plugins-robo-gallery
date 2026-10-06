@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -11,11 +11,21 @@
 
 if ( ! defined( 'WPINC' ) ) exit;
 
-function rbs_gallery_group_metabox() {
-
+if ( ! function_exists( 'rbs_gallery_set_checkbox_default_for_new_post' ) ) {
+	/**
+	 * Field default for a new gallery only: on the edit screen of an existing
+	 * gallery a missing value stays empty (switch off) instead of the default.
+	 * Also used by the Pro field files of the robogallerykey plugin - keep the name.
+	 *
+	 * @param mixed $default
+	 * @return string
+	 */
 	function rbs_gallery_set_checkbox_default_for_new_post( $default ) {
 		return rbs_gallery_is_edit_page('edit') ? '' : ( $default ? (string) $default : '' );
 	}
+}
+
+function rbs_gallery_group_metabox() {
 
 	if( rbs_gallery_is_edit_page('edit') ){
 		rbs_gallery_include('rbs_gallery_options_copy.php', ROBO_GALLERY_OPTIONS_PATH);	
@@ -25,19 +35,11 @@ function rbs_gallery_group_metabox() {
         'cache.php',
         'voting.php',
 		'rbs_gallery_options_guides.php',
-		'rbs_gallery_options_type.php',
 
 	), ROBO_GALLERY_OPTIONS_PATH);
 
-    if( rbs_gallery_is_edit_page('edit') ){
-    	rbs_gallery_include( array(
-    			'rbs_gallery_options_shortcode.php',
-    		), ROBO_GALLERY_OPTIONS_PATH);
-    }
-
-    rbs_gallery_include( array(
-		'rbs_gallery_options_text.php',
-	), ROBO_GALLERY_OPTIONS_PATH);
+	// "Gallery Shortcode" and "Text Addons" are fields-framework boxes now:
+	// app/extensions/fields/config/metabox/shortcode.php, text_addons.php
 
     if( defined( "ROBO_GALLERY_TYR" ) && ROBO_GALLERY_TYR  ) {
 

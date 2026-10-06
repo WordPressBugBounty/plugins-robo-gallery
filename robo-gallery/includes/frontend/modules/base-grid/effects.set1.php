@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -49,13 +49,13 @@ class  roboGalleryModuleEffectSet1 extends roboGalleryModuleAbstraction{
 		
 		$hoverHTML =  str_replace( 
 			array('@TITLE@','@CAPTION@','@DESC@', '@LINK@', '@VIDEOLINK@'), 
-			array( 
-				$this->internoetics_mb_strimwidth( $item['data']->post_title, 0, 25),
-				$item['data']->post_excerpt,
-				$item['data']->post_content,
-				$item['link'],
-				$item['videolink'],
-			), 
+			array(
+				esc_html( $this->internoetics_mb_strimwidth( $item['data']->post_title, 0, 25) ),
+				esc_html( $item['data']->post_excerpt ),
+				esc_html( $item['data']->post_content ),
+				esc_attr( $item['link'] ),
+				esc_attr( $item['videolink'] ),
+			),
 			$hoverHTML
 		);
 		return $hoverHTML;

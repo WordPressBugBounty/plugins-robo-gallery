@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -9,8 +9,10 @@
 *      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
+defined('WPINC') || exit;
+
 function jt_cmbre2_colums_field( $metakey, $post_id = 0 ) {
-	echo jt_cmbre2_get_colums_field( $metakey, $post_id );
+	echo wp_kses( jt_cmbre2_get_colums_field( $metakey, $post_id ), cmbre2_form_allowed_html() );
 }
 
 function jt_cmbre2_render_colums_field_callback( $field, $value, $object_id, $object_type, $field_type_object ) {
@@ -55,38 +57,38 @@ function jt_cmbre2_render_colums_field_callback( $field, $value, $object_id, $ob
 						<td class="<?php echo $level?' rbs_disabled':''; ?>"><?php
 						echo 
 							'<input type="checkbox" data-toggle="toggle" data-onstyle="info" class="rbs_colums_auto" ' 
-							.'name="'.$field_type_object->_name( '[autowidth]' ).'" '
-							.'id="'. $field_type_object->_id( '_autowidth' ).'" '
+							.'name="'.esc_attr( $field_type_object->_name( '[autowidth]' ) ).'" '
+							.'id="'.esc_attr( $field_type_object->_id( '_autowidth' ) ).'" '
 							.( isset($value['autowidth']) ?' checked ':'')
 							.'value="auto" '
-							.'data-width-id="'.$field_type_object->_id( '_width' ).'" '
-							.'data-colums-id="'.$field_type_object->_id( '_colums' ).'" '
+							.'data-width-id="'.esc_attr( $field_type_object->_id( '_width' ) ).'" '
+							.'data-colums-id="'.esc_attr( $field_type_object->_id( '_colums' ) ).'" '
 							.'>';
 						 ?></td>
 						 <td  class="<?php echo $level?' rbs_disabled':''; ?>">
 						 	<?php
-							echo $field_type_object->input( array(
+							echo wp_kses( $field_type_object->input( array(
 								'name'  => $field_type_object->_name( '[width]' ),
 								'id'    => $field_type_object->_id( '_width' ),
 								'value' => (int) $value['width'],
 								'type'  => 'text',
 								'class' => 'small-text'
-							) );
+							) ), cmbre2_form_allowed_html() );
 							 ?> px
 						</td>
 						<td class="<?php echo $level?' rbs_disabled':''; ?>">
 							<?php
-							echo $field_type_object->input( array(
+							echo wp_kses( $field_type_object->input( array(
 								'name'  => $field_type_object->_name( '[colums]' ),
 								'id'    => $field_type_object->_id( '_colums' ),
 								'value' => (int) $value['colums'],
 								'type'  => 'text',
 								'class' => 'small-text'
-							) );
+							) ), cmbre2_form_allowed_html() );
 							 ?>
 						</td>
 						<?php if($level){ ?>
-							<td  class="vert-align rbs-block-pro" ><?php echo ROBO_GALLERY_ICON_PRO; ?></td>
+							<td  class="vert-align rbs-block-pro" ><?php echo wp_kses_post( ROBO_GALLERY_ICON_PRO ); ?></td>
 						<?php } ?>
 					</tr>
 					<tr>
@@ -94,38 +96,38 @@ function jt_cmbre2_render_colums_field_callback( $field, $value, $object_id, $ob
 						<td  class="<?php echo $level?' rbs_disabled':''; ?>"><?php
 						echo 
 							'<input type="checkbox" data-toggle="toggle" data-onstyle="info" class="rbs_colums_auto" ' 
-							.'name="'.$field_type_object->_name( '[autowidth1]' ).'" '
-							.'id="'. $field_type_object->_id( '_autowidth1' ).'" '
+							.'name="'.esc_attr( $field_type_object->_name( '[autowidth1]' ) ).'" '
+							.'id="'.esc_attr( $field_type_object->_id( '_autowidth1' ) ).'" '
 							.( isset($value['autowidth1']) ?' checked ':'')
 							.'value="auto" '
-							.'data-width-id="'.$field_type_object->_id( '_width1' ).'" '
-							.'data-colums-id="'.$field_type_object->_id( '_colums1' ).'" '
+							.'data-width-id="'.esc_attr( $field_type_object->_id( '_width1' ) ).'" '
+							.'data-colums-id="'.esc_attr( $field_type_object->_id( '_colums1' ) ).'" '
 							.'>';
 						 ?></td>
 						 <td  class="<?php echo $level?' rbs_disabled':''; ?>">
 						 	<?php
-							echo $field_type_object->input( array(
+							echo wp_kses( $field_type_object->input( array(
 								'name'  => $field_type_object->_name( '[width1]' ),
 								'id'    => $field_type_object->_id( '_width1' ),
 								'value' => (int) $value['width1'],
 								'type'  => 'text',
 								'class' => 'small-text'
-							) );
+							) ), cmbre2_form_allowed_html() );
 							 ?> px
 						</td>
 						<td class="<?php echo $level?' rbs_disabled':''; ?>">
 							<?php
-							echo $field_type_object->input( array(
+							echo wp_kses( $field_type_object->input( array(
 								'name'  => $field_type_object->_name( '[colums1]' ),
 								'id'    => $field_type_object->_id( '_colums1' ),
 								'value' => (int) $value['colums1'],
 								'type'  => 'text',
 								'class' => 'small-text'
-							) );
+							) ), cmbre2_form_allowed_html() );
 							 ?>
 						</td>
 						<?php if($level){ ?>
-							<td  class="vert-align rbs-block-pro" ><?php echo ROBO_GALLERY_ICON_PRO; ?></td>
+							<td  class="vert-align rbs-block-pro" ><?php echo wp_kses_post( ROBO_GALLERY_ICON_PRO ); ?></td>
 						<?php } ?>
 					</tr>
 					<tr>
@@ -133,38 +135,38 @@ function jt_cmbre2_render_colums_field_callback( $field, $value, $object_id, $ob
 						<td class="<?php echo $level?' rbs_disabled':''; ?>"><?php
 						echo 
 							'<input type="checkbox" data-toggle="toggle" data-onstyle="info" class="rbs_colums_auto" ' 
-							.'name="'.$field_type_object->_name( '[autowidth2]' ).'" '
-							.'id="'. $field_type_object->_id( '_autowidth2' ).'" '
+							.'name="'.esc_attr( $field_type_object->_name( '[autowidth2]' ) ).'" '
+							.'id="'.esc_attr( $field_type_object->_id( '_autowidth2' ) ).'" '
 							.(  isset($value['autowidth2']) ?' checked ':'')
 							.'value="auto" '
-							.'data-width-id="'.$field_type_object->_id( '_width2' ).'" '
-							.'data-colums-id="'.$field_type_object->_id( '_colums2' ).'" '
+							.'data-width-id="'.esc_attr( $field_type_object->_id( '_width2' ) ).'" '
+							.'data-colums-id="'.esc_attr( $field_type_object->_id( '_colums2' ) ).'" '
 							.'>';
 						 ?></td>
 						 <td class="<?php echo $level?' rbs_disabled':''; ?>">
 						 	<?php
-							echo $field_type_object->input( array(
+							echo wp_kses( $field_type_object->input( array(
 								'name'  => $field_type_object->_name( '[width2]' ),
 								'id'    => $field_type_object->_id( '_width2' ),
 								'value' => (int) $value['width2'],
 								'type'  => 'text',
 								'class' => 'small-text'
-							) );
+							) ), cmbre2_form_allowed_html() );
 							 ?> px
 						</td>
 						<td class="<?php echo $level?' rbs_disabled':''; ?>">
 							<?php
-							echo $field_type_object->input( array(
+							echo wp_kses( $field_type_object->input( array(
 								'name'  => $field_type_object->_name( '[colums2]' ),
 								'id'    => $field_type_object->_id( '_colums2' ),
 								'value' => (int) $value['colums2'],
 								'type'  => 'text',
 								'class' => 'small-text'
-							) );
+							) ), cmbre2_form_allowed_html() );
 							 ?>
 						</td>
 						<?php if($level){ ?>
-							<td  class="vert-align rbs-block-pro" ><?php echo ROBO_GALLERY_ICON_PRO; ?></td>
+							<td  class="vert-align rbs-block-pro" ><?php echo wp_kses_post( ROBO_GALLERY_ICON_PRO ); ?></td>
 						<?php } ?>
 					</tr>
 					<tr>
@@ -172,34 +174,34 @@ function jt_cmbre2_render_colums_field_callback( $field, $value, $object_id, $ob
 						<td><?php
 						echo 
 							'<input type="checkbox" data-toggle="toggle" data-onstyle="info" class="rbs_colums_auto" ' 
-							.'name="'.$field_type_object->_name( '[autowidth3]' ).'" '
-							.'id="'. $field_type_object->_id( '_autowidth3' ).'" '
+							.'name="'.esc_attr( $field_type_object->_name( '[autowidth3]' ) ).'" '
+							.'id="'.esc_attr( $field_type_object->_id( '_autowidth3' ) ).'" '
 							.(  isset($value['autowidth3']) ?' checked ':'')
 							.'value="auto" '
-							.'data-width-id="'.$field_type_object->_id( '_width3' ).'" '
-							.'data-colums-id="'.$field_type_object->_id( '_colums3' ).'" '
+							.'data-width-id="'.esc_attr( $field_type_object->_id( '_width3' ) ).'" '
+							.'data-colums-id="'.esc_attr( $field_type_object->_id( '_colums3' ) ).'" '
 							.'>';
 						 ?></td>
 						 <td>
 						 	<?php
-							echo $field_type_object->input( array(
+							echo wp_kses( $field_type_object->input( array(
 								'name'  => $field_type_object->_name( '[width3]' ),
 								'id'    => $field_type_object->_id( '_width3' ),
 								'value' => (int) $value['width3'],
 								'type'  => 'text',
 								'class' => 'small-text'
-							) );
+							) ), cmbre2_form_allowed_html() );
 							 ?> px
 						</td>
 						<td>
 							<?php
-							echo $field_type_object->input( array(
+							echo wp_kses( $field_type_object->input( array(
 								'name'  => $field_type_object->_name( '[colums3]' ),
 								'id'    => $field_type_object->_id( '_colums3' ),
 								'value' => (int) $value['colums3'],
 								'type'  => 'text',
 								'class' => 'small-text'
-							) );
+							) ), cmbre2_form_allowed_html() );
 							 ?>
 						</td>
 						<?php if($level){ ?>
@@ -213,7 +215,7 @@ function jt_cmbre2_render_colums_field_callback( $field, $value, $object_id, $ob
 
 </div>
 	<?php
-	echo $field_type_object->_desc( true );
+	echo wp_kses_post( $field_type_object->_desc( true ) );
 
 }
 add_filter( 'cmbre2_render_colums', 'jt_cmbre2_render_colums_field_callback', 10, 5 );

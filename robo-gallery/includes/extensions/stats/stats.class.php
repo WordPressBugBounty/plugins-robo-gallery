@@ -35,8 +35,12 @@ class ROBO_GALLERY_STATS{
 				(function ($, undefined){
 
 					$(document).ready(function() {
+				        // the label goes in as text: a translation may contain quotes
 				        $(".wp-admin.edit-php.post-type-robo_gallery_table .wrap .page-title-action:last").
-				        	after("<a href='edit.php?post_type=robo_gallery_table&page=robo-gallery-stats' id='rbs_stats_button' class='page-title-action'><?php _e('Statistics Gallery', 'robo-gallery'); ?></a>");
+				        	after(
+				        		$("<a href='edit.php?post_type=robo_gallery_table&page=robo-gallery-stats' id='rbs_stats_button' class='page-title-action'></a>")
+				        			.text(<?php echo wp_json_encode(__('Statistics Gallery', 'robo-gallery')); ?>)
+				        	);
 				    });
 					
 				}(jQuery));

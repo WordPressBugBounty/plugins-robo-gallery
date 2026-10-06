@@ -164,7 +164,8 @@
     };
 
     function DialogError(message) {
-        this.$element = $('<div id="hierarchy-post-error">' + message + '</div>');
+        // the response body is shown as text: on a failure it can be any page (PHP error, proxy)
+        this.$element = $('<div id="hierarchy-post-error"></div>').text(message);
         this.show()
     }
     DialogError.prototype = {

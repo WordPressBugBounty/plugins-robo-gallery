@@ -1,49 +1,59 @@
 /*
-*      Robo Gallery     
-*      Version: 1.0.4
-*      By Robosoft
-*
-*      Contact: https://robosoft.co/robogallery/ 
-*      Created: 2015
-*      Licensed under the GPLv2 license - http://opensource.org/licenses/gpl-2.0.php
-*
-*      Copyright (c) 2014-2019, Robosoft. All rights reserved.
-*      Available only in  https://robosoft.co/robogallery/ 
-*/
+ * "Add Robo Gallery" button above the classic editor: opens the gallery picker
+ * dialog (printed once per page, RoboGallery\app\extensions\editorButton\EditorButton)
+ * and inserts the shortcode into the editor whose button was clicked.
+ */
+jQuery(function ($) {
+	var vars = window.robo_gallery_trans || {};
+	var dialog = $('#' + vars.dialogId);
+	var editorId = '';
 
-jQuery(function(){
-	var roboGalleryDialog = jQuery("#robo-gallery").appendTo("body");
-	roboGalleryDialog.dialog({
-		'dialogClass' : 'wp-dialog',
-		'title': robo_gallery_trans.roboGalleryTitle,
-		'modal' : true,
-		'autoOpen' : false,
-		'width': 'auto', // overcomes width:'auto' and maxWidth bug
-	    'maxWidth': 700,
-	    'height': 'auto',
-	    'fluid': true, 
-	    'resizable': false,
-		'responsive': true,
-		'draggable': false,
-		'closeOnEscape' : true,
-		'buttons' : [{
-				'text' : robo_gallery_trans.closeButton,
-				'class' : 'button-default',
-				'click' : function() { jQuery(this).dialog('close'); }
-		},{
-				'text' : robo_gallery_trans.insertButton,
-				'class' : 'button-primary',
-				'click' : function() { 
-					var galleryId = jQuery('#page_id', roboGalleryDialog).val();
-					window.parent.send_to_editor('[robo-gallery id="'+galleryId+'"]');
-        			window.parent.tb_remove();
-					jQuery(this).dialog('close'); 
+	if (!dialog.length) {
+		return;
+	}
+
+	function selectedGalleryId() {
+		return parseInt($('#robo-gallery-editor-id', dialog).val(), 10) || 0;
+	}
+
+	dialog.appendTo('body').dialog({
+		dialogClass: 'wp-dialog',
+		title: vars.roboGalleryTitle,
+		modal: true,
+		autoOpen: false,
+		width: 'auto',
+		maxWidth: 700,
+		height: 'auto',
+		resizable: false,
+		draggable: false,
+		closeOnEscape: true,
+		buttons: [{
+			text: vars.closeButton,
+			'class': 'button-default',
+			click: function () {
+				$(this).dialog('close');
+			}
+		}, {
+			text: vars.insertButton,
+			'class': 'button-primary',
+			click: function () {
+				var galleryId = selectedGalleryId();
+
+				if (galleryId) {
+					// send_to_editor (media-upload.js) inserts into wpActiveEditor
+					if (editorId) {
+						window.wpActiveEditor = editorId;
+					}
+					window.send_to_editor('[robo-gallery id="' + galleryId + '"]');
 				}
-		}],
-		open: function( event, ui ) {}
+				$(this).dialog('close');
+			}
+		}]
 	});
-	jQuery(document).on( 'click', '#insert-robo-gallery', function(event) { 
-		roboGalleryDialog.dialog('open'); 
-		return false; 
+
+	$(document).on('click', '.robo-gallery-insert', function (event) {
+		event.preventDefault();
+		editorId = $(this).attr('data-editor') || '';
+		dialog.dialog('open');
 	});
 });

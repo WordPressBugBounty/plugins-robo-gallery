@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -21,9 +21,7 @@ class roboGalleryModuleCore{
 	public $element 	= null;
 	public $jsOptions 	= null;
 	public $assets 		= null;
-	public $stats 		= null;
 	public $cache 		= null;
-	public $cacheDB 	= null;
 
 	public $source 		= null;
 
@@ -44,14 +42,12 @@ class roboGalleryModuleCore{
 		$this->source 		= new roboGalleryModuleSource( $this );
 
 		$this->cache 		= new roboGalleryModuleCache( $this );
-		$this->cacheDB 		= new roboGalleryModuleCacheDB( $this );
 
 		$this->scssCompiler = new roboGalleryScss( $this );
 		$this->element 		= new roboGalleryModuleElement( $this );
 
 		$this->jsOptions 	= new roboGalleryModuleJsOptions( $this );
 
-		$this->stats 		= new roboGalleryModuleStats( $this );
 		
 		$this->modules['addtexts'] 	= new roboGalleryModuleAddTexts( $this );
 		$this->modules['customcss'] = new roboGalleryModuleCustomCss( $this );

@@ -1,5 +1,13 @@
 <?php
-/* @@copyright@ */
+/* 
+*      Robo Gallery     
+*      Version: 5.2.6 - 24868
+*      By Robosoft
+*
+*      Contact: https://robogallery.co/ 
+*      Created: 2025
+*      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
+ */
 
 namespace RoboGallery\app;
 
@@ -8,31 +16,24 @@ if (! defined('WPINC')) {
 }
 
 /**
- * Interface PluginConstants
- * Defines all plugin-wide constants in one place.
- *
- * This ensures consistency and avoids duplication across classes.
+ * Plugin-wide keys of stored data and URLs (meta keys, option names, query
+ * vars) - one place, so they are never spelled twice. The gallery post type
+ * itself is ROBO_GALLERY_TYPE_POST (robogallery.php).
  */
 interface PluginConstants
 {
     /**
-     * Main constants
-     */
-    /* IMPORTANT it's duplicate  */
-    public const TYPE_POST = 'robo_gallery_table'; // Gallery custom post type name — used in register_post_type
-
-    /**
      * Meta key constants
      */
     public const OPTIONS_KEY = 'robo-gallery-options'; // Meta key for gallery options (from v5)
+    public const VIEWS_META_KEY = 'gallery_views_count'; // Meta key for the gallery view counter (stats\ViewCounter)
 
     /**
      * Access mode constants
      */
-    public const ACCESS_MODE_PRIVATE = 'accessModePrivate';  // Meta key value for private access mode
-    public const ACCESS_MODE_PASSWORD = 'accessModePassword';  // Meta key value for password access mode
-    public const ACCESS_MODE_TOKEN = 'accessModeToken';  // Meta key value for  token access mode
-    public const TOKEN_META_KEY      = '_robogallery_token'; // Meta key for generated token
+    public const ACCESS_DIRECT_LINK_ONLY = 'accessDirectLinkOnly'; // Option: hidden from listings, opens only by its own link
+    public const ACCESS_REQUIRE_TOKEN    = 'accessRequireToken';   // Option: link-only gallery opens only with the token in its URL
+    public const TOKEN_META_KEY          = '_robogallery_token';   // Meta key for generated token
 
     /**
      * Options constants
@@ -42,10 +43,6 @@ interface PluginConstants
     /**
      * Query var constants
      */
-    public const QUERY_VAR_TOKEN = 'robogallery_token'; // Query var name for token in URL
-
-    /**
-     * Rewrite rule constants
-     */
-    public const REWRITE_BASE = 'gallery'; // Rewrite rule constants
+    public const QUERY_VAR_TOKEN = 'rg_token'; // Token query var: share link, ?rg_token= and the REST param
+    public const SHARE_PATH      = 'share/t';  // Pretty share link: /<gallery base>/share/t/<token>/
 }

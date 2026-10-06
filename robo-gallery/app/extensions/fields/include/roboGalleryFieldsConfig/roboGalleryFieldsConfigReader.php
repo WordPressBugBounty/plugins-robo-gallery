@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -11,17 +11,18 @@
 
 class roboGalleryFieldsConfigReader implements roboGalleryFieldsConfigReaderInterface{
 
-	protected $allowedExtensions = array('json', 'php', 'xml', 'yml');
+	// only roboGalleryFieldsConfigReaderPhp exists: another extension would be a fatal error
+	protected $allowedExtensions = array('php');
 
 	public function read($filePath){
 		if (!file_exists($filePath)) {
-			throw new Exception(sprintf( 'Configuration file is absent. File: %s.', $filePath));
+			throw new Exception(sprintf('Configuration file is absent. File: %s.', esc_html($filePath)));
 		}
 
 		preg_match('/\.([a-z0-9]+)$/', $filePath, $match);
 		$extension = isset($match[1]) ? $match[1] : null;
 		if (!in_array($extension, $this->allowedExtensions)) {
-			throw new Exception(sprintf( 'Wrong file extension. File: %s.', $filePath));
+			throw new Exception(sprintf('Wrong file extension. File: %s.', esc_html($filePath)));
 		}
 
 		return $this->createReaderFormat($extension)->read($filePath);

@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -12,7 +12,10 @@
 if ( ! defined( 'WPINC' ) ) exit;
 
 class ROBO_GALLERY_CATEGORY{
-   
+
+    // Pro allows up to 20 nested levels (see build_tree in the REST gallery model)
+    const MAX_HIERARCHY_DEPTH = 25;
+
     protected $postType;
     
     protected $galleryType;
@@ -77,14 +80,14 @@ class ROBO_GALLERY_CATEGORY{
             'hierarchy-post-attributes-nestable-js',
             $this->assetsUri . 'js/jquery.nestable.js',
             array('jquery-ui-dialog'),
-            false,
+            ROBO_GALLERY_VERSION,
             true
         );
         wp_enqueue_script(
             'hierarchy-post-attributes-js',
             $this->assetsUri . 'js/script.js',
             array('jquery-ui-dialog', 'hierarchy-post-attributes-nestable-js'),
-            false,
+            ROBO_GALLERY_VERSION,
             true
         );
 
@@ -107,10 +110,10 @@ class ROBO_GALLERY_CATEGORY{
                     ),
                     'button' => array(
                         'save' => array(
-                            'label' => __('Save')
+                            'label' => __('Save') // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress
                         ),
                         'cancel' => array(
-                            'label' => __('Cancel')
+                            'label' => __('Cancel') // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress
                         )
                     ),
                     'action' => array(
@@ -119,10 +122,10 @@ class ROBO_GALLERY_CATEGORY{
                     ),
                 ),
                 'error' => array(
-                    'title' => __('Error'),
+                    'title' => __('Error'), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress
                     'button' => array(
                         'ok' => array(
-                            'label' => __('OK')
+                            'label' => __('OK') // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress
                         ),
                     )
                 )
@@ -144,13 +147,13 @@ class ROBO_GALLERY_CATEGORY{
         
 
         if( !defined('ROBO_GALLERY_TYR') || ROBO_GALLERY_TYR !== 1){
-            echo wp_sprintf( 
-                '<strong>%s</strong><br/> %s  <a target="_blank" href="%s">%s</a>', 
-                __('The free version allows up to 3 nested albums.', 'robo-gallery'),
-                __('For more, please upgrade to the ', 'robo-gallery'),
-                'https://www.robogallery.co/#pricing',
-                __('Pro version', 'robo-gallery')
-            );
+            echo wp_kses_post( wp_sprintf(
+                '<strong>%s</strong><br/> %s  <a target="_blank" href="%s">%s</a>',
+                esc_html__('The free version allows up to 3 nested albums.', 'robo-gallery'),
+                esc_html__('For more, please upgrade to the ', 'robo-gallery'),
+                esc_url('https://www.robogallery.co/#pricing'),
+                esc_html__('Pro version', 'robo-gallery')
+            ) );
             echo '<br/>';
         }
 
@@ -165,16 +168,16 @@ class ROBO_GALLERY_CATEGORY{
 		        $path[] = __('Root Gallery', 'robo-gallery').' >>';
 		        $path = array_reverse($path);
 		        ?>
-            <input type="hidden" name="parent_id" value="<?php echo $directParentId; ?>">
+            <input type="hidden" name="parent_id" value="<?php echo (int) $directParentId; ?>">
 
             <?php foreach ($path as $index => $postTitle) : ?>
-                <p><?php echo str_repeat('&nbsp;', $index * 4); ?><?php echo esc_attr($postTitle); ?></p>
+                <p><?php echo str_repeat('&nbsp;', (int) $index * 4); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- only &nbsp; entities ?><?php echo esc_html($postTitle); ?></p>
             <?php endforeach; ?>
             <div class="actions">
                 <button class="button edit" type="button"
-                        data-post_id="<?php echo $post->ID; ?>"
-                        data-post_type="<?php echo $post->post_type; ?>">
-                    <?php echo __('Edit'); ?>
+                        data-post_id="<?php echo (int) $post->ID; ?>"
+                        data-post_type="<?php echo esc_attr($post->post_type); ?>">
+                    <?php echo esc_html__('Edit'); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress ?>
                 </button>
             </div>
         <?php
@@ -193,7 +196,14 @@ class ROBO_GALLERY_CATEGORY{
         $post  = get_post($postId);
         if (!$post) {
             header('HTTP/1.0 403 Forbidden');
-            echo sprintf('Can not find post with ID "%d"', $postId);
+            echo esc_html(sprintf('Can not find post with ID "%d"', $postId));
+            die();
+        }
+
+        // the box prints titles of the post and its parents
+        if ($post->post_type !== $this->postType || !current_user_can('edit_post', $postId)) {
+            header('HTTP/1.0 403 Forbidden');
+            echo 'Access denied';
             die();
         }
 
@@ -204,26 +214,14 @@ class ROBO_GALLERY_CATEGORY{
     public function ajaxDialog() {
         $this->checkPermission();
 
-        if (!isset($_POST['post_type'])) {
-            header('HTTP/1.0 403 Forbidden');
-            echo 'Post type is absent in request';
-            die();
-        }
-
-        $postType = $_POST['post_type'];
-        if (!post_type_exists($postType)) {
-            header('HTTP/1.0 403 Forbidden');
-            echo sprintf('Post type "%s" is not registered', htmlentities($postType));
-            die();
-        }
-
-        $postTree = $this->getPostTree($postType);
+        // always the gallery post type, never taken from the request
+        $postTree = $this->getPostTree($this->postType);
         ?>
             <div class="nestable-list dd">
                 <?php $this->theNestableList($postTree); ?>
             </div>
             <div class="nestable-list-spinner">
-                <img src="<?php echo admin_url('/images/spinner-2x.gif') ?>" />
+                <img src="<?php echo esc_url(admin_url('/images/spinner-2x.gif')); ?>" />
             </div>
         <?php
 
@@ -245,10 +243,22 @@ class ROBO_GALLERY_CATEGORY{
         }
 
         $hierarchyPosts = $_POST['hierarchy_posts'];
+
+        // validate the whole tree before writing anything, so a tampered
+        // request can't leave the hierarchy half-saved
+        if (!$this->isValidHierarchy($hierarchyPosts)) {
+            header('HTTP/1.0 403 Forbidden');
+            echo 'Wrong posts hierarchy data for saving';
+            die();
+        }
+
         $this->currentPostOrder = 0;
         foreach ($hierarchyPosts as $order => $postData) {
             $this->updatePostHierarchy($postData);
         }
+
+        // end the request here: otherwise admin-ajax.php appends its "0"
+        wp_send_json_success();
     }
 
 
@@ -265,7 +275,7 @@ class ROBO_GALLERY_CATEGORY{
             'meta_query' => array(
         		array(
             		'key'   => ROBO_GALLERY_PREFIX . 'gallery_type',
-            		'value' => get_post_meta( $postId , ROBO_GALLERY_PREFIX . 'gallery_type', true ),
+            		'value' => rbsGalleryUtils::getTypeGallery( $postId ),
         		)
     		)
         );
@@ -308,11 +318,10 @@ class ROBO_GALLERY_CATEGORY{
         ?>
             <ol class="dd-list">
             <?php foreach ($tree as $item) : ?>
-                <li class="dd-item" data-id="<?php echo $item['post']->ID; ?>">
+                <li class="dd-item" data-id="<?php echo (int) $item['post']->ID; ?>">
                     <div class="dd-handle">
-                        <?php 
-                        $title = esc_attr($item['post']->post_title);
-                        echo "{$title} [{$item['post']->ID}: {$item['post']->post_name}]" ; ?>
+                        <?php
+                        echo esc_html($item['post']->post_title . ' [' . $item['post']->ID . ': ' . $item['post']->post_name . ']'); ?>
                     </div>
                     <?php if (!empty($item['children'])) : ?>
                         <?php $this->theNestableList($item['children']); ?>
@@ -334,23 +343,72 @@ class ROBO_GALLERY_CATEGORY{
 
         if ( !wp_verify_nonce($rbs_order_nonce, 'rbs_order_nonce') || !current_user_can($postTypeObject->cap->edit_posts)) {
             header('HTTP/1.0 403 Forbidden');
-            echo sprintf("You don't have permission for editing this %s", $postTypeObject->labels->name);
+            echo esc_html(sprintf("You don't have permission for editing this %s", $postTypeObject->labels->name));
             die();
         }
     }
 
 
+    /**
+     * The tree comes from the client, so every node (and therefore every parent)
+     * must be a gallery - otherwise the request could reparent and re-save
+     * any post on the site through wp_update_post().
+     */
+    protected function isValidHierarchy($nodes, $depth = 0){
+        if (!is_array($nodes) || $depth > self::MAX_HIERARCHY_DEPTH) {
+            return false;
+        }
+
+        foreach ($nodes as $node) {
+            if (!is_array($node) || empty($node['id'])) {
+                return false;
+            }
+            if (get_post_type(absint($node['id'])) !== $this->postType) {
+                return false;
+            }
+            if (!empty($node['children']) && !$this->isValidHierarchy($node['children'], $depth + 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * Nesting a gallery under an album changes that album's content (its children
+     * are listed in it), so a new parent must be editable too. The current parent
+     * stays allowed, so a gallery an admin placed into their album can still be reordered.
+     */
+    protected function canMoveTo($postId, $parentId){
+        if (!current_user_can('edit_post', $postId)) {
+            return false;
+        }
+
+        if (0 === $parentId || (int) wp_get_post_parent_id($postId) === $parentId) {
+            return true;
+        }
+
+        return current_user_can('edit_post', $parentId);
+    }
+
+
     protected function updatePostHierarchy($postData, $parentId = 0){
         $this->currentPostOrder++;
-        wp_update_post(array(
-            'ID' => absint($postData['id']),
-            'post_parent' => absint($parentId),
-            'menu_order' => $this->currentPostOrder
-        ));
+        $postId = absint($postData['id']);
+
+        // The dialog lists every published gallery, including other users' ones;
+        // those are left untouched rather than failing the whole save.
+        if ($this->canMoveTo($postId, absint($parentId))) {
+            wp_update_post(array(
+                'ID' => $postId,
+                'post_parent' => absint($parentId),
+                'menu_order' => $this->currentPostOrder
+            ));
+        }
 
         if (!empty($postData['children'])) {
             foreach ($postData['children'] as $childPostData) {
-                $this->updatePostHierarchy($childPostData, $postData['id']);
+                $this->updatePostHierarchy($childPostData, $postId);
             }
         }
     }

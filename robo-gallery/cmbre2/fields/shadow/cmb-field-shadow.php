@@ -12,9 +12,11 @@
 *      Available only in  https://robosoft.co/robogallery/ 
 */
 
+defined('WPINC') || exit;
+
 
 function jt_cmbre2_shadow_field( $metakey, $post_id = 0 ) {
-	echo jt_cmbre2_get_shadow_field( $metakey, $post_id );
+	echo wp_kses( jt_cmbre2_get_shadow_field( $metakey, $post_id ), cmbre2_form_allowed_html() );
 }
 
 function jt_cmbre2_render_shadow_field_callback( $field, $value, $object_id, $object_type, $field_type_object ) {
@@ -29,9 +31,9 @@ function jt_cmbre2_render_shadow_field_callback( $field, $value, $object_id, $ob
 <div class="form-horizontal">
 	
 	<div class="form-group">
-	    <label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id( '_hshadow' ); ?>'"><?php echo esc_html( $field_type_object->_text( 'shadow_hshadow_text', 'H-shadow' ) ); ?></label>
+	    <label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id( '_hshadow' ) ); ?>'"><?php echo esc_html( $field_type_object->_text( 'shadow_hshadow_text', 'H-shadow' ) ); ?></label>
 	    <div class="col-sm-10">
-		    <?php echo $field_type_object->input( array(
+		    <?php echo wp_kses( $field_type_object->input( array(
 						'name'  => $field_type_object->_name( '[hshadow]' ),
 						'id'    => $field_type_object->_id( '_hshadow' ),
 						'value' => (int) $value['hshadow'],
@@ -41,7 +43,7 @@ function jt_cmbre2_render_shadow_field_callback( $field, $value, $object_id, $ob
 						'data-slider-min'=>-50,
 						'data-slider-max'=>50,
 						'data-slider-step'=>1
-					) ); 
+					) ), cmbre2_form_allowed_html() ); 
 			?>   px
 	    </div>
 	</div>
@@ -49,9 +51,9 @@ function jt_cmbre2_render_shadow_field_callback( $field, $value, $object_id, $ob
 	
 
   	<div class="form-group">
-    	<label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id( '_vshadow' ); ?>'"><?php echo esc_html( $field_type_object->_text( 'shadow_vshadow_text', 'V-shadow' ) ); ?></label>
+    	<label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id( '_vshadow' ) ); ?>'"><?php echo esc_html( $field_type_object->_text( 'shadow_vshadow_text', 'V-shadow' ) ); ?></label>
 	    <div class="col-sm-10">
-	      <?php echo $field_type_object->input( array(
+	      <?php echo wp_kses( $field_type_object->input( array(
 						'name'  => $field_type_object->_name( '[vshadow]' ),
 						'id'    => $field_type_object->_id( '_vshadow' ),
 						'value' => (int) $value['vshadow'],
@@ -61,15 +63,15 @@ function jt_cmbre2_render_shadow_field_callback( $field, $value, $object_id, $ob
 						'data-slider-min'=>-50,
 						'data-slider-max'=>50,
 						'data-slider-step'=>1
-				) ); 
+				) ), cmbre2_form_allowed_html() ); 
 			?> px
 	    </div>
   	</div>
 
   	<div class="form-group">
-	    <label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id( '_bshadow' ); ?>'"><?php echo esc_html( $field_type_object->_text( 'shadow_bshadow_text', 'Blur' ) ); ?></label>
+	    <label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id( '_bshadow' ) ); ?>'"><?php echo esc_html( $field_type_object->_text( 'shadow_bshadow_text', 'Blur' ) ); ?></label>
 	    <div class="col-sm-10">
-		    <?php echo $field_type_object->input( array(
+		    <?php echo wp_kses( $field_type_object->input( array(
 						'name'  => $field_type_object->_name( '[bshadow]' ),
 						'id'    => $field_type_object->_id( '_bshadow' ),
 						'value' => (int) $value['bshadow'],
@@ -79,23 +81,23 @@ function jt_cmbre2_render_shadow_field_callback( $field, $value, $object_id, $ob
 						'data-slider-min'=>0,
 						'data-slider-max'=>50,
 						'data-slider-step'=>1
-					) ); 
+					) ), cmbre2_form_allowed_html() ); 
 			?>   px
 	    </div>
 	</div>
 
   	<div class="form-group">
-  		<label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id( '_color' ); ?>'"><?php echo esc_html( $field_type_object->_text( 'shadow_color_text', 'Color' ) ); ?></label>
+  		<label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id( '_color' ) ); ?>'"><?php echo esc_html( $field_type_object->_text( 'shadow_color_text', 'Color' ) ); ?></label>
 	    <div class="col-sm-4">
 	      <?php 
-			echo  $field_type_object->input( array(
+			echo wp_kses( $field_type_object->input( array(
 				'name'  		=> $field_type_object->_name( '[color]' ),
 				'id'    		=> $field_type_object->_id( '_color' ),
 				'class'         => 'form-control rbs_color',
 				'data-default' 	=>  $value['color'] ,
 				'data-alpha'    => 'true',
 				'value' 		=>  $value['color'], 
-			)); 
+			)), cmbre2_form_allowed_html() ); 
 		?> 
 	    </div>
   	</div>

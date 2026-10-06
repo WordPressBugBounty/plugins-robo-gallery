@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -17,7 +17,12 @@ class  roboGalleryModuleCache extends roboGalleryModuleAbstraction{
 	public $cacheTime = true;
 	public $cacheId = true;
 	
-	public function init(){		
+	public function init(){
+		// Off: a cached copy of the HTML is not a whole gallery. The gallery's CSS
+		// file is enqueued while rendering (skipped on a hit), robogrid's HTML holds
+		// the first viewer's wp_rest nonce, the editors-only notes and a failed
+		// YouTube answer would be served to everyone, and the element ids repeat.
+		// See TODO.md (output cache) before switching it on.
 		return ;
 		if( !$this->getMetaCur('cache') ) return ;
 		

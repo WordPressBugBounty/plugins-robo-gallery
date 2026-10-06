@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -87,6 +87,37 @@ class  roboGalleryModuleResizeV1  extends roboGalleryModuleAbstraction{
 		return $items;
 	}
 
+	/**
+	 * The large tiles of masonry: the 'large' size, which keeps the image's
+	 * proportions (a small image gets its original). Since June 2025 releases
+	 * these tiles showed the full original (the old cropped
+	 * RoboGalleryMansoryImagesTop size was no longer registered); 'large' looks
+	 * the same at tile width and weighs less.
+	 *
+	 * The tile's proportions (sizeW/sizeH -> data-width/data-height, the tile
+	 * height in jquery.collagePlus.js) come from the original: WordPress rounds a
+	 * resized image to whole pixels (1000x1500 -> 683x1024), and with the
+	 * floored tile height that is 1px less on some tiles, adding up down a
+	 * masonry column.
+	 */
+	private function withMasonryThumb( $img ){
+		if( empty($img['id']) ) return $img;
+
+		$tile = wp_get_attachment_image_src( $img['id'], 'large' );
+		if( !is_array($tile) || empty($tile[0]) || empty($tile[1]) || empty($tile[2]) ) return $img;
+
+		$img['thumb'] = $tile[0];
+		$img['sizeW'] = (int) $tile[1];
+		$img['sizeH'] = (int) $tile[2];
+
+		$meta = wp_get_attachment_metadata( $img['id'] );
+		if( is_array($meta) && !empty($meta['width']) && !empty($meta['height']) ){
+			$img['sizeW'] = (int) $meta['width'];
+			$img['sizeH'] = (int) $meta['height'];
+		}
+		return $img;
+	}
+
 	public function resizeImgMasonryProN1( $items ){
 		//echo 'resizeImgMasonryProN1';
 		if ( ! is_array( $items ) || !count( $items ) ) return array();		
@@ -99,16 +130,7 @@ class  roboGalleryModuleResizeV1  extends roboGalleryModuleAbstraction{
 			
              //                               2 5  4   6    4  4    6  4    6   4  4   6   4   6 
 			if( !in_array( $counterImg, array( 2, 7, 11, 17, 21, 25, 31,/* 35, 41, 45, 49, 55, 59, 65*/ ) ) ){
-				$thumbMasonry = wp_get_attachment_image_src( $img['id'], 'RoboGalleryMansoryImagesTop' );
-
-				if ( ! is_array( $thumbMasonry ) || count( $thumbMasonry ) < 2 ) {
-					echo "empty thumbs ";
-					continue ;
-				}
-
-				$items[ $imgKey ]['thumb']    = $thumbMasonry[0];
-				$items[ $imgKey ]['sizeW']    = $thumbMasonry[1]; //*($i%2 ? 1.5: 1)
-				$items[ $imgKey ]['sizeH']    = $thumbMasonry[2];
+				$items[ $imgKey ] = $this->withMasonryThumb( $img );
 			}
 
 
@@ -134,16 +156,7 @@ class  roboGalleryModuleResizeV1  extends roboGalleryModuleAbstraction{
 					6, 8, 10,
 					11, 13, 17, 
 					21, 25, 31,/* 35, 41, 45, 49, 55, 59, 65*/ ) ) ){
-				$thumbMasonry = wp_get_attachment_image_src( $img['id'], 'RoboGalleryMansoryImagesTop' );
-
-				if ( ! is_array( $thumbMasonry ) || count( $thumbMasonry ) < 2 ) {
-					echo "empty thumbs ";
-					continue ;
-				}
-
-				$items[ $imgKey ]['thumb']    = $thumbMasonry[0];
-				$items[ $imgKey ]['sizeW']    = $thumbMasonry[1]; //*($i%2 ? 1.5: 1)
-				$items[ $imgKey ]['sizeH']    = $thumbMasonry[2];
+				$items[ $imgKey ] = $this->withMasonryThumb( $img );
 			}
 
 
@@ -168,16 +181,7 @@ class  roboGalleryModuleResizeV1  extends roboGalleryModuleAbstraction{
 					2,     4, 
 					 8, 10,
 					 11, 13, 17, 21, 25, 31,/* 35, 41, 45, 49, 55, 59, 65*/ ) ) ){
-				$thumbMasonry = wp_get_attachment_image_src( $img['id'], 'RoboGalleryMansoryImagesTop' );
-
-				if ( ! is_array( $thumbMasonry ) || count( $thumbMasonry ) < 2 ) {
-					echo "empty thumbs ";
-					continue ;
-				}
-
-				$items[ $imgKey ]['thumb']    = $thumbMasonry[0];
-				$items[ $imgKey ]['sizeW']    = $thumbMasonry[1]; //*($i%2 ? 1.5: 1)
-				$items[ $imgKey ]['sizeH']    = $thumbMasonry[2];
+				$items[ $imgKey ] = $this->withMasonryThumb( $img );
 			}
 
 
@@ -202,16 +206,7 @@ class  roboGalleryModuleResizeV1  extends roboGalleryModuleAbstraction{
 			
              //                               2 5  4   6    4  4    6  4    6   4  4   6   4   6 
 			if( !in_array( $counterImg, array( 2, 7, 11, 17, 21, 25, 31,/* 35, 41, 45, 49, 55, 59, 65*/ ) ) ){
-				$thumbMasonry = wp_get_attachment_image_src( $img['id'], 'RoboGalleryMansoryImagesTop' );
-
-				if ( ! is_array( $thumbMasonry ) || count( $thumbMasonry ) < 2 ) {
-					echo "empty thumbs ";
-					continue ;
-				}
-
-				$items[ $imgKey ]['thumb']    = $thumbMasonry[0];
-				$items[ $imgKey ]['sizeW']    = $thumbMasonry[1]; //*($i%2 ? 1.5: 1)
-				$items[ $imgKey ]['sizeH']    = $thumbMasonry[2];
+				$items[ $imgKey ] = $this->withMasonryThumb( $img );
 			}
 		}
 		return $items;

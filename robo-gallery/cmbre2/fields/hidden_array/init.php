@@ -12,9 +12,11 @@
 *      Available only in  https://robosoft.co/robogallery/ 
 */
 
+defined('WPINC') || exit;
+
 
 /*function jt_cmbre2_shadow_field( $metakey, $post_id = 0 ) {
-	echo jt_cmbre2_get_shadow_field( $metakey, $post_id );
+	echo wp_kses( jt_cmbre2_get_shadow_field( $metakey, $post_id ), cmbre2_form_allowed_html() );
 }*/
 
 function robo_gallery_render_hidden_array_field_callback( $field, $value, $object_id, $object_type, $field_type_object ){
@@ -25,12 +27,12 @@ function robo_gallery_render_hidden_array_field_callback( $field, $value, $objec
 	if( is_array($value) && count($value) ){
 		foreach ($value as $key => $val){
 
-			echo $field_type_object->input( array(
+			echo wp_kses( $field_type_object->input( array(
 							'name'  => $field_type_object->_name( '['.$key.']' ),
 							'id'    => $field_type_object->_id( '_'.$key ),
 							'value' => $val,						
 							'type'  => 'hidden',
-			) );
+			) ), cmbre2_form_allowed_html() );
 
 		}
 	}

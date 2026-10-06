@@ -4,7 +4,7 @@ Donate link: https://robosoft.co/robogallery
 Tags: gallery, photo gallery, image gallery, wordpress gallery plugin, responsive gallery
 Requires at least: 3.3
 Tested up to: 7.1
-Stable tag: 5.1.6
+Stable tag: 5.2.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -255,6 +255,14 @@ Plugin implemented in native WordPress style. All code is implemented based on W
 If any problem occurs, please contact us.
 
 == Changelog ==
+
+= 5.2.6 (06-10-2026) =
+* Reworked the plugin structure and performed a global code optimization.
+* Improved overall performance, stability, and security.
+* Resolved compatibility issues and potential conflicts.
+* Added comprehensive testing across the main plugin functionality.
+* Added the ability to restore default plugin settings.
+* Improved settings handling and overall code reliability.
 
 = 5.1.6 (04-09-2026) =
 * Compatible with WordPress 7.1
@@ -848,5 +856,10 @@ If any problem occurs, please contact us.
 
 == Upgrade Notice ==
 
-= 5.1.6 (04-09-2026) =
-* Compatible with WordPress 7.1
+= 5.2.6 (06-10-2026) =
+* Reworked the plugin structure and performed a global code optimization.
+* Improved overall performance, stability, and security.
+* Resolved compatibility issues and potential conflicts.
+* Added comprehensive testing across the main plugin functionality.
+* Added the ability to restore default plugin settings.
+* Improved settings handling and overall code reliability.

@@ -48,41 +48,12 @@ function cmbre2_utils() {
 }
 
 /**
- * Get instance of the CMBRE2_Ajax class
- * @since  2.0.0
- * @return CMBRE2_Ajax object CMBRE2 utilities class
- */
-function cmbre2_ajax() {
-	static $cmbre2_ajax;
-	$cmbre2_ajax = $cmbre2_ajax ? $cmbre2_ajax : new CMBRE2_Ajax();
-	return $cmbre2_ajax;
-}
-
-/**
  * Get instance of the CMBRE2_Option class for the passed metabox ID
  * @since  2.0.0
  * @return CMBRE2_Option object Options class for setting/getting options for metabox
  */
 function cmbre2_options( $key ) {
 	return CMBRE2_Options::get( $key );
-}
-
-/**
- * Get a cmb oEmbed. Handles oEmbed getting for non-post objects
- * @since  2.0.0
- * @param  array   $args Arguments. Accepts:
- *
- *         'url'         - URL to retrieve the oEmbed from,
- *         'object_id'   - $post_id,
- *         'object_type' - 'post',
- *         'oembed_args' - $embed_args, // array containing 'width', etc
- *         'field_id'    - false,
- *         'cache_key'   - false,
- *
- * @return string        oEmbed string
- */
-function cmbre2_get_oembed( $args = array() ) {
-	return cmbre2_ajax()->get_oembed( $args );
 }
 
 /**
@@ -160,6 +131,37 @@ function cmbre2_get_field_value( $meta_box, $field_id, $object_id = 0, $object_t
  */
 function new_cmbre2_box( array $meta_box_config ) {
 	return cmbre2_get_metabox( $meta_box_config );
+}
+
+/**
+ * Allowed HTML for wp_kses() on the output of the plugin's field types
+ * (cmbre2/fields): form controls with their labels and wrappers. wp_kses_post()
+ * would drop the controls; this keeps what the field types build, with any
+ * data-* attribute (their scripts read data-slider-*, data-font-*, data-depends...).
+ *
+ * @return array
+ */
+function cmbre2_form_allowed_html() {
+	static $allowed = null;
+
+	if ( null === $allowed ) {
+		$attributes = array_fill_keys( array(
+			'id', 'class', 'name', 'value', 'type', 'style', 'title', 'for', 'role',
+			'checked', 'selected', 'disabled', 'readonly', 'multiple', 'autocomplete',
+			'placeholder', 'min', 'max', 'step', 'size', 'rows', 'cols', 'align',
+			'href', 'target', 'rel', 'src', 'alt', 'width', 'height', 'colspan', 'rowspan',
+			'data-*',
+		), true );
+
+		$allowed = array_fill_keys( array(
+			'input', 'select', 'option', 'optgroup', 'textarea', 'label', 'button', 'fieldset', 'legend',
+			'div', 'span', 'p', 'a', 'b', 'strong', 'i', 'em', 'small', 'code', 'br', 'hr', 'img',
+			'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li',
+			'table', 'thead', 'tbody', 'tr', 'th', 'td',
+		), $attributes );
+	}
+
+	return $allowed;
 }
 
 if(!function_exists("new_cmb2_box")){
@@ -260,7 +262,6 @@ function cmbre2_print_metabox_form( $meta_box, $object_id = 0, $args = array() )
 		'form_format' => '<form class="cmb-form" method="post" id="%1$s" enctype="multipart/form-data" encoding="multipart/form-data"><input type="hidden" name="object_id" value="%2$s">%3$s<input type="submit" name="submit-cmb" value="%4$s" class="button-primary"></form>',
 		'save_button' => 'Save',
 		'object_type' => $cmb->mb_object_type(),
-		'enqueue_js'  => true,
 	) );
 
 	// Set object type explicitly (rather than trying to guess from context)
@@ -284,20 +285,17 @@ function cmbre2_print_metabox_form( $meta_box, $object_id = 0, $args = array() )
 		CMBRE2_hookup::enqueue_cmb_css();
 	}
 
-	if ( $args['enqueue_js'] ) {
-		CMBRE2_hookup::enqueue_cmb_js();
-	}
-
 	$form_format = apply_filters( 'cmbre2_get_metabox_form_format', $args['form_format'], $object_id, $cmb );
 
 	$format_parts = explode( '%3$s', $form_format );
 
 	// Show cmb form
-	printf( $format_parts[0], $cmb->cmb_id, $object_id );
+	// the format is the plugin's own form_format argument
+	printf( $format_parts[0], esc_attr( $cmb->cmb_id ), esc_attr( $object_id ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	$cmb->show_form();
 
 	if ( isset( $format_parts[1] ) && $format_parts[1] ) {
-		printf( str_ireplace( '%4$s', '%1$s', $format_parts[1] ), $args['save_button'] );
+		printf( str_ireplace( '%4$s', '%1$s', $format_parts[1] ), esc_attr( $args['save_button'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 }

@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -21,16 +21,17 @@ class  roboGalleryModuleSeoV1 extends roboGalleryModuleAbstraction{
 
 	public function initGrid(){		
 
-		$seo = get_option( ROBO_GALLERY_PREFIX.'seo', '' );
-		if( $seo ){
-				$this->seoContent .= 	($seo==1 ? '<a href="'.$link.'" alt="'.$lightboxText.'" title="'.$lightboxText.'">' : '')
-						.'<img src="'.$img['thumb'].'" title="'.$lightboxText.'" alt="'.$lightboxText.'" >'
-						.($seo==1 ? '</a>' : '' );
-		}
+		//need check for link and description
+		// $seo = get_option( ROBO_GALLERY_PREFIX.'seo', '' );
+		// if( $seo ){
+		// 		$this->seoContent .= 	($seo==1 ? '<a href="'.$link.'" alt="'.$lightboxText.'" title="'.$lightboxText.'">' : '')
+		// 				.'<img src="'.$img['thumb'].'" title="'.$lightboxText.'" alt="'.$lightboxText.'" >'
+		// 				.($seo==1 ? '</a>' : '' );
+		// }
 
-		if($this->seoContent){
-			$this->seoContent = '<div style="display:none;">'.$this->seoContent.'</div>';
-		}
+		// if($this->seoContent){
+		// 	$this->seoContent = '<div style="display:none;">'.$this->seoContent.'</div>';
+		// }
 	}
 
 }

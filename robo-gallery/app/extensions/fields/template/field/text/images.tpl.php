@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -50,7 +50,7 @@ $translation_array = array(
 
 wp_localize_script( ROBO_GALLERY_ASSETS_PREFIX.'-field-type-gallery', 'roboGalleryFieldGallery', $translation_array );
 
-wp_enqueue_style ( ROBO_GALLERY_ASSETS_PREFIX.'-field-type-gallery', ROBO_GALLERY_FIELDS_URL.'asset/fields/gallery/style.css', array( ), '' );
+wp_enqueue_style ( ROBO_GALLERY_ASSETS_PREFIX.'-field-type-gallery', ROBO_GALLERY_FIELDS_URL.'asset/fields/gallery/style.css', array( ), ROBO_GALLERY_VERSION );
 
 $value = is_array($value) ?  implode( ',', $value ) : $value;
 
@@ -58,33 +58,33 @@ $value = is_array($value) ?  implode( ',', $value ) : $value;
 <?php if ($label) : ?>
 	<div class="field small-12 columns">
 		<label>
-			<?php echo $label; ?>
+			<?php echo wp_kses_post($label); ?>
 		</label>
 	</div>
 <?php endif; ?>
 
 <div class="content small-12 columns small-centered text-center">
 
-	<button type="button" data-id="<?php echo $id; ?>" class="success large button expanded roboGalleryFieldImagesButton">
-		<?php _e('Manage Images', 'robo-gallery'); ?>
+	<button type="button" data-id="<?php echo esc_attr($id); ?>" class="success large button expanded roboGalleryFieldImagesButton">
+		<?php esc_html_e('Manage Images', 'robo-gallery'); ?>
 	</button>
-	<input id="<?php echo $id; ?>" <?php echo $attributes; ?> type="hidden" name="<?php echo $name; ?>" value="<?php echo $value; ?>">
+	<input id="<?php echo esc_attr($id); ?>" <?php echo $attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- name="value" pairs, each value esc_attr()'d in roboGalleryFieldsField::getData() ?> type="hidden" name="<?php echo esc_attr($name); ?>" value="<?php echo esc_attr( $value ); ?>">
 </div>
 
 <?php if ($description) : ?>
 	<div class="content small-12 columns">
-		<p class="help-text"><?php echo $description; ?></p>
+		<p class="help-text"><?php echo wp_kses_post($description); ?></p>
 	</div>
 <?php endif; ?>
 	
 <div class="content small-12 columns">
 	<p class="help-text">
-		<?php _e('Open images manager and configure <strong>Link</strong>, <strong>Tags</strong> and <strong>Video</strong> (YouTube, Vimeo) for every gallery image.', 'robo-gallery'); ?>
+		<?php echo wp_kses_post(__('Open images manager and configure <strong>Link</strong>, <strong>Tags</strong> and <strong>Video</strong> (YouTube, Vimeo) for every gallery image.', 'robo-gallery')); ?>
 	</p>		
 </div>
 
 <div class="content small-12 columns small-centered text-center" style="margin-bottom: 7px; font-size: 16px;font-weight: 600;">
-	<span><?php _e('Drag and drop thumbnails to sort the gallery images', 'robo-gallery'); ?></span>
+	<span><?php esc_html_e('Drag and drop thumbnails to sort the gallery images', 'robo-gallery'); ?></span>
 </div>
 
 
@@ -97,7 +97,7 @@ $value = is_array($value) ?  implode( ',', $value ) : $value;
 
 <?php if (!ROBO_GALLERY_TYR) : ?>
 	<div class="content small-12 columns text-center" style="margin: 25px 0 -6px;">				
-		<?php echo rbsGalleryUtils::getProButton( __('Add All Pro Features + Gallery Images Links', 'robo-gallery') ); ?>		
+		<?php echo wp_kses_post(rbsGalleryUtils::getProButton( __('Add All Pro Features + Gallery Images Links', 'robo-gallery') )); ?>		
 	</div>
 	<br>
 	<div class="rb-pro-block">

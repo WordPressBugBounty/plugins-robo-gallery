@@ -2,7 +2,7 @@
 
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -76,15 +76,7 @@ class RoboBaseSource {
 
 
 	private function initChildrenList(){
-		$my_wp_query  = new WP_Query();
-		$all_wp_pages = $my_wp_query->query( array(
-			'post_type'      => ROBO_GALLERY_TYPE_POST,
-			//'fields'      => 'id=>parent',
-			//'post_parent'    => $this->id,
-			'orderby'        => array( 'menu_order' => 'DESC', 'order' => 'ASC', 'title' => 'DESC' ),
-			'posts_per_page' => 999,
-		) );
-		$this->children =  get_page_children( $this->id, $all_wp_pages );
+		$this->children = roboGalleryModuleSource::getChildGalleries( $this->id );
 	}
 
 

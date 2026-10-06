@@ -1,49 +1,42 @@
+/* 
+*      Robo Gallery     
+*      Version: 5.2.6 - 24868
+*      By Robosoft
+*
+*      Contact: https://robogallery.co/ 
+*      Created: 2025
+*      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
+ */
 
-
+// "Add New" links of the galleries open the type dialog instead of the page
+// (the page itself opens it too, via showDialog=1, when JS is late or off).
 (function () {
-	
-	const RoboGalleryTypeDialog = function(event){
-		event.preventDefault();	
-		window.showRoboDialog( );	
-		return false;
+	'use strict';
+
+	const openDialog = function (event) {
+		if (typeof window.showRoboDialog !== 'function') {
+			return;
+		}
+		event.preventDefault();
+		window.showRoboDialog();
 	};
 
-
-	const roboClickNewAddFunction = function(elem){
-		if( elem.addEventListener ){
-		   elem.addEventListener( 'click', RoboGalleryTypeDialog );
-		   elem.addEventListener( 'dblclick', RoboGalleryTypeDialog );
-		}else if( elem.attachEvent ){
-		   elem.attachEvent( 'onclick', RoboGalleryTypeDialog);
+	const bind = function (link) {
+		if (!link) {
+			return;
 		}
-	}
-
-
-	var RoboGalleryTypeDialogMenuMainItem = document.getElementById('menu-posts-robo_gallery_table');
-	var RoboGalleryTypeDialogMenuUlSubItems = RoboGalleryTypeDialogMenuMainItem.lastChild;
-	var RoboGalleryTypeDialogMenuLiSubItems = RoboGalleryTypeDialogMenuUlSubItems.children;
-
-	if( RoboGalleryTypeDialogMenuLiSubItems.length > 0 ){
-		var RoboGalleryTypeDialogMenuLiSubItem = RoboGalleryTypeDialogMenuLiSubItems.item(2);
-		var RoboGalleryTypeDialogMenuASubItem = RoboGalleryTypeDialogMenuLiSubItem.lastChild;
-		roboClickNewAddFunction(RoboGalleryTypeDialogMenuASubItem);
-	}
-
-
-	//var RoboGalleryTypeDialogContent = document.getElementById('robo-gallery-type-select');
-	//console.log('RoboGalleryTypeBodyClass', RoboGalleryTypeBodyClass);
-	var typePage = document.getElementsByClassName(RoboGalleryTypeBodyClass);
-	//console.log('test', typePage);
-	if( typePage.length > 0 ){
-		var buttonAdd = typePage[0].getElementsByClassName('page-title-action');
-		if( buttonAdd.length > 0 ){
-			roboClickNewAddFunction(buttonAdd[0]);
-			urlDialog = buttonAdd[0].href;
-			
-			if( urlDialog.search('&showDialog=1') === -1 ){
-				buttonAdd[0].href += '&showDialog=1';	
-			}
+		link.addEventListener('click', openDialog);
+		if (link.href.indexOf('showDialog=1') === -1) {
+			link.href += '&showDialog=1';
 		}
-	}
+	};
 
+	// admin menu: Robo Gallery -> Add New
+	bind(document.querySelector('#menu-posts-robo_gallery_table a[href*="post-new.php?post_type=robo_gallery_table"]'));
+
+	// "Add New" button at the top of the gallery screens
+	const config = window.robo_js_config || {};
+	if (config.bodyClass && document.body.classList.contains(config.bodyClass)) {
+		bind(document.querySelector('.wrap .page-title-action'));
+	}
 })();

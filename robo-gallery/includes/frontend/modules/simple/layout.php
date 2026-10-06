@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -52,8 +52,9 @@ class roboGalleryModuleLayoutSimple extends roboGalleryModuleAbstraction
     }
    
     private function initBgOverlay(){
-		if( !$this->getMeta('loadingBgColor') ) return;
-		$this->scssVar['background'] = $this->getMeta('loadingBgColor');
+		$color = $this->getColorMeta('loadingBgColor');
+		if( !$color ) return;
+		$this->scssVar['background'] = $color;
 	}
 
     private function initPadding(){
@@ -61,19 +62,23 @@ class roboGalleryModuleLayoutSimple extends roboGalleryModuleAbstraction
 		if( !is_array($paddingCustom) || !count($paddingCustom) ) return ;
         $paddingStyle = '';
 		foreach ($paddingCustom as $propertyName => $value){
-			if(!$value) continue;
+			// the key becomes part of the property name in SCSS text: the padding field's sides only
+			if( !$value || !in_array( $propertyName, array( 'left', 'top', 'right', 'bottom' ), true ) ) continue;
             $paddingStyle .= 'padding-'.$propertyName.': '.self::getCorrectSize($value).';';
 		}
         if($paddingStyle) $this->addScssContent( '.container{'.$paddingStyle.'}' );
 	}
 
+    /**
+     * A number with px / em / rem / %, anything else as whole pixels. It goes
+     * into SCSS text, so nothing but the number and the unit is kept (the old
+     * check passed any string containing "px", "em" or "%").
+     */
     private static function getCorrectSize( $val ){
-		$correctVal = $val;
-		if( strpos( $val, 'em')===false &&  strpos( $val, 'rem')===false && strpos( $val, '%')===false && strpos( $val, 'px')===false ){
-			$val = (int) $val;
-			$correctVal = $val.'px';
+		if( is_scalar( $val ) && preg_match( '/^\s*(\d+(?:\.\d+)?)\s*(px|em|rem|%)\s*$/i', (string) $val, $m ) ){
+			return $m[1].strtolower( $m[2] );
 		}
-		return $correctVal;
+		return ( is_scalar( $val ) ? (int) $val : 0 ).'px';
 	}
 
     private function initShadow(){		
@@ -109,7 +114,7 @@ class roboGalleryModuleLayoutSimple extends roboGalleryModuleAbstraction
        $shadowStyle = (int) $shadow['hshadow'].'px '
                        .(int) $shadow['vshadow'].'px '
                        .(int) $shadow['bshadow'].'px '
-                       .$shadow['color'].' ';
+                       .self::cssColor($shadow['color']).' ';
 
        return 	'-webkit-box-shadow:'.$shadowStyle.';'.
                '-moz-box-shadow: 	'.$shadowStyle.';'.
@@ -129,8 +134,9 @@ class roboGalleryModuleLayoutSimple extends roboGalleryModuleAbstraction
 			$borderStyle.= (int) $border['width'];
 			$borderStyle.= 'px ';
 		}
-		if( isset($border['style'])) $borderStyle.=  $border['style'].' ';
-		if( isset($border['color'])) $borderStyle.=  $border['color'].' ';		
+		// style and color go into SCSS text: keywords / a plain color only (as in base-grid grid.v1.php)
+		if( isset($border['style']) && in_array( $border['style'], array( 'none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset' ), true ) ) $borderStyle.= $border['style'].' ';
+		if( isset($border['color'])) $borderStyle.= self::cssColor($border['color']).' ';
 		return 'border: '.$borderStyle.';';
  	}
 
@@ -198,13 +204,14 @@ class roboGalleryModuleLayoutSimple extends roboGalleryModuleAbstraction
             $alt = $item['alt'];
         }
 
-        return '<img src="' . $thumb . '" alt="' . $alt . '" />';
+        // alt is sanitize_text_field'ed, which keeps quotes: escape for the attribute
+        return '<img src="' . esc_url($thumb) . '" alt="' . esc_attr($alt) . '" />';
     }
 
     public function renderImagesTitle($item)
     {
         $title = $item['data']->post_title;
-        return '<div class="header">' . $title . '</div>';
+        return '<div class="header">' . esc_html($title) . '</div>';
     }
 
     public function getImageLink($item)
@@ -230,7 +237,7 @@ class roboGalleryModuleLayoutSimple extends roboGalleryModuleAbstraction
 
         . '<a
 			class="button"
-			href="' . $this->getImageLink($item) . '" '
+			href="' . esc_url($this->getImageLink($item)) . '" '
         . ($item['typelink'] ? ' target="_blank"' : '')
         . ' style="background-color: transparent;"'
         . '></a>'
@@ -278,12 +285,23 @@ class roboGalleryModuleLayoutSimple extends roboGalleryModuleAbstraction
             case 'desc':
                 $desc = $item['data']->post_content;
         }
-        return '<div class="desc">' . $desc . '</div>';
+        // attachment description / caption may hold formatting, but not scripts
+        return '<div class="desc">' . wp_kses_post($desc) . '</div>';
     }
 
     public function compileJavaScript()
     {
         return 'var ' . $this->galleryId . ' = ' . $this->core->jsOptions->getOptionList() . ';';
+    }
+
+    /**
+     * Colors written into SCSS text (border, shadow) or a style attribute
+     * (ribbons - attachment meta without the plugin prefix, editable via custom
+     * fields): only a plain CSS color passes (app/extensions/validation/CssColor.php).
+     */
+    private static function cssColor($value)
+    {
+        return \RoboGallery\app\extensions\validation\CssColor::sanitize($value);
     }
 
     private function getLabels($imgId)
@@ -294,22 +312,22 @@ class roboGalleryModuleLayoutSimple extends roboGalleryModuleAbstraction
 
             $icon1 = get_post_meta($imgId, 'icon1', true);
             if ($icon1) {
-                $icons_data .= '<span class="material-icons">' . $icon1 . '</span> ';
+                $icons_data .= '<span class="material-icons">' . esc_html($icon1) . '</span> ';
             }
 
             $icon2 = get_post_meta($imgId, 'icon2', true);
             if ($icon2) {
-                $icons_data .= '<span class="material-icons">' . $icon2 . '</span> ';
+                $icons_data .= '<span class="material-icons">' . esc_html($icon2) . '</span> ';
             }
 
             $icon3 = get_post_meta($imgId, 'icon3', true);
             if ($icon3) {
-                $icons_data .= '<span class="material-icons">' . $icon3 . '</span> ';
+                $icons_data .= '<span class="material-icons">' . esc_html($icon3) . '</span> ';
             }
 
             $icon4 = get_post_meta($imgId, 'icon4', true);
             if ($icon4) {
-                $icons_data .= '<span class="material-icons">' . $icon4 . '</span> ';
+                $icons_data .= '<span class="material-icons">' . esc_html($icon4) . '</span> ';
             }
 
             if ($icons_data) {
@@ -330,20 +348,20 @@ class roboGalleryModuleLayoutSimple extends roboGalleryModuleAbstraction
             $ribbon1_text = get_post_meta($imgId, 'ribbon1_text', true);
             $style        = '';
 
-            $ribbon1_color = get_post_meta($imgId, 'ribbon1_color', true);
+            $ribbon1_color = self::cssColor(get_post_meta($imgId, 'ribbon1_color', true));
             if ($ribbon1_color) {
                 $style .= 'color:' . $ribbon1_color . ";";
             }
 
-            $ribbon1_bgcolor = get_post_meta($imgId, 'ribbon1_bgcolor', true);
+            $ribbon1_bgcolor = self::cssColor(get_post_meta($imgId, 'ribbon1_bgcolor', true));
             if ($ribbon1_bgcolor) {
                 $style .= 'background-color:' . $ribbon1_bgcolor . ";";
             }
 
             if ($style) {
-                $style = 'style="' . $style . '"';
+                $style = 'style="' . esc_attr($style) . '"';
             }
-            $ribbon_data .= '<span class="green" ' . $style . '>' . $ribbon1_text . '</span> ';
+            $ribbon_data .= '<span class="green" ' . $style . '>' . wp_kses_post($ribbon1_text) . '</span> ';
         }
 
         $ribbon2 = get_post_meta($imgId, 'ribbon2', true);
@@ -351,20 +369,20 @@ class roboGalleryModuleLayoutSimple extends roboGalleryModuleAbstraction
             $ribbon2_text = get_post_meta($imgId, 'ribbon2_text', true);
             $style        = '';
 
-            $ribbon2_color = get_post_meta($imgId, 'ribbon2_color', true);
+            $ribbon2_color = self::cssColor(get_post_meta($imgId, 'ribbon2_color', true));
             if ($ribbon2_color) {
                 $style .= 'color:' . $ribbon2_color . ";";
             }
-            $ribbon2_bgcolor = get_post_meta($imgId, 'ribbon2_bgcolor', true);
+            $ribbon2_bgcolor = self::cssColor(get_post_meta($imgId, 'ribbon2_bgcolor', true));
             if ($ribbon2_bgcolor) {
                 $style .= 'background-color:' . $ribbon2_bgcolor . ";";
             }
 
             if ($style) {
-                $style = 'style="' . $style . '"';
+                $style = 'style="' . esc_attr($style) . '"';
             }
 
-            $ribbon_data .= '<span class="orange" ' . $style . '>' . $ribbon2_text . '</span> ';
+            $ribbon_data .= '<span class="orange" ' . $style . '>' . wp_kses_post($ribbon2_text) . '</span> ';
         }
 
         $blinking_ribbon_data = '';
@@ -373,20 +391,20 @@ class roboGalleryModuleLayoutSimple extends roboGalleryModuleAbstraction
             $ribbon11_text = get_post_meta($imgId, 'ribbon11_text', true);
             $style         = '';
 
-            $ribbon11_color = get_post_meta($imgId, 'ribbon11_color', true);
+            $ribbon11_color = self::cssColor(get_post_meta($imgId, 'ribbon11_color', true));
             if ($ribbon11_color) {
                 $style .= 'color:' . $ribbon11_color . ";";
             }
-            $ribbon11_bgcolor = get_post_meta($imgId, 'ribbon11_bgcolor', true);
+            $ribbon11_bgcolor = self::cssColor(get_post_meta($imgId, 'ribbon11_bgcolor', true));
             if ($ribbon11_bgcolor) {
                 $style .= 'background-color:' . $ribbon11_bgcolor . ";";
             }
 
             if ($style) {
-                $style = 'style="' . $style . '"';
+                $style = 'style="' . esc_attr($style) . '"';
             }
 
-            $ribbon_data .= '<span class="blinking" ' . $style . '>' . $ribbon11_text . '</span> ';
+            $ribbon_data .= '<span class="blinking" ' . $style . '>' . wp_kses_post($ribbon11_text) . '</span> ';
         }
 
         if ($ribbon_data) {

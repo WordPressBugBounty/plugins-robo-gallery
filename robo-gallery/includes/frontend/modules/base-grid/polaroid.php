@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -23,12 +23,19 @@ class  roboGalleryModulePolaroidV1 extends roboGalleryModuleAbstraction{
 
 
 	private function initStyle(){
-		$this->scssVar['polaroidBackground'] = $this->getMeta('polaroidBackground');
-		$this->scssVar['polaroidAlign'] = $this->getMeta('polaroidAlign');
+		// Both go into SCSS variables: an empty value makes scssphp throw, and the
+		// align is free text in the meta, so a keyword only / a valid color only.
+		$align = $this->getMeta('polaroidAlign');
+		if( !in_array( $align, array( 'left', 'center', 'right' ), true ) ) $align = 'center';
+		$this->scssVar['polaroidAlign'] = $align;
+
+		$background = $this->getColorMeta('polaroidBackground');
+		if( $background ) $this->scssVar['polaroidBackground'] = $background;
+
 		$this->scssContent .= '
 			.robo-gallery-wrap-id#{$galleryid}:not(#no-robo-galery) .rbs-img-content{
-				text-align: $polaroidAlign;
-				background: $polaroidBackground;
+				text-align: $polaroidAlign;'
+				.( $background ? ' background: $polaroidBackground;' : '' ).'
 			}
 		';
 	}
@@ -71,7 +78,7 @@ class  roboGalleryModulePolaroidV1 extends roboGalleryModuleAbstraction{
 
 		if( !$polaroidContent ) return ;		
 
-		return '<div class="rbs-img-content">'.$polaroidContent.'</div>';
+		return '<div class="rbs-img-content">'.esc_html($polaroidContent).'</div>';
 	}
 
 }

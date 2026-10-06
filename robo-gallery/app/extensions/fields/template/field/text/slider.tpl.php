@@ -1,7 +1,8 @@
+<?php defined('WPINC') || exit; ?>
 <div class="field small-12 columns">
 	<?php if ($label) : ?>
 		<label>
-			<?php echo $label; ?>
+			<?php echo wp_kses_post($label); ?>
 		</label>
 	<?php endif; ?>
 </div>
@@ -14,37 +15,37 @@
 ?>
 
 <?php if (!empty($options['textBefore'])) : ?>
-	<div class="field columns small-<?php echo $textBeforeColumns ?> text-before">
-		<?php echo $options['textBefore']; ?>
+	<div class="field columns small-<?php echo esc_attr($textBeforeColumns); ?> text-before">
+		<?php echo wp_kses_post($options['textBefore']); ?>
 	</div>
 <?php endif; ?>
 
-<div class="field columns small-<?php echo $textColumns; ?>">
-	<input id="<?php echo $id; ?>" <?php echo $attributes; ?>
-	       type="number" name="<?php echo $name; ?>"
-	       value="<?php echo $value; ?>" >
+<div class="field columns small-<?php echo esc_attr($textColumns); ?>">
+	<input id="<?php echo esc_attr($id); ?>" <?php echo $attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- name="value" pairs, each value esc_attr()'d in roboGalleryFieldsField::getData() ?>
+	       type="number" name="<?php echo esc_attr($name); ?>"
+	       value="<?php echo esc_attr( $value ); ?>" >
 </div>
 
 <?php if (!empty($options['textAfter'])) : ?>
-	<div class="field columns small-<?php echo $textAfterColumns ?> text-after">
-		<?php echo $options['textAfter']; ?>
+	<div class="field columns small-<?php echo esc_attr($textAfterColumns); ?> text-after">
+		<?php echo wp_kses_post($options['textAfter']); ?>
 	</div>
 <?php endif; ?>
 
-<div class="field small-<?php echo $sliderColumns; ?> columns">
+<div class="field small-<?php echo esc_attr($sliderColumns); ?> columns">
 	<div class="slider" data-slider
-	     data-initial-start="<?php echo $value; ?>"
-	     data-start="<?php echo $options['data-start']; ?>"
-	     data-end="<?php echo $options['data-end']; ?>"
-	     data-step="<?php echo $options['step']; ?>">
+	     data-initial-start="<?php echo esc_attr( $value ); ?>"
+	     data-start="<?php echo esc_attr($options['data-start']); ?>"
+	     data-end="<?php echo esc_attr($options['data-end']); ?>"
+	     data-step="<?php echo esc_attr($options['step']); ?>">
 		<span class="slider-handle" data-slider-handle role="slider" tabindex="1"
-		      aria-controls="<?php echo $id; ?>"></span>
+		      aria-controls="<?php echo esc_attr($id); ?>"></span>
 		<span class="slider-fill" data-slider-fill></span>
 	</div>
 </div>
 
 <div class="field small-12 columns">
 	<?php if ($description) : ?>
-		<p class="help-text"><?php echo $description; ?></p>
+		<p class="help-text"><?php echo wp_kses_post($description); ?></p>
 	<?php endif; ?>
 </div>

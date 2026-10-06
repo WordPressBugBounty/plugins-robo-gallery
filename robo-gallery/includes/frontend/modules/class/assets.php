@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -89,17 +89,15 @@ class  roboGalleryModuleAssets{
 		//$this->core->doEvent('gallery.assets.init.type', $this->typeInclude);
 	}
 
-	protected function initJsFilesListAlt(){			
-		//TODO add js alt files
+	// each module's assets class (base-grid, slider, simple, robogrid) lists its own files
+	protected function initJsFilesListAlt(){
 	}
 
 
-	protected function initJsFilesList(){	
-		//TODO add js files
+	protected function initJsFilesList(){
 	}
 
 	protected function initCssFilesList(){
-		//TODO add css files
 	}
 
 	protected function initFiles(){
@@ -140,8 +138,11 @@ class  roboGalleryModuleAssets{
 		if($this->typeInclude!='forced' ) return ;
 		$scriptTags = '';
 		foreach ($this->files['css'] as $fileLabel => $fileParams){
-			if( !$this->checkFileParams($fileParams) ) continue ;			
-			$scriptTags .= '<link id="'.$fileLabel.'" rel="stylesheet" type="text/css" href="'.$fileParams['url'].'">';
+			if( !$this->checkFileParams($fileParams) ) continue ;
+			// "Forced include" (Settings -> Compatibility) is for themes that never call
+			// wp_head()/wp_footer(): enqueued files would not be printed there at all
+			// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
+			$scriptTags .= '<link id="'.esc_attr($fileLabel).'" rel="stylesheet" type="text/css" href="'.esc_url($fileParams['url']).'">';
 		}
 		$this->core->setContent( $scriptTags, 'End' );
 	}
@@ -163,7 +164,9 @@ class  roboGalleryModuleAssets{
 		$scriptTags = '';
 		foreach ($this->files['js'] as $fileLabel => $fileParams){
 			if( !$this->checkFileParams($fileParams) ) continue ;
-			$scriptTags .= ' <script type="text/javascript" src="'.$fileParams['url'].'"></script>';
+			// "Forced include": see addCssFilesForced()
+			// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
+			$scriptTags .= ' <script type="text/javascript" src="'.esc_url($fileParams['url']).'"></script>';
 		}
 		$this->core->setContent( $scriptTags, 'End' );
 	}
@@ -171,20 +174,16 @@ class  roboGalleryModuleAssets{
 
  	function initCustomAssets( $type = 'css' ) {
 
+ 		// The same check as on save (Settings -> Custom JS\CSS): values saved before it
+ 		// existed may hold empty lines - site_url('') loaded the home page as CSS / JS.
  		$customOptionFiles = get_option( ROBO_GALLERY_PREFIX.$type.'Files', '' );
- 		if( $customOptionFiles ){
- 			if( strpos( $customOptionFiles, ';')!==false ){
- 				$customOptionFiles = explode(';', $customOptionFiles);
- 			} else if(  strpos( $customOptionFiles, "\n")!==false  ){
- 				$customOptionFiles = explode( "\n", $customOptionFiles);
- 			} else $customOptionFiles = array( $customOptionFiles );
- 		}
+ 		$customOptionFiles = ( new \RoboGallery\app\extensions\settings\SettingsPage() )->sanitizeFileList( is_string( $customOptionFiles ) ? $customOptionFiles : '' );
+ 		$customOptionFiles = '' === $customOptionFiles ? array() : explode( "\n", $customOptionFiles );
 
- 		if( !is_array($customOptionFiles) || !count($customOptionFiles)) $customOptionFiles = array();
  		$customFiles = array();
- 		for ($i = 0; $i < count($customOptionFiles); $i++){
+ 		foreach ( $customOptionFiles as $i => $path ){
  			$customFiles['robo-gallery-'.$type.'-custom-file'.$i] = array(
- 				'url' => site_url( trim( str_replace('\\', '/', $customOptionFiles[$i]) ) ),
+ 				'url' => site_url( $path ),
  				'depend' => array()
  			);
  		}

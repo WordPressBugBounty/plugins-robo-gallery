@@ -7,21 +7,15 @@
   const roboGalleries = document.getElementsByClassName( "robo-gallery-simple-container" );
 
   if (roboGalleries == null || roboGalleries.length < 1) {
-    console.log("RoboGallery :: Gallery Simple ::  not found");
     return;
   }
-
-  const styleItag = document.getElementById("robo-gallery-slider-css");
 
   for (var i = 0; i < roboGalleries.length; i++){
 		buildRoboGallery(roboGalleries[i]);
   }
-   ;
 
   function buildRoboGallery(gallery) {
     if (gallery.getAttribute("data-options") == undefined) return;
-
-    console.log(styleItag);
 
     var id = gallery.id,
       options_id = gallery.getAttribute("data-options"),

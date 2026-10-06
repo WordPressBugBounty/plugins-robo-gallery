@@ -12,6 +12,8 @@
 *      Available only in  https://robosoft.co/robogallery/ 
 */
 
+defined('WPINC') || exit;
+
 function rbs_border_get_state_options( $value = false ) {
     $state_list = array( 
     	'none'=>'none',
@@ -28,7 +30,7 @@ function rbs_border_get_state_options( $value = false ) {
 
     $state_options = '';
     foreach ( $state_list as $abrev => $state ) {
-        $state_options .= '<option value="'. $abrev .'" '. selected( $value, $abrev, false ) .'>'. $state .'</option>';
+        $state_options .= '<option value="'. esc_attr($abrev) .'" '. selected( $value, $abrev, false ) .'>'. esc_html($state) .'</option>';
     }
 
     return $state_options;
@@ -46,11 +48,11 @@ function rbs_border_render_field_callback( $field, $value, $object_id, $object_t
 <div class="form-horizontal">
 
 	<div class="form-group">
-	    <label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id( '_width' ); ?>'">
-	    	<?php _e( 'Width', 'robo-gallery' ); ?>
+	    <label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id( '_width' ) ); ?>'">
+	    	<?php esc_html_e( 'Width', 'robo-gallery' ); ?>
 	    </label>
 	    <div class="col-sm-10">
-	    <?php echo $field_type_object->input( array(
+	    <?php echo wp_kses( $field_type_object->input( array(
 						'name'  => $field_type_object->_name( '[width]' ),
 						'id'    => $field_type_object->_id( '_width' ),
 						'value' => (int) $value['width'],
@@ -60,37 +62,37 @@ function rbs_border_render_field_callback( $field, $value, $object_id, $object_t
 						'data-slider-min'=>0,
 						'data-slider-max'=>50,
 						'data-slider-step'=>1
-					) ); 
+					) ), cmbre2_form_allowed_html() ); 
 			?>   px
 	    </div>
 	</div>
 
 	<div class="form-group">
-    	<label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id( '_style' ); ?>'"><?php _e( 'Style', 'robo-gallery' ); ?></label>
+    	<label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id( '_style' ) ); ?>'"><?php esc_html_e( 'Style', 'robo-gallery' ); ?></label>
 	    <div class="col-sm-10">
-	      <?php echo $field_type_object->select( array(
+	      <?php echo wp_kses( $field_type_object->select( array(
 					'name'  => $field_type_object->_name( '[style]' ),
 					'id'    => $field_type_object->_id( '_style' ),
 					'class'   => 'rbs_select form-control ',
 					'options' => rbs_border_get_state_options( $value['style'] ),
 					'desc'    => $field_type_object->_desc( true )
-				) );
+				) ), cmbre2_form_allowed_html() );
 			?> 
 	    </div>
   	</div>
 
   	<div class="form-group">
-  		<label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id( '_color' ); ?>'"><?php _e( 'Color', 'robo-gallery' ); ?></label>
+  		<label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id( '_color' ) ); ?>'"><?php esc_html_e( 'Color', 'robo-gallery' ); ?></label>
 	    <div class="col-sm-4">
 	      <?php 
-			echo  $field_type_object->input( array(
+			echo wp_kses( $field_type_object->input( array(
 				'name'  			=> $field_type_object->_name( '[color]' ),
 				'id'    			=> $field_type_object->_id( '_color' ),
 				'class'             => 'form-control rbs_color',
 				'data-default' 		=>  $value['color']  ,
 				'data-alpha'        => 'true',
 				'value' 			=> $value['color'] 
-			)); 
+			)), cmbre2_form_allowed_html() ); 
 		?> 
 	    </div>
   	</div>

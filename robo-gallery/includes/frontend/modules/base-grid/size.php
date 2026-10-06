@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -50,28 +50,15 @@ class  roboGalleryModuleSizeV1  extends roboGalleryModuleAbstraction{
 	}
 
 
+	/**
+	 * A number with its unit (the padding field is free text, "px" by default).
+	 * The whole value is matched: the old substring checks read "2rem" as "2.00em".
+	 */
 	private static function getCorrectSize( $val ){
-		$correctVal = $val;
-		if(strpos( $val, '%')!==false ) {
-			$val = (int) $val;
-			$correctVal = $val.'%';
-		}else if(strpos( $val, 'em')!==false){
-			$val = number_format((float)$val, 2, '.', '');
-			$correctVal = $val.'em';
-		}else if(strpos( $val, 'rem')!==false){
-			$val = number_format((float)$val, 2, '.', '');
-			$correctVal = $val.'rem';
-		}else if(strpos( $val, 'vh')!==false){
-			$val = (int)$val;
-			$correctVal = $val.'vh';
-		}else if(strpos( $val, 'vw')!==false){
-			$val = (int)$val;
-			$correctVal = $val.'vw';
-		}else {
-			$val = (int) $val;
-			$correctVal = $val.'px';
+		if( is_scalar( $val ) && preg_match( '/^\s*(\d+(?:\.\d+)?)\s*(px|em|rem|%|vh|vw)\s*$/i', (string) $val, $m ) ){
+			return $m[1].strtolower( $m[2] );
 		}
-		return $correctVal;
+		return ( is_scalar( $val ) ? (int) $val : 0 ).'px';
 	}
 
 
@@ -80,7 +67,9 @@ class  roboGalleryModuleSizeV1  extends roboGalleryModuleAbstraction{
 		if( !is_array($paddingCustom) || !count($paddingCustom) ) return ;
 
 		foreach ($paddingCustom as $propertyName => $value){
-			if(!$value) continue;
+			// the key becomes part of the property name in the style attribute
+			// (esc_attr() keeps ";" and ":"): the padding field's sides only
+			if( !$value || !in_array( $propertyName, array( 'left', 'top', 'right', 'bottom' ), true ) ) continue;
 
 			$this->element->addElementStyle(
 				'robo-gallery-main-block',

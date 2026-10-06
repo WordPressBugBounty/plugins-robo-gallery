@@ -273,15 +273,15 @@ class CMBRE2 {
 
 		$field_group->peform_param_callback( 'before_group' );
 
-		echo '<div class="cmb-row cmb-repeat-group-wrap"><div class="cmb-td"><div id="', $field_group->id(), '_repeat" class="cmb-nested cmb-field-list cmb-repeatable-group', $sortable, '" style="width:100%;">';
+		echo '<div class="cmb-row cmb-repeat-group-wrap"><div class="cmb-td"><div id="', esc_attr( $field_group->id() ), '_repeat" class="cmb-nested cmb-field-list cmb-repeatable-group', esc_attr( $sortable ), '" style="width:100%;">';
 		if ( $desc || $label ) {
 			$class = $desc ? ' cmb-group-description' : '';
-			echo '<div class="cmb-row', $class, '"><div class="cmb-th">';
+			echo '<div class="cmb-row', esc_attr( $class ), '"><div class="cmb-th">';
 				if ( $label ) {
-					echo '<h2 class="cmb-group-name">', $label, '</h2>';
+					echo '<h2 class="cmb-group-name">', wp_kses_post( $label ), '</h2>';
 				}
 				if ( $desc ) {
-					echo '<p class="cmbre2-metabox-description">', $desc, '</p>';
+					echo '<p class="cmbre2-metabox-description">', wp_kses_post( $desc ), '</p>';
 				}
 			echo '</div></div>';
 		}
@@ -296,7 +296,7 @@ class CMBRE2 {
 			$this->render_group_row( $field_group, $remove_disabled );
 		}
 
-		echo '<div class="cmb-row"><div class="cmb-td"><p class="cmb-add-row"><button data-selector="', $field_group->id(), '_repeat" data-grouptitle="', $field_group->options( 'group_title' ), '" class="cmb-add-group-row button">', $field_group->options( 'add_button' ), '</button></p></div></div>';
+		echo '<div class="cmb-row"><div class="cmb-td"><p class="cmb-add-row"><button data-selector="', esc_attr( $field_group->id() ), '_repeat" data-grouptitle="', esc_attr( $field_group->options( 'group_title' ) ), '" class="cmb-add-group-row button">', esc_html( $field_group->options( 'add_button' ) ), '</button></p></div></div>';
 
 		echo '</div></div></div>';
 
@@ -315,11 +315,11 @@ class CMBRE2 {
 		$field_group->peform_param_callback( 'before_group_row' );
 
 		echo '
-		<div class="postbox cmb-row cmb-repeatable-grouping" data-iterator="', $field_group->index, '">
+		<div class="postbox cmb-row cmb-repeatable-grouping" data-iterator="', (int) $field_group->index, '">
 
-			<button ', $remove_disabled, 'data-selector="', $field_group->id(), '_repeat" class="dashicons-before dashicons-no-alt cmb-remove-group-row"></button>
+			<button ', ( $remove_disabled ? 'disabled="disabled" ' : '' ), 'data-selector="', esc_attr( $field_group->id() ), '_repeat" class="dashicons-before dashicons-no-alt cmb-remove-group-row"></button>
 			<div class="cmbhandle" title="' , 'Click to toggle', '"><br></div>
-			<h3 class="cmb-group-title cmbhandle-title"><span>', $field_group->replace_hash( $field_group->options( 'group_title' ) ), '</span></h3>
+			<h3 class="cmb-group-title cmbhandle-title"><span>', esc_html( $field_group->replace_hash( $field_group->options( 'group_title' ) ) ), '</span></h3>
 
 			<div class="inside cmb-td cmb-nested cmb-field-list">';
 				// Loop and render repeatable group fields
@@ -343,7 +343,7 @@ class CMBRE2 {
 				echo '
 				<div class="cmb-row cmb-remove-field-row">
 					<div class="cmb-remove-row">
-						<button ', $remove_disabled, 'data-selector="', $field_group->id(), '_repeat" class="button cmb-remove-group-row alignright">', $field_group->options( 'remove_button' ), '</button>
+						<button ', ( $remove_disabled ? 'disabled="disabled" ' : '' ), 'data-selector="', esc_attr( $field_group->id() ), '_repeat" class="button cmb-remove-group-row alignright">', esc_html( $field_group->options( 'remove_button' ) ), '</button>
 					</div>
 				</div>
 
@@ -963,7 +963,7 @@ class CMBRE2 {
 			case 'object_id':
 				return $this->object_id();
 			default:
-				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
+				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . esc_html( $field ) );
 		}
 	}
 

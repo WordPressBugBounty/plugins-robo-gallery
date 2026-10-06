@@ -1,7 +1,7 @@
 <?php 
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -24,8 +24,8 @@ $cache_box->add_field( array(
     'name'    	=> __('Cache','robo-gallery'),
     'default' 	=> '',
     'options'	=> array( 
-    		'' 		=> 'Disable', 
-    		'1' 	=> 'Enable', 
+    		'' 		=> __('Disable', 'robo-gallery'),
+    		'1' 	=> __('Enable', 'robo-gallery'),
     ),
     'id'	  	=> ROBO_GALLERY_PREFIX .'cache',
     'type'    	=> 'rbsradiobutton',
@@ -45,7 +45,7 @@ $cache_box->add_field( array(
 	<div class="row">
 		<div class="col-sm-12">
 			'.__('If you modify settings gallery generate new cache after save.', 'robo-gallery').'<br/>
-			'.__('You can configure timeout for cleaning  of the cached resources ', 'robo-gallery').' <a target="_blank" href="'.admin_url( 'edit.php?post_type=robo_gallery_table&page=robo-gallery-settings').'">'.__('here').'</a>.
+			'.__('You can configure timeout for cleaning  of the cached resources ', 'robo-gallery').' <a target="_blank" href="'.admin_url( 'edit.php?post_type=robo_gallery_table&page=robo-gallery-settings').'">'.__('here', 'robo-gallery').'</a>.
 		</div>
 	</div>
 

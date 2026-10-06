@@ -12,9 +12,11 @@
 *      Available only in  https://robosoft.co/robogallery/ 
 */
 
+defined('WPINC') || exit;
+
 
 function jt_cmbre2_switch_field( $metakey, $post_id = 0 ) {
-	echo jt_cmbre2_get_switch_field( $metakey, $post_id );
+	echo wp_kses( jt_cmbre2_get_switch_field( $metakey, $post_id ), cmbre2_form_allowed_html() );
 }
 
 function jt_cmbre2_render_switch_field_callback( $field, $value, $object_id, $object_type, $field_type_object ) {
@@ -39,29 +41,29 @@ function jt_cmbre2_render_switch_field_callback( $field, $value, $object_id, $ob
 	?>
 <div class="form-horizontal">
 	<div class="form-group">
-	    <label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id(); ?>'"><?php echo $field->args('name'); ?></label>
+	    <label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id() ); ?>'"><?php echo wp_kses_post( $field->args('name') ); ?></label>
 	    <div class="col-sm-<?php echo ($level||$update)?'7 rbs_disabled':'10'; ?>">
 	<?php 
 			 echo
 				'<input type="checkbox" data-toggle="toggle" '
-				.($onStyle?'  data-onstyle="'.$onStyle.'" '		:' data-onstyle="info" ')
-				.($offStyle?' data-offstyle="'.$offStyle.'" '	:' data-offstyle="default" ')
+				.($onStyle?'  data-onstyle="'.esc_attr($onStyle).'" '		:' data-onstyle="info" ')
+				.($offStyle?' data-offstyle="'.esc_attr($offStyle).'" '	:' data-offstyle="default" ')
 
-				.($onText?' data-on="'.$onText.'" ':'')
-				.($offText?' data-off="'.$offText.'" ':'')
+				.($onText?' data-on="'.esc_attr($onText).'" ':'')
+				.($offText?' data-off="'.esc_attr($offText).'" ':'')
 				.($field->args('depends')?'class="rbs_action_element" ':'')
-				.'name="'.$field_type_object->_name(  ).'" '
-				.'id="'. $field_type_object->_id( ).'" '
-				.($field->args('depends')?'data-depends="'.$field->args('depends').'" ':'')
+				.'name="'.esc_attr( $field_type_object->_name(  ) ).'" '
+				.'id="'.esc_attr( $field_type_object->_id( ) ).'" '
+				.($field->args('depends')?'data-depends="'.esc_attr($field->args('depends')).'" ':'')
 				.( $value==1 ?'checked="checked" ':'')
-				.'value="1"> <span class="rbs_desc">'.$field->args('desc').'</span>';
+				.'value="1"> <span class="rbs_desc">'.wp_kses_post($field->args('desc')).'</span>';
 			?> 
  		</div>
  		<?php if($level){ ?>
-			<div class="col-sm-3 rbs-block-pro"><?php echo ROBO_GALLERY_LABEL_PRO; ?></div>
+			<div class="col-sm-3 rbs-block-pro"><?php echo wp_kses_post( ROBO_GALLERY_LABEL_PRO ); ?></div>
 		<?php } ?>
 		<?php if($update){ ?>
-			<div class="col-sm-3 rbs-block-update-pro"><?php echo ROBO_GALLERY_LABEL_UPDATE_PRO; ?></div>
+			<div class="col-sm-3 rbs-block-update-pro"><?php echo wp_kses_post( ROBO_GALLERY_LABEL_UPDATE_PRO ); ?></div>
 		<?php } ?>
 
 	</div>

@@ -2787,6 +2787,70 @@ body.roboGalleryFields #wpcontent div.roboGalleryFields .robo-gallery-shortcode 
  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
 }
 
+body.roboGalleryFields #wpcontent div.roboGalleryFields .robo-gallery-shortcode-copy-wrap {
+ text-align: center;
+ margin-top: 6px;
+ margin-left: -10px;
+ margin-right: -10px;
+}
+
+/* own small button: Foundation's .button here is a large blue one with a bottom margin */
+body.roboGalleryFields #wpcontent div.roboGalleryFields .robo-gallery-shortcode-copy {
+ display: inline-block;
+ margin: 0;
+ padding: 2px 10px;
+ font-size: 12px;
+ line-height: 1.6;
+ color: #2271b1;
+ background: #f6f7f7;
+ border: 1px solid #2271b1;
+ border-radius: 3px;
+ cursor: pointer;
+}
+
+body.roboGalleryFields #wpcontent div.roboGalleryFields .robo-gallery-shortcode-copy:hover,
+body.roboGalleryFields #wpcontent div.roboGalleryFields .robo-gallery-shortcode-copy:focus {
+ background: #f0f0f1;
+ border-color: #0a4b78;
+ color: #0a4b78;
+}
+
+body.roboGalleryFields #wpcontent div.roboGalleryFields .robo-gallery-shortcode-copied {
+ display: block;
+ min-height: 16px;
+ line-height: 16px;
+ color: green;
+ font-size: 12px;
+}
+
+/*  Text Addons (config/metabox/text_addons.php): a narrow side box - tighter than the main boxes */
+
+body.roboGalleryFields #wpcontent #robo_gallery_text_addons div.roboGalleryFields .metabox.wrap-field {
+ margin-bottom: 8px;
+}
+
+body.roboGalleryFields #wpcontent #robo_gallery_text_addons div.roboGalleryFields .columns {
+ padding-left: 0;
+ padding-right: 0;
+}
+
+body.roboGalleryFields #wpcontent #robo_gallery_text_addons div.roboGalleryFields h5 {
+ font-size: 13px;
+ font-weight: 600;
+ line-height: 1.4;
+ margin-bottom: 4px;
+}
+
+body.roboGalleryFields #wpcontent #robo_gallery_text_addons div.roboGalleryFields .input-group,
+body.roboGalleryFields #wpcontent #robo_gallery_text_addons div.roboGalleryFields textarea {
+ margin-bottom: 0;
+}
+
+body.roboGalleryFields #wpcontent #robo_gallery_text_addons div.roboGalleryFields textarea {
+ font-size: 13px;
+ padding: 6px;
+}
+
 body.roboGalleryFields #wpcontent div.roboGalleryFields .robo-gallery-shortcode-desc {
  text-align: center;
  padding-bottom: 5px !important;

@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -9,7 +9,7 @@
 *      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-//use RoboGallery\App\Extension\GalleryTypes\GalleryTypeList;
+defined('WPINC') || exit;
 
 $type   = rbsGalleryUtils::getTypeGallery();
 $source = rbsGalleryUtils::getSourceGallery();
@@ -33,18 +33,21 @@ return array(
 	<script>
 		const changeGalleryType = (evn)=>{  
 		evn.preventDefault(); 
-		window.showRoboDialogForChange( ' . $postId . ',\'' . $type . '\'  );
+		window.showRoboDialogForChange( ' . $postId . ',\'' . esc_js($type) . '\'  );
 		}
 		const elem = document.getElementById("roboGalleryChangeTypeButton");
 		elem.onclick = changeGalleryType;
 	</script>
 	' : '',
-    'content'      => 'template::content/gallery_type/type' . ($type ? '_' . $type : ''),
+    // logo and name of the type: one template for all types
+    'content'      => 'template::content/gallery_type/type',
     'fields'       => array(
         array(
             'type'    => 'hidden',
             'view'    => 'default',
             'name'    => 'gallery_type',
+            // an empty stored type (shown back in this field) is saved as grid
+            'cb_sanitize' => 'RoboGallery\app\extensions\galleryType\GalleryTypeList::sanitizeType',
             'default' => $type,
         ),
 
@@ -52,7 +55,7 @@ return array(
             'type'    => 'hidden',
             'view'    => 'default',
             'name'    => 'gallery_type_source',
-            'cb_sanitize' => 'RoboGallery\App\Extension\GalleryTypes\GalleryTypeList::sanitizeSource',
+            'cb_sanitize' => 'RoboGallery\app\extensions\galleryType\GalleryTypeList::sanitizeSource',
             'default' => $source,
         ),
 

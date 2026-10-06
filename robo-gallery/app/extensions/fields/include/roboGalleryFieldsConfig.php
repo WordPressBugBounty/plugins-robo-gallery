@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -35,7 +35,7 @@ class roboGalleryFieldsConfig{
 			$configData = $this->reader->read($filePath);
 
 			if (!is_array($configData)) {
-				throw new \Exception(sprintf( 'Wrong configuration %s', $filePath));
+				throw new \Exception(sprintf('Wrong configuration %s', esc_html($filePath)));
 			}
 			$this->set($configName, $configData);
 		}

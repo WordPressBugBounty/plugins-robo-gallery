@@ -99,7 +99,7 @@ if ( ! class_exists( 'CMBRE2_Bootstrap_206', false ) ) {
 				define( 'CMBRE2_DIR', trailingslashit( dirname( __FILE__ ) ) );
 			}
 
-			$this->l10ni18n();
+			// No 'cmbre2' text domain: no string uses it, and there are no .mo files.
 
 			// Include helper functions
 			require_once 'includes/helper-functions.php';
@@ -109,26 +109,6 @@ if ( ! class_exists( 'CMBRE2_Bootstrap_206', false ) ) {
 
 			// Kick the whole thing off
 			require_once 'bootstrap.php';
-		}
-
-		/**
-		 * Registers CMBRE2 text domain path
-		 * @since  2.0.0
-		 */
-		public function l10ni18n() {
-			$loaded = load_plugin_textdomain( 'cmbre2', false, '/languages/' );
-			if ( ! $loaded ) {
-				$loaded = load_muplugin_textdomain( 'cmbre2', '/languages/' );
-			}
-			if ( ! $loaded ) {
-				$loaded = load_theme_textdomain( 'cmbre2', '/languages/' );
-			}
-
-			if ( ! $loaded ) {
-				$locale = apply_filters( 'plugin_locale', get_locale(), 'cmbre2' );
-				$mofile = dirname( __FILE__ ) . '/languages/cmbre2-' . $locale . '.mo';
-				load_textdomain( 'cmbre2', $mofile );
-			}
 		}
 
 	}

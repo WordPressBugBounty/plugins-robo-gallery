@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -87,7 +87,7 @@ class  roboGalleryModuleElement{
 		if( !$this->isElementHas( $type, $element ) ) return $elementValsList;
 		
 		foreach ( $this->{'element'.$type}[$element] as $name => $value) {			
-			$elementValsList .= $value.' ' ;
+			$elementValsList .= esc_attr($value).' ' ;
 		}
 		return $elementValsList;
 	}
@@ -111,7 +111,7 @@ class  roboGalleryModuleElement{
 		if( !$this->isElementHas( 'Style', $element ) ) return $styles;
 		
 		foreach ( $this->elementStyle[$element] as $name => $value) {
-			$styles .= $name.':'.$value.';';
+			$styles .= esc_attr($name).':'.esc_attr($value).';';
 		}
 		return $styles;		
 	}
@@ -125,7 +125,7 @@ class  roboGalleryModuleElement{
 		if( !$this->isElementHas( $type, $element ) ) return $attrs;
 		
 		foreach( $this->{'element'.$type}[$element] as $name => $value){
-			$attrs .= ' '.$name.'="'.$value.'" ';	
+			$attrs .= ' '.esc_attr($name).'="'.esc_attr($value).'" ';	
 		}
 		return $attrs;
 	}

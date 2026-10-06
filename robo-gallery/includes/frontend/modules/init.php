@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -15,11 +15,9 @@ require_once ROBO_GALLERY_FRONTEND_MODULES_PATH.'class/abstraction.php';
 require_once ROBO_GALLERY_FRONTEND_MODULES_PATH.'class/assets.php';
 require_once ROBO_GALLERY_FRONTEND_MODULES_PATH.'class/config.php';
 require_once ROBO_GALLERY_FRONTEND_MODULES_PATH.'class/cache.php';
-require_once ROBO_GALLERY_FRONTEND_MODULES_PATH.'class/cachedb.php';
 require_once ROBO_GALLERY_FRONTEND_MODULES_PATH.'class/scss.php';
 require_once ROBO_GALLERY_FRONTEND_MODULES_PATH.'class/element.php';
 require_once ROBO_GALLERY_FRONTEND_MODULES_PATH.'class/jsoptions.php';
-require_once ROBO_GALLERY_FRONTEND_MODULES_PATH.'class/stats.php';
 require_once ROBO_GALLERY_FRONTEND_MODULES_PATH.'class/customcss.php';
 require_once ROBO_GALLERY_FRONTEND_MODULES_PATH.'class/addtexts.php';
 require_once ROBO_GALLERY_FRONTEND_MODULES_PATH.'class/source/class.source.php';

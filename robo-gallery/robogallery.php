@@ -3,7 +3,7 @@
 Plugin Name: Robo Gallery
 Plugin URI: https://robosoft.co/gallery
 Description: Gallery modes photo gallery, images gallery, video gallery, Polaroid gallery, gallery lightbox, portfolio gallery, responsive gallery
-Version: 5.1.6
+Version: 5.2.6
 Author: RoboSoft
 Author URI: https://robosoft.co/gallery
 License: GPLv3 or later
@@ -13,7 +13,7 @@ Domain Path: /languages
 
 if( !defined('WPINC') ) die;
 
-define("ROBO_GALLERY_VERSION", '5.1.6'); 
+define("ROBO_GALLERY_VERSION", '5.2.6'); 
 
 define("ROBO_GALLERY", 						1 );
 
@@ -60,9 +60,6 @@ define("ROBO_GALLERY_APP_PATH", 			ROBO_GALLERY_PATH.'app/');
 define("ROBO_GALLERY_APP_EXTENSIONS_PATH", 	ROBO_GALLERY_APP_PATH.'extensions/');
 
 
-define('ROBO_GALLERY_URL_ADDONS', admin_url( 'edit.php?post_type='.ROBO_GALLERY_TYPE_POST.'&page=robo_gallery_table-addons' ));
-
-
 define('ROBO_GALLERY_URL_UPDATEPRO', 'https://robosoft.co/go.php?product=gallery&task=gopro');
 define('ROBO_GALLERY_URL_UPDATEKEY', 'https://robosoft.co/go.php?product=gallery&task=updatekey');
 
@@ -70,15 +67,14 @@ define('ROBO_GALLERY_URL_UPDATEKEY', 'https://robosoft.co/go.php?product=gallery
 
 include_once( ROBO_GALLERY_PATH.'autoload.php' );
 
-/* activation */
-new \RoboGallery\app\extensions\activation\Install();
+/* activation, updates */
+(new \RoboGallery\app\extensions\activation\Bootstrap())->run();
 
 
 /* access mode */
 (new \RoboGallery\app\extensions\access\Bootstrap())->run();
 
 
-//include_once ROBO_GALLERY_APP_EXTENSIONS_PATH.'activation/init.php';
 
 /* core function */
 include_once ROBO_GALLERY_APP_EXTENSIONS_PATH.'core/init.php';

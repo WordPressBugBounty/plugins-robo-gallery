@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -95,7 +95,15 @@ class  roboGalleryModuleAbstraction{
 
 	public function getMeta( $optionName ){
 		return $this->core->config->getMeta( $optionName );
-	}	
+	}
+
+	/**
+	 * A color setting checked by CssColor ('' when empty or not a valid color):
+	 * every color that goes into the gallery's CSS/SCSS is read through here.
+	 */
+	public function getColorMeta( $optionName ){
+		return \RoboGallery\app\extensions\validation\CssColor::sanitize( $this->getMeta( $optionName ) );
+	}
 
 	public function getMetaCur( $optionName ){
 		return $this->core->config->getMetaCur( $optionName );

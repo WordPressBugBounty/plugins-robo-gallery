@@ -13,6 +13,8 @@
 *      Available only in  https://robosoft.co/robogallery/ 
 */
 
+defined('WPINC') || exit;
+
 function rbsradiobutton_getOptions( $options, $name, $value = false ) {
 	if( !isset($options) || !count($options) )  return '';
 
@@ -20,17 +22,17 @@ function rbsradiobutton_getOptions( $options, $name, $value = false ) {
     foreach ( $options as $abrev => $state ) {
         $state_options .= 
         '<label class="btn btn-info '.($value==$abrev?'active':'').'">'
-	 		.'<input type="radio" autocomplete="off" name="'.$name.'" '
+	 		.'<input type="radio" autocomplete="off" name="'.esc_attr($name).'" '
 		 			.($abrev==$value?' checked ':'').' '
-		 			.' value="'.$abrev.'"'
-	 			.'> '.$state
+		 			.' value="'.esc_attr($abrev).'"'
+	 			.'> '.wp_kses_post($state)
 		.'</label>';
     }
     return $state_options;
 }
 
 function rbsradiobutton_field( $metakey, $post_id = 0 ) {
-	echo get_rbsradiobutton_field( $metakey, $post_id );
+	echo wp_kses( get_rbsradiobutton_field( $metakey, $post_id ), cmbre2_form_allowed_html() );
 }
 
 function rbsradiobutton_field_callback( $field, $value, $object_id, $object_type, $field_type_object ) {
@@ -44,25 +46,25 @@ function rbsradiobutton_field_callback( $field, $value, $object_id, $object_type
 ?>
 <div class="form-horizontal">
 
-	<div class="<?php echo $field_type_object->_id( 'optionsBlok' );?>">
+	<div class="<?php echo esc_attr( $field_type_object->_id( 'optionsBlok' ) );?>">
 		<div class="form-group">
-		    <label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id( ); ?>'"><?php echo esc_html($field->args('name') ); ?></label>
+		    <label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id( ) ); ?>'"><?php echo esc_html($field->args('name') ); ?></label>
 		    <div class="col-sm-<?php echo ($level||$update) ?'7 rbs_disabled':'10'; ?>">
 
 		    	<div class="btn-group " data-toggle="buttons">
 				<?php
-					echo rbsradiobutton_getOptions( $field->args('options'),  $field_type_object->_name(),  $value );
+					echo wp_kses( rbsradiobutton_getOptions( $field->args('options'),  $field_type_object->_name(),  $value ), cmbre2_form_allowed_html() );
 				 ?>
 				</div>
 		    </div>
 
 			 <?php if($level){ ?>
 			    <div class="col-sm-<?php echo $field->args('small')?'6':'2'; ?> rbs-block-pro">
-			    	<?php echo ROBO_GALLERY_LABEL_PRO; ?>
+			    	<?php echo wp_kses_post( ROBO_GALLERY_LABEL_PRO ); ?>
 			    </div>
 			<?php } ?>
 			<?php if($update){ ?>
-				<div class="col-sm-3 rbs-block-update-pro"><?php echo ROBO_GALLERY_LABEL_UPDATE_PRO; ?></div>
+				<div class="col-sm-3 rbs-block-update-pro"><?php echo wp_kses_post( ROBO_GALLERY_LABEL_UPDATE_PRO ); ?></div>
 			<?php } ?>
 
 		</div>

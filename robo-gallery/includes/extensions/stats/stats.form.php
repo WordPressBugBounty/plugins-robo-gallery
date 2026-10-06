@@ -1,15 +1,12 @@
 <?php
-/*
- *      Robo Gallery
- *      Version: 1.2
- *      By Robosoft
- *
- *      Contact: https://robosoft.co/robogallery/
- *      Created: 2015
- *      Licensed under the GPLv2 license - http://opensource.org/licenses/gpl-2.0.php
- *
- *      Copyright (c) 2014-2019, Robosoft. All rights reserved.
- *      Available only in  https://robosoft.co/robogallery/
+/* 
+*      Robo Gallery     
+*      Version: 5.2.6 - 24868
+*      By Robosoft
+*
+*      Contact: https://robogallery.co/ 
+*      Created: 2025
+*      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 if (!defined('WPINC')) {
@@ -19,10 +16,11 @@ if (!defined('WPINC')) {
 $nonce_name = 'robo-gallery-clearstats';
 $countPosts = wp_count_posts(ROBO_GALLERY_TYPE_POST);
 
+// every gallery, not only the ones with a view count: Total Images counts them all
 $args = array(
     'post_type'      => ROBO_GALLERY_TYPE_POST,
-    'meta_key'       => 'gallery_views_count',
     'posts_per_page' => -1,
+    'fields'         => 'ids',
 );
 $allViews  = 0;
 $loop      = new WP_Query($args);
@@ -38,21 +36,19 @@ if (isset($_GET['clearStat']) && $_GET['clearStat'] == 1) {
     }
 }
 
-if ($loop->have_posts()) {
-    for ($i = 0; $i < count($loop->posts); $i++) {
+foreach ($loop->posts as $galleryId) {
 
-        $images = get_post_meta($loop->posts[$i]->ID, ROBO_GALLERY_PREFIX . 'galleryImages', true);
-        if (isset($images) && is_array($images) && count($images)) {
-            $allImages += count($images);
-        }
-        if ($clearStat) {
-            delete_post_meta($loop->posts[$i]->ID, 'gallery_views_count');
-            add_post_meta($loop->posts[$i]->ID, 'gallery_views_count', '0');
-        }
-        $amt = get_post_meta($loop->posts[$i]->ID, 'gallery_views_count', true);
-        if ($amt) {$allViews += $amt;}
-        ;
+    $images = get_post_meta($galleryId, ROBO_GALLERY_PREFIX . 'galleryImages', true);
+    if (is_array($images)) {
+        $allImages += count($images);
     }
+
+    // reset as before: only the galleries that have a counter
+    if ($clearStat && metadata_exists('post', $galleryId, 'gallery_views_count')) {
+        delete_post_meta($galleryId, 'gallery_views_count');
+        add_post_meta($galleryId, 'gallery_views_count', '0');
+    }
+    $allViews += (int) get_post_meta($galleryId, 'gallery_views_count', true);
 }
 
 $nonce = wp_create_nonce($nonce_name);
@@ -60,15 +56,15 @@ $url   = admin_url("edit.php?post_type=robo_gallery_table&page=robo-gallery-stat
 ?>
 <div class="wrap">
 	<h1  class="rbs-stats">
-		<?php _e('Robo Gallery Statistics', 'robo-gallery');?>
-		<a id="robo_gallery_reset_stat" href="<?php echo $url; ?>" class="page-title-action"><?php _e('Reset', 'robo-gallery');?></a>
+		<?php esc_html_e( 'Robo Gallery Statistics', 'robo-gallery' );?>
+		<a id="robo_gallery_reset_stat" href="<?php echo esc_url($url); ?>" class="page-title-action"><?php esc_html_e( 'Reset', 'robo-gallery' );?></a>
 	</h1>
 
 	<?php if ( $clearStat ) {?>
 		<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible">
-			<p><strong><?php _e('Statistics reset successfully!', 'robo-gallery');?></strong></p>
+			<p><strong><?php esc_html_e( 'Statistics reset successfully!', 'robo-gallery' );?></strong></p>
 			<button type="button" class="notice-dismiss">
-				<span class="screen-reader-text"><?php _e('Dismiss this notice.');?></span>
+				<span class="screen-reader-text"><?php esc_html_e('Dismiss this notice.'); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress ?></span>
 			</button>
 		</div>
 	<?php }?>
@@ -87,7 +83,7 @@ if (!function_exists('rbs_stats_tabs')) {
         echo '<h2 class="nav-tab-wrapper">';
         foreach ($tabs as $tab => $name) {
             $class = ($tab == $current) ? ' nav-tab-active' : '';
-            echo '<a class="nav-tab' . $class . '" href="edit.php?post_type=robo_gallery_table&page=robo-gallery-stats&tab=' . $tab . '">' . $name . '</a>';
+            echo '<a class="nav-tab' . esc_attr( $class ) . '" href="' . esc_url( 'edit.php?post_type=robo_gallery_table&page=robo-gallery-stats&tab=' . $tab ) . '">' . esc_html( $name ) . '</a>';
         }
         echo '</h2>';
     }
@@ -101,26 +97,26 @@ switch ($tab) {
 		<tbody>
 			<tr>
 				<th scope="row">
-					<label ><?php _e('Total Views', 'robo-gallery');?></label>
+					<label ><?php esc_html_e( 'Total Views', 'robo-gallery' );?></label>
 				</th>
 				<td>
-					<p><?php echo $allViews; ?></p>
+					<p><?php echo (int) ( $allViews ); ?></p>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row">
-					<label ><?php _e('Total Images', 'robo-gallery');?></label>
+					<label ><?php esc_html_e( 'Total Images', 'robo-gallery' );?></label>
 				</th>
 				<td>
-					<p><?php echo $allImages; ?></p>
+					<p><?php echo (int) ( $allImages ); ?></p>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row">
-					<label ><?php _e('Total Galleries', 'robo-gallery');?></label>
+					<label ><?php esc_html_e( 'Total Galleries', 'robo-gallery' );?></label>
 				</th>
 				<td>
-					<p><?php echo $countPosts->publish + $countPosts->draft + $countPosts->trash; ?></p>
+					<p><?php echo (int) ( $countPosts->publish + $countPosts->draft + $countPosts->trash ); ?></p>
 				</td>
 			</tr>
 			<tr>
@@ -128,26 +124,26 @@ switch ($tab) {
 			</tr>
 			<tr>
 				<th scope="row">
-					<label ><?php _e('Published', 'robo-gallery');?></label>
+					<label ><?php esc_html_e( 'Published', 'robo-gallery' );?></label>
 				</th>
 				<td>
-					<p><?php echo $countPosts->publish; ?></p>
+					<p><?php echo (int) ( $countPosts->publish ); ?></p>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row">
-					<label ><?php _e('Drafts', 'robo-gallery');?></label>
+					<label ><?php esc_html_e( 'Drafts', 'robo-gallery' );?></label>
 				</th>
 				<td>
-					<p><?php echo $countPosts->draft; ?></p>
+					<p><?php echo (int) ( $countPosts->draft ); ?></p>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row">
-					<label ><?php _e('Trash', 'robo-gallery');?></label>
+					<label ><?php esc_html_e( 'Trash', 'robo-gallery' );?></label>
 				</th>
 				<td>
-					<p><?php echo $countPosts->trash; ?></p>
+					<p><?php echo (int) ( $countPosts->trash ); ?></p>
 				</td>
 			</tr>
 

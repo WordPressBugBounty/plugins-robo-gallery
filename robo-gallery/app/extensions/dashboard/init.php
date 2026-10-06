@@ -1,7 +1,7 @@
-<?php 
+<?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -9,6 +9,8 @@
 *      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-if ( ! defined( 'WPINC' ) ) exit;
+defined('WPINC') || exit;
 
-include_once plugin_dir_path( __FILE__ ).'class.dashboard.php';
+if (is_admin()) {
+    (new \RoboGallery\app\extensions\dashboard\Dashboard())->register();
+}

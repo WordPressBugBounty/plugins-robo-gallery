@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -77,7 +77,7 @@ class  roboGalleryModuleGridV1 extends roboGalleryModuleAbstraction{
 
 	public function initImageEffects($img){
 		if( !isset( $img['effect']) || !$img['effect'] ) return ;		
-		$this->element->setElementAttr('rbs-img-image-block'.$img['id'], 'data-overlay-effect', $img['effect'] );
+		$this->element->setElementAttr('rbs-img-image-block'.$img['id'], 'data-overlay-effect', esc_attr($img['effect']) );
 	}
 
 	private function initJsOptions(){
@@ -103,13 +103,15 @@ class  roboGalleryModuleGridV1 extends roboGalleryModuleAbstraction{
 	}
 	
 	private function initBgLoading(){
-		if( !$this->getMeta('loadingBgColor') ) return ;		
-		$this->scssVar['backgroundLoading'] = $this->getMeta('loadingBgColor');
+		$color = $this->getColorMeta('loadingBgColor');
+		if( !$color ) return ;
+		$this->scssVar['backgroundLoading'] = $color;
 	}
 
 	private function initBgOverlay(){
-		if( !$this->getMeta('background') ) return;
-		$this->scssVar['backgroundHover'] = $this->getMeta('background');
+		$color = $this->getColorMeta('background');
+		if( !$color ) return;
+		$this->scssVar['backgroundHover'] = $color;
 	}
 
 	private function initBorder(){
@@ -143,8 +145,9 @@ class  roboGalleryModuleGridV1 extends roboGalleryModuleAbstraction{
 				$this->jsOptions->setValue( 'borderSize',  (int) $border['width'] );
 			}
 		}
-		if( isset($border['style'])) $borderStyle.=  $border['style'].' ';
-		if( isset($border['color'])) $borderStyle.=  $border['color'].' ';		
+		// style and color go into SCSS text: keywords / a plain color only
+		if( isset($border['style']) && in_array( $border['style'], array( 'none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset' ), true ) ) $borderStyle.= $border['style'].' ';
+		if( isset($border['color']) ) $borderStyle.= \RoboGallery\app\extensions\validation\CssColor::sanitize( $border['color'] ).' ';
 		return 'border: '.$borderStyle.';';
  	}
 
@@ -166,7 +169,7 @@ class  roboGalleryModuleGridV1 extends roboGalleryModuleAbstraction{
 		$shadowStyle = (int) $shadow['hshadow'].'px '
 						.(int) $shadow['vshadow'].'px '
 						.(int) $shadow['bshadow'].'px '
-						.$shadow['color'].' ';
+						.\RoboGallery\app\extensions\validation\CssColor::sanitize( $shadow['color'] );
 
 		return 	'-webkit-box-shadow:'.$shadowStyle.';'.
 				'-moz-box-shadow: 	'.$shadowStyle.';'.

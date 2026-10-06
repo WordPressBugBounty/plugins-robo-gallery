@@ -13,7 +13,7 @@
 */
 
 if ( ! defined( 'WPINC' ) ) exit;
-//return '';
+
 $hover_group = new_cmbre2_box( array(
     'id' 			=> ROBO_GALLERY_PREFIX . 'hover_metabox',
     'title' 		=> __( 'Hover Options', 'robo-gallery' ), 
@@ -72,7 +72,6 @@ $hover_group->add_field( array(
 	'name' 			=> __('Show Title', 'robo-gallery' ),
 	'id' 			=> ROBO_GALLERY_PREFIX . 'showTitle',
 	'type' 			=> 'font',
-	'default'		=> rbs_gallery_set_checkbox_default_for_new_post(1),
 	'bootstrap_style'=> 1,
     'default'		=> array(
     	'enabled'	=> rbs_gallery_set_checkbox_default_for_new_post(1),
@@ -165,7 +164,10 @@ $hover_group->add_field( array(
 
 $hover_group->add_field( array(
 	'id' 			=> 	ROBO_GALLERY_PREFIX . 'desc_template',
-	'type' 			=> 	'hidden',	
+	'type' 			=> 	'hidden',
+	// HTML template (edited in Pro as a textarea): hidden fields fall back to
+	// sanitize_text_field, which would strip the tags on every save
+	'sanitization_cb' => 'wp_kses_post',
 	'default'		=> 	'<div class="rbs-hover-title">@TITLE@</div>'."\n".
 		'<div class="rbs-hover-caption">@CAPTION@</div>'."\n".
 		'<div class="rbs-hover-text">@DESC@</div>'."\n".

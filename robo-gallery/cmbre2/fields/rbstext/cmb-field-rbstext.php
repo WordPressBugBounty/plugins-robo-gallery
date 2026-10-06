@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -9,9 +9,11 @@
 *      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
+defined('WPINC') || exit;
+
 
 function jt_cmbre2_rbstext_field( $metakey, $post_id = 0 ) {
-	echo jt_cmbre2_get_rbstext_field( $metakey, $post_id );
+	echo wp_kses( jt_cmbre2_get_rbstext_field( $metakey, $post_id ), cmbre2_form_allowed_html() );
 }
 
 function jt_cmbre2_render_rbstext_field_callback( $field, $value, $object_id, $object_type, $field_type_object ) {
@@ -21,9 +23,9 @@ $level = $field->args('level')?1:0;
 ?>
 <div class="form-horizontal">
 	<div class="form-group">
-	    <label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id(); ?>"><?php echo esc_html(  $field->args('name') ); ?></label>
+	    <label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id() ); ?>"><?php echo esc_html(  $field->args('name') ); ?></label>
 	    <div class="<?php echo $field->args('small')?'col-sm-4':'col-sm-8'; echo ($level?' rbs_disabled':'') ?>">
-		    <?php echo $field_type_object->input( array(
+		    <?php echo wp_kses( $field_type_object->input( array(
 				'name'  		=> $field_type_object->_name( ),
 				'id'    		=> $field_type_object->_id( ),
 				'value' 		=> $value,
@@ -35,11 +37,11 @@ $level = $field->args('level')?1:0;
 				
 				/*'type'  		=> 'text',*/
 				'class' 		=> 'form-control '.$field->args('class') ,
-			)); 
+			)), cmbre2_form_allowed_html() ); 
 			?> 
 	    </div>
 	    <?php if($level){ ?>
-		    <div class="col-sm-<?php echo $field->args('small')?'6':'2'; ?> rbs-block-pro"><?php echo ROBO_GALLERY_LABEL_PRO; ?></div>
+		    <div class="col-sm-<?php echo $field->args('small')?'6':'2'; ?> rbs-block-pro"><?php echo wp_kses_post( ROBO_GALLERY_LABEL_PRO ); ?></div>
 		<?php } ?>
 	</div>
 </div>

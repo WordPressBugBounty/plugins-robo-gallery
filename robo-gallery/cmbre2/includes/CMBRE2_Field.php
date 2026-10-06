@@ -670,20 +670,18 @@ class CMBRE2_Field {
 		}
 
 		$this->peform_param_callback( 'before_row' ); /*robosoft*/
-		$style= $this->args( 'hide_border' ) ? ' style="border-bottom: none;" ' : '';
-		printf( "<div class=\"cmb-row %s\" %s>\n", $this->row_classes(), $style );
+		printf( "<div class=\"cmb-row %s\" %s>\n", esc_attr( $this->row_classes() ), $this->args( 'hide_border' ) ? ' style="border-bottom: none;" ' : '' );
 
 		if ( 'title' == $this->type() || ! $this->args( 'show_names' ) ) {
 			echo "\t<div class=\"cmb-td\">\n";
 
 			if ( ! $this->args( 'show_names' ) ) {
-				$style = 'title' == $this->type() ? '' : ' style="display:none;"';
-				printf( "\n<label%s for=\"%s\">%s</label>\n", $style, $this->id(), $this->args( 'name' ) );
+				printf( "\n<label%s for=\"%s\">%s</label>\n", 'title' == $this->type() ? '' : ' style="display:none;"', esc_attr( $this->id() ), wp_kses_post( $this->args( 'name' ) ) );
 			}
 		} else {
 
 			if ( $this->args( 'name' ) ) {
-				printf( '<div class="cmb-th"><label for="%1$s">%2$s</label></div>', $this->id(), $this->args( 'name' ) );
+				printf( '<div class="cmb-th"><label for="%1$s">%2$s</label></div>', esc_attr( $this->id() ), wp_kses_post( $this->args( 'name' ) ) );
 			}
 
 			echo "\n\t<div class=\"cmb-td\">\n";
@@ -767,7 +765,8 @@ class CMBRE2_Field {
 	 * @param string $param Field parameter
 	 */
 	public function peform_param_callback( $param ) {
-		echo $this->get_param_callback_result( $param );
+		// before_row / after_row ... of the option configs: wrappers, line breaks, links
+		echo wp_kses( $this->get_param_callback_result( $param ), cmbre2_form_allowed_html() );
 	}
 
 	/**
@@ -789,7 +788,8 @@ class CMBRE2_Field {
 			if ( $echo ) {
 				// Ok, callback is good, let's run it and store the result
 				ob_start();
-				echo call_user_func( $cb, $this->args(), $this );
+				// captured here, printed through wp_kses() by peform_param_callback()
+				echo call_user_func( $cb, $this->args(), $this ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				// grab the result from the output buffer and store it
 				$this->callback_results[ $param ] = ob_get_contents();
 				ob_end_clean();

@@ -1,13 +1,15 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
 *      Created: 2025
 *      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
+
+defined('WPINC') || exit;
 
 if ( !class_exists( 'RoboGallery_Blocks' ) ) {
 
@@ -16,8 +18,9 @@ if ( !class_exists( 'RoboGallery_Blocks' ) ) {
 		public $prefix = 'block-robo-gallery-';
 
 		function __construct() {
-			add_action( 'enqueue_block_assets', array( $this, 'block_assets') );
-
+			// No enqueue_block_assets: dist/blocks.style.build.css is empty, and its
+			// 'wp-editor' dependency loaded ~280 KB of editor CSS on every front-end page.
+			// The gallery's own assets come from the shortcode render.
 			add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets') );
 
 			add_action( 'init', array( $this, 'php_block_init' ) );
@@ -25,15 +28,6 @@ if ( !class_exists( 'RoboGallery_Blocks' ) ) {
 			add_action( 'wp_ajax_robo_gallery_get_gallery_json', array($this, 'ajaxGetGalleryJson') );
 
 			add_filter( 'block_categories_all', array( $this, 'addCategoryBlocks' ), 10, 2 );
-		}
-
-		function block_assets(){
-			wp_enqueue_style(
-				$this->prefix.'style-css',
-				plugins_url( 'dist/blocks.style.build.css', dirname( __FILE__ ) ),
-				array( 'wp-editor' ),
-				ROBO_GALLERY_VERSION
-			);
 		}
 
 		function editor_assets(){
@@ -89,7 +83,8 @@ if ( !class_exists( 'RoboGallery_Blocks' ) ) {
 			if( !$attributes['galleryid'] ) return false;
 
 			$galleryid = (int)$attributes['galleryid'];
-			if( !get_post_meta( $galleryid , ROBO_GALLERY_PREFIX.'gallery_type', true )  ) return false ;
+			// a gallery, whatever its type: an empty type is grid (rbsGalleryUtils::getTypeGallery())
+			if( get_post_type( $galleryid ) !== ROBO_GALLERY_TYPE_POST ) return false ;
 			return true ;
 		}
 
@@ -109,10 +104,11 @@ if ( !class_exists( 'RoboGallery_Blocks' ) ) {
 				) ;
 			}
 
-			if( !class_exists('roboGallery') ) return 'Robo Gallery:: Error 999';
+			if( !class_exists('roboGallery') || !function_exists('robo_gallery_shortcode') ) return 'Robo Gallery:: Error 999';
 
-			$gallery = new roboGallery( $this->getAttributes( $attributes ) );
-			return $gallery->getGallery();
+			// same path as the shortcode, so the block gets the same access checks
+			// (it used to render any gallery - private, token, draft - by ID)
+			return robo_gallery_shortcode( $this->getAttributes( $attributes ) );
 
 		}
 
@@ -145,7 +141,7 @@ if ( !class_exists( 'RoboGallery_Blocks' ) ) {
 
 						$returnJson[] = array(
 							'id' => $post->ID,
-							'title' => esc_js($post->post_title),
+							'title' => $post->post_title,
 							'parent' => $post->post_parent,
 						);
 					}

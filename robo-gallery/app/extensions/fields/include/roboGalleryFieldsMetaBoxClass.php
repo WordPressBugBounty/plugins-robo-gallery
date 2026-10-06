@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -29,6 +29,7 @@ class roboGalleryFieldsMetaBoxClass{
 			array(
 				'active' => true,
 				'order' => 0,
+				'state' => '', // open / close: the box's initial state for new users
 				'settings' => array(),
 				'view' => 'default',
 				'fields' => array(),
@@ -59,10 +60,6 @@ class roboGalleryFieldsMetaBoxClass{
 
 		$this->deleteSkipFields();
 
-		/*echo "------------------------------\n";
-		print_r( $this->settings );
-		echo "==============================\n";*/
-
 		if ( $this->settings['active'] && $this->calcActiveState() ) {
 			add_action('add_meta_boxes', 	array($this, 'registration'), absint($this->settings['order']));	
 			add_action('user_register', 	array($this, 'setDefaultState') );
@@ -78,6 +75,11 @@ class roboGalleryFieldsMetaBoxClass{
 		}
 	}
 
+	/**
+	 * $isNew is really "the request posts the form" (post_ID comes with every
+	 * save, new or existing): then the 'for' conditions read the submitted
+	 * values, otherwise (?post=ID) the stored meta.
+	 */
 	public function initPostStatus(){
 
 		if( isset($_REQUEST['post']) && (int) $_REQUEST['post'] ){
@@ -133,6 +135,14 @@ class roboGalleryFieldsMetaBoxClass{
 
 		} else {
 			$value = isset($_REQUEST[ROBO_GALLERY_PREFIX.$field]) && $_REQUEST[ROBO_GALLERY_PREFIX.$field] ? $this->getSanitizing( $_REQUEST[ROBO_GALLERY_PREFIX.$field] ) : '';
+		}
+
+		// the type as the rest of the plugin reads it: an empty / missing one is grid
+		// (a stored one through rbsGalleryUtils::getTypeGallery(), a posted one as it will be saved)
+		if ( 'gallery_type' === $field ) {
+			$value = ( $this->postID && !$this->isNew )
+				? rbsGalleryUtils::getTypeGallery( $this->postID )
+				: \RoboGallery\app\extensions\galleryType\GalleryTypeList::sanitizeType( $value );
 		}
 
 		return $value;
@@ -197,7 +207,8 @@ class roboGalleryFieldsMetaBoxClass{
 				$fieldValue = isset($postMeta[$fieldName])
 					? reset($postMeta[$fieldName]) // get single meta
 					: $field->get('default');
-				$fieldValue = is_serialized($fieldValue) ? unserialize($fieldValue) : $fieldValue;
+				// raw meta from get_post_meta($id): the fields store scalars/arrays only
+				$fieldValue = is_serialized($fieldValue) ? unserialize($fieldValue, array('allowed_classes' => false)) : $fieldValue;
 
 				$settings['fields'][$key] = $this->getFieldData($field, $fieldValue);
 				$nonce .= $field->get('name');
@@ -259,14 +270,22 @@ class roboGalleryFieldsMetaBoxClass{
 			return;
 		}
 
+		// core already checked the right before save_post; just don't save for others
 		if (!current_user_can('edit_post', $postId)) {
-			header('HTTP/1.0 403 Forbidden');
-			die("Access denied");
+			return;
 		}
 
 		$nonceField = $this->createNonceField();
 		$nonceName = $nonceField->get('prefix') . $nonceField->get('name');
-		$nonceValue = isset($_POST[$nonceName]) ? $_POST[$nonceName] : null;
+
+		// Not submitted from this metabox (Quick Edit, programmatic saves, another
+		// form): nothing to save here - dying on the missing nonce broke Quick Edit,
+		// and saving would have emptied every field of the box.
+		if (!isset($_POST[$nonceName])) {
+			return;
+		}
+
+		$nonceValue = $_POST[$nonceName];
 		$nonce = '';
 		
 		foreach ($this->settings['fields'] as $fieldConfig) {

@@ -12,8 +12,10 @@
 *      Available only in  https://robosoft.co/robogallery/ 
 */
 
+defined('WPINC') || exit;
+
 function rbs_padding_field( $metakey, $post_id = 0 ) {
-	echo get_rbs_padding_field( $metakey, $post_id );
+	echo wp_kses( get_rbs_padding_field( $metakey, $post_id ), cmbre2_form_allowed_html() );
 }
 
 function rbs_padding_field_callback( $field, $value, $object_id, $object_type, $field_type_object ) {
@@ -39,18 +41,18 @@ function rbs_padding_field_callback( $field, $value, $object_id, $object_type, $
 ?>
 <div class="form-horizontal">
 	<div class="form-group">
-	    <label class="col-xs-2 col-sm-2 control-label" for="<?php echo $field_type_object->_id(); ?>"><?php echo esc_html(  $field->args('name') ); ?></label>
+	    <label class="col-xs-2 col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id() ); ?>"><?php echo esc_html(  $field->args('name') ); ?></label>
 
 	    <div class="col-xs-5 col-sm-4<?php echo ($level?' rbs_disabled':'') ?>"> 
 	    	<div class="input-group">
-      			<div class="input-group-addon"><?php _e('Left', 'robo-gallery'); ?></div>
+      			<div class="input-group-addon"><?php esc_html_e( 'Left', 'robo-gallery' ); ?></div>
 			    <?php 
-			    echo $field_type_object->input( array(
+			    echo wp_kses( $field_type_object->input( array(
 					'name'  		=> $field_type_object->_name('[left]' ),
 					'id'    		=> $field_type_object->_id('[left]' ),
 					'value' 		=> (int) $value['left'],
 					'class' 		=> 'form-control '.$field->args('class') ,
-				)); 
+				)), cmbre2_form_allowed_html() ); 
 			   ?>
 			   <div class="input-group-addon">px</div>
 			</div>
@@ -58,14 +60,14 @@ function rbs_padding_field_callback( $field, $value, $object_id, $object_type, $
 
 		<div class="col-xs-5 col-sm-4<?php echo ($level?' rbs_disabled':'') ?>"> 
 	    	<div class="input-group">
-      			<div class="input-group-addon"><?php _e('Top', 'robo-gallery'); ?></div>
+      			<div class="input-group-addon"><?php esc_html_e( 'Top', 'robo-gallery' ); ?></div>
 			    <?php 
-			    echo $field_type_object->input( array(
+			    echo wp_kses( $field_type_object->input( array(
 					'name'  		=> $field_type_object->_name('[top]' ),
 					'id'    		=> $field_type_object->_id('[top]' ),
 					'value' 		=> (int)$value['top'],
 					'class' 		=> 'form-control '.$field->args('class') ,
-				)); 
+				)), cmbre2_form_allowed_html() ); 
 			   ?>
 			   <div class="input-group-addon">px</div>
 			</div>
@@ -77,14 +79,14 @@ function rbs_padding_field_callback( $field, $value, $object_id, $object_type, $
 
 		<div class="col-xs-5 col-sm-4<?php echo ($level?' rbs_disabled':'') ?>"> 
 	    	<div class="input-group">
-      			<div class="input-group-addon"><?php _e('Right', 'robo-gallery'); ?></div>
+      			<div class="input-group-addon"><?php esc_html_e( 'Right', 'robo-gallery' ); ?></div>
 			    <?php 
-			    echo $field_type_object->input( array(
+			    echo wp_kses( $field_type_object->input( array(
 					'name'  		=> $field_type_object->_name('[right]' ),
 					'id'    		=> $field_type_object->_id('[right]' ),
 					'value' 		=> (int)$value['right'],
 					'class' 		=> 'form-control '.$field->args('class') ,
-				)); 
+				)), cmbre2_form_allowed_html() ); 
 			   ?>
 			   <div class="input-group-addon">px</div>
 			</div>
@@ -92,14 +94,14 @@ function rbs_padding_field_callback( $field, $value, $object_id, $object_type, $
 
 		<div class="col-xs-5 col-sm-4<?php echo ($level?' rbs_disabled':'') ?>"> 
 	    	<div class="input-group">
-      			<div class="input-group-addon"><?php _e('Bottom', 'robo-gallery'); ?></div>
+      			<div class="input-group-addon"><?php esc_html_e( 'Bottom', 'robo-gallery' ); ?></div>
 			    <?php 
-			    echo $field_type_object->input( array(
+			    echo wp_kses( $field_type_object->input( array(
 					'name'  		=> $field_type_object->_name('[bottom]' ),
 					'id'    		=> $field_type_object->_id('[bottom]' ),
 					'value' 		=> (int)$value['bottom'],
 					'class' 		=> 'form-control '.$field->args('class') ,
-				)); 
+				)), cmbre2_form_allowed_html() ); 
 			   ?>
 			   <div class="input-group-addon">px</div>
 			</div>
@@ -108,13 +110,13 @@ function rbs_padding_field_callback( $field, $value, $object_id, $object_type, $
 
 	    <?php if($level){ ?>
 		    <div class="col-sm-2 rbs-block-pro">
-		    	<?php echo ROBO_GALLERY_LABEL_PRO; ?>
+		    	<?php echo wp_kses_post( ROBO_GALLERY_LABEL_PRO ); ?>
 		    </div>
 		<?php } ?>
 	</div>
 </div>
 	<?php
-	echo $field_type_object->_desc( true );
+	echo wp_kses_post( $field_type_object->_desc( true ) );
 
 }
 add_filter( 'cmbre2_render_padding', 'rbs_padding_field_callback', 10, 5 );

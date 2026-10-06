@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -9,37 +9,23 @@
 *      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
+defined('WPINC') || exit;
 
 
+
+// "Clone Gallery" choices: app/extensions/cloneSource/CloneSource.php
 function robo_gallery_field_getGalleryOptions($galleryId, $value){
 
-	/* default option */
-	$tagOptions = '<option value="0" '.selected( $value, 0, false ).'>'.__('none').'</option>';
+	$value = (int) $value;
+	$tagOptions = '<option value="0" '.selected( $value, 0, false ).'>'.esc_html__('none').'</option>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress
 
-	$args = array(
-	    	'meta_key'     	=> ROBO_GALLERY_PREFIX . 'gallery_type',
-	    	'meta_value'   	=> get_post_meta( $galleryId, ROBO_GALLERY_PREFIX . 'gallery_type', true ),
-	    	'meta_compare' 	=> '==',	    	
-	        'post_type' 	=> ROBO_GALLERY_TYPE_POST,
-	        'order'     	=> 'ASC',	   
-	        'orderby'   	=> 'title',	   
-	        'posts_per_page'=> 100, 
-	        //'exclude' => 
-    	);
- 
-	$galleryList = get_posts( $args );		
-	
-	if( !is_array($galleryList) || !count($galleryList) ) return $tagOptions;
-
-	foreach ( $galleryList as $gallery ){
-        
-        if( $gallery->ID == $galleryId  || !$gallery->ID ) continue ;
-
-    	$tagOptions .= '<option value="'.$gallery->ID.'" '.selected( $value, $gallery->ID, false ).'> '
-    	.' &nbsp; '.esc_html($gallery->post_title). ' ['.$gallery->ID.']'
+	$choices = \RoboGallery\app\extensions\cloneSource\CloneSource::choices( (int) $galleryId, $value );
+	foreach ( $choices as $id => $title ){
+    	$tagOptions .= '<option value="'.(int) $id.'" '.selected( $value, $id, false ).'> '
+    	.' &nbsp; '.esc_html($title). ' ['.(int) $id.']'
     	.'</option>';
-    };
-    
+    }
+
 	return $tagOptions;
 }
 
@@ -51,23 +37,23 @@ function jt_cmbre2_render_rbsgallery_field_callback( $field, $value, $object_id,
 	<div class="form-horizontal">		
 		<div class="form-group">
 		    <div class="col-sm-12">
-		    	<?php echo $field->args('desc'); ?>
+		    	<?php echo wp_kses_post( $field->args('desc') ); ?>
 		    </div>
 	  	</div>
 
 		<div class="form-group">
-	    	<label class="col-sm-2  control-label" for="<?php echo $field_type_object->_id(); ?>"><?php echo esc_html( $field->args( 'name' ) ); ?></label>
+	    	<label class="col-sm-2  control-label" for="<?php echo esc_attr( $field_type_object->_id() ); ?>"><?php echo esc_html( $field->args( 'name' ) ); ?></label>
 		    <div class="col-sm-10">
-			     <select name="<?php echo $field_type_object->_name(); ?>" id="<?php echo $field_type_object->_id(); ?>" class="rbs_select form-control">
+			     <select name="<?php echo esc_attr( $field_type_object->_name() ); ?>" id="<?php echo esc_attr( $field_type_object->_id() ); ?>" class="rbs_select form-control">
 			    	<?php
-			    	echo robo_gallery_field_getGalleryOptions( $object_id,  $value );    	
+			    	echo wp_kses( robo_gallery_field_getGalleryOptions( $object_id,  $value ), cmbre2_form_allowed_html() );    	
 			    	?>
 				</select>
 			<?php
 		      	 $depends = $field->args('depends');
 				if( is_array($depends) && count($depends) ){ ?>
 					<script type="text/javascript">
-						var  <?php echo $field_type_object->_id(); ?>_depends = <?php echo json_encode($field->args('depends')); ?>;
+						var  <?php echo esc_attr( $field_type_object->_id() ); ?>_depends = <?php echo wp_json_encode($field->args('depends')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON in a script ?>;
 					</script>
 				<?php } ?>
 		    </div>
@@ -75,7 +61,7 @@ function jt_cmbre2_render_rbsgallery_field_callback( $field, $value, $object_id,
 		
 		<div class="form-group">
 		    <div class="col-sm-12  ">
-		    	<?php echo $field->args('desc2'); ?>
+		    	<?php echo wp_kses_post( $field->args('desc2') ); ?>
 		    </div>
 	  	</div>
 

@@ -1,13 +1,20 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
 *      Created: 2025
 *      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
+
+defined('WPINC') || exit;
+
+// editor metaboxes only: saving runs on post.php, Quick Edit on admin-ajax (both admin)
+if (!is_admin()) {
+	return;
+}
 
 define('ROBO_GALLERY_FIELDS_PATH', 			dirname(__FILE__) . '/');
 
@@ -23,7 +30,6 @@ define('ROBO_GALLERY_FIELDS_URL', 			plugin_dir_url(__FILE__));
 define('ROBO_GALLERY_FIELDS_BODY_CLASS', 	'roboGalleryFields');
 
 require_once ROBO_GALLERY_FIELDS_PATH . 'include/roboGalleryFields.php';
-require_once ROBO_GALLERY_FIELDS_PATH . 'include/roboGalleryFieldsAjax.php';
 require_once ROBO_GALLERY_FIELDS_PATH . 'include/roboGalleryFieldsHelper.php';
 require_once ROBO_GALLERY_FIELDS_PATH . 'include/roboGalleryFieldsConfig.php';
 require_once ROBO_GALLERY_FIELDS_PATH . 'include/roboGalleryFieldsConfig/roboGalleryFieldsConfigReaderInterface.php';

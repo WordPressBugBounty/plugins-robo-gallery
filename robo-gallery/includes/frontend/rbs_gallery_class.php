@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -46,18 +46,14 @@ class roboGallery{
 		$this->core->runEvent('gallery.init');
  	}
 
- 	private function initTypeGallery(){ 		
- 		if( $gallery_type = get_post_meta( $this->id, ROBO_GALLERY_PREFIX.'gallery_type', true ) ){
- 			$this->gallery_type = $gallery_type;
- 		} else {
- 			//echo 'empty type gallery ';
- 		}
+ 	private function initTypeGallery(){
+ 		// stored type only (never the request), an empty one is grid
+ 		$this->gallery_type = rbsGalleryUtils::getTypeGallery( $this->id );
  	}
 
  	private function initOptionId(){ 
- 		$this->options_id = $this->id;
- 		$option_id = (int) get_post_meta( $this->id, ROBO_GALLERY_PREFIX.'options', true );
-  		if( $option_id > 0  ) $this->options_id = $option_id;		
+ 		// "Clone Gallery" source, or the gallery itself when there is none / it's gone
+ 		$this->options_id = \RoboGallery\app\extensions\cloneSource\CloneSource::resolve( (int) $this->id );
  	}
 
  	public function getGallery( ){
@@ -116,12 +112,27 @@ class roboGallery{
 		);			
  	}
 
- 	private function showEmptyMessageVideo(){ 		
+ 	private function showEmptyMessageVideo(){
 		return sprintf(
-			'<p><strong>%s</strong><br/>%s<br /></p>',
+			'<p><strong>%s</strong><br/>%s<br />%s</p>',
 			__('No Youtube Videos.', 'robo-gallery'),
-			__('Please make sure that you setup Youtube API key in gallery settings.  Check values of the video content IDs. Please contact Robo Gallery support if you can\'t find the reason of this problem.', 'robo-gallery')
-		);			
+			__('Please make sure that you setup Youtube API key in gallery settings.  Check values of the video content IDs. Please contact Robo Gallery support if you can\'t find the reason of this problem.', 'robo-gallery'),
+			$this->getSourceErrorsForEditors()
+ 		);
+ 	}
+
+ 	/**
+ 	 * The source's own reason (e.g. the YouTube API error) - for those who can
+ 	 * fix the gallery; visitors get the general text only.
+ 	 */
+ 	private function getSourceErrorsForEditors(){
+ 		if( !current_user_can( 'edit_post', $this->id ) ) return '';
+
+ 		$errors = $this->core->source->getErrors();
+ 		if( !count($errors) ) return '';
+
+ 		return '<em>'.esc_html__('Reason (shown to the gallery editors only):', 'robo-gallery').' '
+ 			.esc_html( implode( '; ', array_map( 'strval', $errors ) ) ).'</em>';
  	}
 
  }

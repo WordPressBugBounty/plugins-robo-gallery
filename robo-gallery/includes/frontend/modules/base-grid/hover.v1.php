@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -38,7 +38,9 @@ class  roboGalleryModuleHoverV1 extends roboGalleryModuleAbstraction{
 
 	public function initHover(){
 		$this->hoverType = $this->getMeta('hover');
-		if( $this->hoverType == self::hoverTypeDisable ) return ;
+		// '0' / '1' / '2' (Off / Options / Template); an empty value means Off as it
+		// did before PHP 8, where '' == 0 stopped being true
+		if( (int) $this->hoverType === self::hoverTypeDisable ) return ;
 
 		//if( $this->getMeta('effectType') != self::hoverTypeEffect ) return ;
 
@@ -53,7 +55,7 @@ class  roboGalleryModuleHoverV1 extends roboGalleryModuleAbstraction{
 	
 
 	private function initCssStyle(){
-		if( !is_array($this->style) && !count($this->style) ) return ;
+		if( !is_array($this->style) || !count($this->style) ) return ;
 
 		foreach ($this->style as $elClass => $cssStyle) {
 			$this->scssContent .= '.robo-gallery-wrap-id#{$galleryid}:not(#no-robo-galery) .'.$elClass.'{'
@@ -70,7 +72,12 @@ class  roboGalleryModuleHoverV1 extends roboGalleryModuleAbstraction{
 
 	private function initTemplateHover(){
 		if( $this->hoverType != self::hoverTypeTemplate  ) return ;
-		$this->templateHover= $this->getMeta('desc_template');
+		$template = $this->getMeta('desc_template');
+		// The template is printed as HTML, and the meta can be written raw
+		// (core custom fields), so strip scripts, on* handlers and javascript:
+		// URLs with the core allowlist. Runs before the @PLACEHOLDER@ substitution,
+		// whose values are escaped separately in getHoverContent().
+		$this->templateHover = is_string($template) ? wp_kses_post($template) : '';
 	}
 
 	private function initIconsHover(){		
@@ -87,31 +94,37 @@ class  roboGalleryModuleHoverV1 extends roboGalleryModuleAbstraction{
 		
 		if( !is_array($item) 		 || !count($item) ) 	return ;
 		if( !isset($item['enabled']) || !$item['enabled'] ) return ;
-		
+
+		// the colors are written into SCSS text below: an invalid one is dropped,
+		// esc_attr() alone would let ";{}" add rules of their own
+		foreach( array( 'color', 'colorHover', 'colorBg', 'colorBgHover' ) as $colorKey ){
+			if( isset($item[$colorKey]) && !\RoboGallery\app\extensions\validation\CssColor::isValid($item[$colorKey]) ) unset( $item[$colorKey] );
+		}
+
 		$this->style[$class] = '';
 
 		if( isset($item['fontSize'])) 		$this->style[$class] .= ' font-size:'.      (int)$item['fontSize'].'px;';
 		if( isset($item['fontLineHeight'])) $this->style[$class] .= ' line-height:'.	(int)$item['fontLineHeight'].'%;';
-		if( isset($item['color'])) 			$this->style[$class] .= ' color:'.			$item['color'].';';
+		if( isset($item['color'])) 			$this->style[$class] .= ' color:'.			esc_attr($item['color']).';';
 		if( isset($item['fontBold'])) 		$this->style[$class] .= ' font-weight:'.	($item['fontBold']		?'bold'		:'normal').';';
 		if( isset($item['fontItalic'])) 	$this->style[$class] .= ' font-style:'.		($item['fontItalic']	?'italic'	:'normal').';';
 		if( isset($item['fontUnderline'])) 	$this->style[$class] .= ' text-decoration:'.($item['fontUnderline'] ?'underline':'none').';';
-		if( isset($item['colorHover'])) 	$this->style[$class] .= ' &:hover{ color:'.	$item['colorHover'].'; }';
+		if( isset($item['colorHover'])) 	$this->style[$class] .= ' &:hover{ color:'.	esc_attr($item['colorHover']).'; }';
 
 		if( $template!=1 ) return '<div class="'.$class.' '.$addClass.'">'.$template.'</div>'; 
 
-		if(isset($item['colorBg'])) $this->style[$class] .= 'background:'.$item['colorBg'].';';
+		if(isset($item['colorBg'])) $this->style[$class] .= 'background:'.esc_attr($item['colorBg']).';';
 
 		if(isset($item['color']) && isset($item['borderSize']) && $item['borderSize'])
-			$this->style[$class] .= 'border:'.(int)$item['borderSize'].'px solid '.$item['color'].';';
+			$this->style[$class] .= 'border:'.(int)$item['borderSize'].'px solid '.esc_attr($item['color']).';';
 
 		if(isset($item['colorHover']) && isset($item['borderSize']) && $item['borderSize'])
-			$this->style[$class] .= '&:hover{ border:'.(int)$item['borderSize'].'px solid '.$item['colorHover'].'; }';
+			$this->style[$class] .= '&:hover{ border:'.(int)$item['borderSize'].'px solid '.esc_attr($item['colorHover']).'; }';
 
 		if(isset($item['colorBgHover']))
-			$this->style[$class] .= '&:hover{ background:'.$item['colorBgHover'].'; }';
+			$this->style[$class] .= '&:hover{ background:'.esc_attr($item['colorBgHover']).'; }';
 		
-		return '<i class="fa '.$item['iconSelect'].' '.$class.' '.$addClass.'" ></i>';
+		return '<i class="fa '.esc_attr($item['iconSelect']).' '.$class.' '.$addClass.'" ></i>';
 	}
 
 
@@ -146,8 +159,8 @@ class  roboGalleryModuleHoverV1 extends roboGalleryModuleAbstraction{
 						esc_attr($img['data']->post_title),
 						esc_attr($img['data']->post_excerpt),
 						esc_attr($img['data']->post_content),
-						$img['link'],
-						$img['videolink'],
+						esc_url($img['link']),  //need check for link 
+						esc_url($img['videolink']), //need check for videolink 
 					), 
 					$hoverHTML
 				);

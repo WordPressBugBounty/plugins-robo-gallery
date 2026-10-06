@@ -1,33 +1,22 @@
 /*
-*      Robo Gallery     
-*      Version: 1.0
-*      By Robosoft
-*
-*      Contact: https://robosoft.co/robogallery/ 
-*      Created: 2015
-*      Licensed under the GPLv2 license - http://opensource.org/licenses/gpl-2.0.php
-*
-*      Copyright (c) 2014-2019, Robosoft. All rights reserved.
-*      Available only in  https://robosoft.co/robogallery/ 
-*/
+ * Robo Gallery admin menu: the external links (Pro Version, Support, Gallery
+ * Demo, Video Guides) open in a new tab. The URLs come from PHP
+ * (RoboGallery\app\extensions\adminMenu\AdminMenu); without JS the menu page
+ * itself redirects to the same URL. Loaded in the footer, so #adminmenu exists.
+ */
+(function () {
+	var links = (window.robo_gallery_vars && window.robo_gallery_vars.links) || {};
 
-jQuery(function(){
-	jQuery('a[href="edit.php?post_type=robo_gallery_table&page=robo-gallery-gopro"]').click( function(event ){
-		event.preventDefault();
-		window.open("http://robosoft.co/go.php?product=gallery&task=gopro", "_blank");
-	});
+	Object.keys(links).forEach(function (slug) {
+		var anchors = document.querySelectorAll('#adminmenu a[href$="page=' + slug + '"]');
 
-	jQuery('a[href="edit.php?post_type=robo_gallery_table&page=robo-gallery-support"]').click( function(event ){
-		event.preventDefault();
-		window.open("http://robosoft.co/go.php?product=gallery&task=support"+(robo_gallery_vars.pro=="1"?'&pro=1':''), "_blank");
+		Array.prototype.forEach.call(anchors, function (anchor) {
+			// the menu CSS finds the link by "page=<slug>" in href, which is
+			// replaced below: the class keeps it findable
+			anchor.classList.add('robo-gallery-menu-' + slug);
+			anchor.href = links[slug];
+			anchor.target = '_blank';
+			anchor.rel = 'noopener';
+		});
 	});
-	jQuery('a[href="edit.php?post_type=robo_gallery_table&page=robo-gallery-demo"]').click( function(event ){
-		event.preventDefault();
-		window.open("http://robosoft.co/go.php?product=gallery&task=demo", "_blank");
-	});
-	jQuery('a[href="edit.php?post_type=robo_gallery_table&page=robo-gallery-guides"]').click( function(event ){
-		event.preventDefault();
-		window.open("http://robosoft.co/go.php?product=gallery&task=guides", "_blank");
-	});
-
-});
+})();

@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -26,7 +26,9 @@ class  roboGalleryModuleLayoutV1 extends roboGalleryModuleAbstraction{
 		return 
 	 		$this->core->getContent('Begin')
 
-	 		.'<style type="text/css" scoped>'.$this->core->getContent('CssBefore').'</style>'
+	 		.'<style type="text/css" scoped>'
+				.wp_strip_all_tags($this->core->getContent('CssBefore'))
+			.'</style>'
 
 			.'<div class="robo-gallery-wrap robo-gallery-wrap-id'.$this->id.' robo-gallery-'.$type_source.'" '.$this->core->element->getElementAttrs('robo-gallery-wrap').'>'
 				.$this->core->getContent('FirstInit')
@@ -87,7 +89,7 @@ class  roboGalleryModuleLayoutV1 extends roboGalleryModuleAbstraction{
 		            .'<div class="rbs-img-image '.$this->core->element->getElementClasses('rbs-img-image-block', $item['id']).'" '.$this->core->element->getElementAttrs('rbs-img-image-block', $item['id']).'>'
 		            	.'<div class="rbs-img-thumbs" '.$this->core->element->getElementAttrs('rbs-img-thumbs-block', $item['id']).'>'
 							//.$this->core->renderBlock('gallery.image.init', $item)
-							.$this->core->renderBlock('gallery.image.rbs-img-thumbs-block', $item)
+							.esc_html($this->core->renderBlock('gallery.image.rbs-img-thumbs-block', $item))
 		            	.'</div>'."\n"
 		            	.$this->core->renderBlock('gallery.image.init', $item)
 		            .'</div>'."\n"

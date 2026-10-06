@@ -12,13 +12,15 @@
 *      Available only in  https://robosoft.co/robogallery/ 
 */
 
+defined('WPINC') || exit;
+
 
 function rbs_size_get_source_row( $value,  $text, $name, $curent = '', $icon = '' ) {
 	$html = '';
 	$html .= '<label class="btn '.($value==$curent? 'btn-info active' : 'btn-default').'">';
-	 	$html .= '<input type="radio" name="'.$name.'" '.($value==$curent?'checked':'').' value="'.$value.'"> ';
-	 	$html .= $text ;
-	 	if($icon) $html .= ' <i class="'.$icon.'"></i>';
+	 	$html .= '<input type="radio" name="'.esc_attr($name).'" '.($value==$curent?'checked':'').' value="'.esc_attr($value).'"> ';
+	 	$html .= esc_html($text) ;
+	 	if($icon) $html .= ' <i class="'.esc_attr($icon).'"></i>';
 	 	
 	$html .= '</label>';
 	return $html;
@@ -38,53 +40,53 @@ function jt_cmbre2_render_size_field_callback( $field, $value, $object_id, $obje
 ?>
 <div class="form-horizontal">
 	<div class="form-group">
-    	<label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id( '_orderby' ); ?>'">
+    	<label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id( '_orderby' ) ); ?>'">
     		<?php echo esc_html( $field_type_object->_text( 'size_orderby_text', 'Order By' ) ); ?>
     	</label>
 
 	    <div class="col-sm-<?php echo $level?'9':'10'; ?>">
 			<div class="btn-group rbs_checkbox <?php echo $level?' rbs_disabled':''; ?>" data-toggle="buttons">
 			<?php
-				echo rbs_size_get_source_row( 'categoryD',  'Category',$field_type_object->_name('[orderby]'), $value['orderby'], 'glyphicon glyphicon-menu-down' );
-				echo rbs_size_get_source_row( 'categoryU',  'Category',$field_type_object->_name('[orderby]'), $value['orderby'], 'glyphicon glyphicon-menu-up' );
+				echo wp_kses( rbs_size_get_source_row( 'categoryD',  'Category',$field_type_object->_name('[orderby]'), $value['orderby'], 'glyphicon glyphicon-menu-down' ), cmbre2_form_allowed_html() );
+				echo wp_kses( rbs_size_get_source_row( 'categoryU',  'Category',$field_type_object->_name('[orderby]'), $value['orderby'], 'glyphicon glyphicon-menu-up' ), cmbre2_form_allowed_html() );
 
-				echo rbs_size_get_source_row( 'titleD',  	'Title', 	$field_type_object->_name('[orderby]'), $value['orderby'], 'glyphicon glyphicon-menu-down' );
-				echo rbs_size_get_source_row( 'titleU',  	'Title', 	$field_type_object->_name('[orderby]'), $value['orderby'], 'glyphicon glyphicon-menu-up' );
+				echo wp_kses( rbs_size_get_source_row( 'titleD',  	'Title', 	$field_type_object->_name('[orderby]'), $value['orderby'], 'glyphicon glyphicon-menu-down' ), cmbre2_form_allowed_html() );
+				echo wp_kses( rbs_size_get_source_row( 'titleU',  	'Title', 	$field_type_object->_name('[orderby]'), $value['orderby'], 'glyphicon glyphicon-menu-up' ), cmbre2_form_allowed_html() );
 				
-				echo rbs_size_get_source_row( 'dateD',  	'Date', 	$field_type_object->_name('[orderby]'), $value['orderby'], 'glyphicon glyphicon-menu-down' );
-				echo rbs_size_get_source_row( 'dateU',  	'Date', 	$field_type_object->_name('[orderby]'), $value['orderby'], 'glyphicon glyphicon-menu-up' );
+				echo wp_kses( rbs_size_get_source_row( 'dateD',  	'Date', 	$field_type_object->_name('[orderby]'), $value['orderby'], 'glyphicon glyphicon-menu-down' ), cmbre2_form_allowed_html() );
+				echo wp_kses( rbs_size_get_source_row( 'dateU',  	'Date', 	$field_type_object->_name('[orderby]'), $value['orderby'], 'glyphicon glyphicon-menu-up' ), cmbre2_form_allowed_html() );
 				
-				echo rbs_size_get_source_row( 'random',  	'Random',	$field_type_object->_name('[orderby]'), $value['orderby'] );
+				echo wp_kses( rbs_size_get_source_row( 'random',  	'Random',	$field_type_object->_name('[orderby]'), $value['orderby'] ), cmbre2_form_allowed_html() );
 			 ?>
 			</div>
 	    </div>
 	    <?php if($level){ ?>
-		   	<div class="col-sm-1 rbs-block-pro"><?php echo ROBO_GALLERY_ICON_PRO; ?></div>
+		   	<div class="col-sm-1 rbs-block-pro"><?php echo wp_kses_post( ROBO_GALLERY_ICON_PRO ); ?></div>
 		<?php } ?>
   	</div>
 
 	
 
   	<div class="form-group">
-    	<label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id( '_source' ); ?>'">
+    	<label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id( '_source' ) ); ?>'">
     		<?php echo esc_html( $field_type_object->_text( 'size_source_text', 'Thumbnails Quality' ) ); ?>
     	</label>
 	    <div class="col-sm-10">
 			<div class="btn-group rbs_checkbox" data-toggle="buttons">
 			<?php
-				echo rbs_size_get_source_row( 'thumbnail',  'Thumbnail',$field_type_object->_name('[source]'), $value['source'] );
-				echo rbs_size_get_source_row( 'medium',  	'Medium', 	$field_type_object->_name('[source]'), $value['source'] );
-				echo rbs_size_get_source_row( 'large',  	'Large',	$field_type_object->_name('[source]'), $value['source'] );
-				echo rbs_size_get_source_row( 'full',  		'Full', 	$field_type_object->_name('[source]'), $value['source'] );
+				echo wp_kses( rbs_size_get_source_row( 'thumbnail',  'Thumbnail',$field_type_object->_name('[source]'), $value['source'] ), cmbre2_form_allowed_html() );
+				echo wp_kses( rbs_size_get_source_row( 'medium',  	'Medium', 	$field_type_object->_name('[source]'), $value['source'] ), cmbre2_form_allowed_html() );
+				echo wp_kses( rbs_size_get_source_row( 'large',  	'Large',	$field_type_object->_name('[source]'), $value['source'] ), cmbre2_form_allowed_html() );
+				echo wp_kses( rbs_size_get_source_row( 'full',  		'Full', 	$field_type_object->_name('[source]'), $value['source'] ), cmbre2_form_allowed_html() );
 			 ?>
 			</div>
 	    </div>
   	</div>
 	
 	<div class="form-group rbs_size_width"  style="display: none;"> 
-	    <label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id( '_width' ); ?>'"><?php echo esc_html( $field_type_object->_text( 'size_width_text', 'Res. Width' ) ); ?></label>
+	    <label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id( '_width' ) ); ?>'"><?php echo esc_html( $field_type_object->_text( 'size_width_text', 'Res. Width' ) ); ?></label>
 	    <div class="col-sm-10">
-			<?php echo $field_type_object->input( array(
+			<?php echo wp_kses( $field_type_object->input( array(
 				'name'  => $field_type_object->_name( '[width]' ),
 				'id'    => $field_type_object->_id( '_width' ),
 				'value' => (int) $value['width'],
@@ -94,14 +96,14 @@ function jt_cmbre2_render_size_field_callback( $field, $value, $object_id, $obje
 				'data-slider-min'=>20,
 				'data-slider-max'=>500,
 				'data-slider-step'=>1
-			) ); ?> px
+			) ), cmbre2_form_allowed_html() ); ?> px
 		</div>
 	</div>
 
 	<div class="form-group rbs_size_height" style="display: none;">
-    	<label class="col-sm-2 control-label" for="<?php echo $field_type_object->_id( '_height' ); ?>'"><?php echo esc_html( $field_type_object->_text( 'size_height_text', 'Res. Height' ) ); ?></label>
+    	<label class="col-sm-2 control-label" for="<?php echo esc_attr( $field_type_object->_id( '_height' ) ); ?>'"><?php echo esc_html( $field_type_object->_text( 'size_height_text', 'Res. Height' ) ); ?></label>
 	    <div class="col-sm-10">
-			<?php echo $field_type_object->input( array(
+			<?php echo wp_kses( $field_type_object->input( array(
 				'name'  => $field_type_object->_name( '[height]' ),
 				'id'    => $field_type_object->_id( '_height' ),
 				'value' => (int) $value['height'],
@@ -111,10 +113,10 @@ function jt_cmbre2_render_size_field_callback( $field, $value, $object_id, $obje
 				'data-slider-min'=>20,
 				'data-slider-max'=>500,
 				'data-slider-step'=>1
-			) ); ?> px
+			) ), cmbre2_form_allowed_html() ); ?> px
  		</div>
   	</div>
 </div>
-<?php echo $field_type_object->_desc( true );
+<?php echo wp_kses_post( $field_type_object->_desc( true ) );
 }
 add_filter( 'cmbre2_render_size', 'jt_cmbre2_render_size_field_callback', 10, 5 );

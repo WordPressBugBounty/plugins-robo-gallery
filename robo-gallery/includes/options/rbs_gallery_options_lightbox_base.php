@@ -87,7 +87,8 @@ $lightbox_group->add_field( array(
 
 $lightbox_group->add_field( array(
     'name'    => __('Counter Divider','robo-gallery'),
-    'default' => ' of ',
+    // the spaces stay outside the string: translators tend to trim them
+    'default' => ' '.__('of', 'robo-gallery').' ',
     'id'	  => ROBO_GALLERY_PREFIX .'lightboxCounterText',
     'type'    => 'rbstext',
     'small'			=> 1,
@@ -166,7 +167,7 @@ $lightbox_group->add_field( array(
 	'id'               => ROBO_GALLERY_PREFIX . 'lightboxDescClass',
 	'type'             => 'rbsselect',
 	'show_option_none' => false,
-	'default'          => 'Light',
+	'default'          => 'light',
 	'options'          => array(
 		'light' 	=> __( 'Light' , 	'robo-gallery' ),
 		'dark' 		=> __( 'Dark' , 	'robo-gallery' ),

@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -25,7 +25,7 @@ class  roboGalleryModuleLayoutSlider extends roboGalleryModuleAbstraction{
 
 		return 
 	 		$this->core->getContent('Begin')
-	 		.'<style type="text/css" scoped>'.$this->core->getContent('CssBefore').'</style>'
+	 		.'<style type="text/css" scoped>'.wp_strip_all_tags($this->core->getContent('CssBefore')).'</style>'
 
 			.'<div id="robo-gallery-slider-wrap'.$this->galleryId.'" class="robo-gallery-slider-wrap robo-gallery-slider-wrap-id'.$this->id.' robo-gallery-'. $type_source.'">'
 			
@@ -89,8 +89,15 @@ class  roboGalleryModuleLayoutSlider extends roboGalleryModuleAbstraction{
 
 
  	public function prepareImageData($img){
- 		if(empty($img['thumb'])) return ;
-		$this->core->element->addElementStyle( 'swiper-slide', 'background-image', "url('".$img['thumb']."')" );
+ 		// a URL keeps ' ( ) \ after esc_url_raw(): percent-encoded here, as they
+ 		// would end the url('...') in the style attribute
+ 		$thumb = str_replace(
+ 			array( "'", '(', ')', '\\' ),
+ 			array( '%27', '%28', '%29', '%5C' ),
+ 			esc_url_raw( $img['thumb'] ?? '' )
+ 		);
+ 		if( !$thumb ) return ;
+		$this->core->element->addElementStyle( 'swiper-slide', 'background-image', "url('".$thumb."')" );
  	} 	
 
 

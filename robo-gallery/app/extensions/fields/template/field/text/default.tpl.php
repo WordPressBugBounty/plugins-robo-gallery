@@ -1,7 +1,8 @@
+<?php defined('WPINC') || exit; ?>
 <div class="field small-12 columns">
 	<?php if ($label) : ?>
 		<label>
-			<?php echo $label; ?>
+			<?php echo wp_kses_post($label); ?>
 		</label>
 	<?php endif; ?>
 
@@ -13,25 +14,25 @@
 		?>
 
 		<?php if (!empty($options['textBefore'])) : ?>
-		<div class="columns small-<?php echo $leftColumns ?> text-before">
-			<?php echo $options['textBefore']; ?>
+		<div class="columns small-<?php echo esc_attr($leftColumns); ?> text-before">
+			<?php echo wp_kses_post($options['textBefore']); ?>
 		</div>
 		<?php endif; ?>
 
-		<div class="columns small-<?php echo $centerColumns; ?>">
-			<input id="<?php echo $id; ?>" <?php echo $attributes; ?>
-			       type="text" name="<?php echo $name; ?>"
-			       value="<?php echo $value; ?>" >
+		<div class="columns small-<?php echo esc_attr($centerColumns); ?>">
+			<input id="<?php echo esc_attr($id); ?>" <?php echo $attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- name="value" pairs, each value esc_attr()'d in roboGalleryFieldsField::getData() ?>
+			       type="text" name="<?php echo esc_attr($name); ?>"
+			       value="<?php echo esc_attr( $value ); ?>" >
 		</div>
 
 		<?php if (!empty($options['textAfter'])) : ?>
-			<div class="columns small-<?php echo $rightColumns ?> text-after">
-				<?php echo $options['textAfter']; ?>
+			<div class="columns small-<?php echo esc_attr($rightColumns); ?> text-after">
+				<?php echo wp_kses_post($options['textAfter']); ?>
 			</div>
 		<?php endif; ?>
 	</div>
 
 	<?php if ($description) : ?>
-		<p class="help-text"><?php echo $description; ?></p>
+		<p class="help-text"><?php echo wp_kses_post($description); ?></p>
 	<?php endif; ?>
 </div>

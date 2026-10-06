@@ -12,6 +12,8 @@
 *      Available only in  https://robosoft.co/robogallery/ 
 */
 
+defined('WPINC') || exit;
+
 
 class RBS_TOOLBOX {
 
@@ -24,7 +26,7 @@ class RBS_TOOLBOX {
 	
 	public function rbs_setup_admin_script(){
 		//echo '<script type="text/javascript"> var ROBO_GALLERY_PRO = '.ROBO_GALLERY_PRO.';</script>';
-		echo '<script type="text/javascript"> var ROBO_GALLERY_TYR = '.ROBO_GALLERY_TYR.';</script>';
+		echo '<script type="text/javascript"> var ROBO_GALLERY_TYR = '.(int) ROBO_GALLERY_TYR.';</script>';
 
 		/* Express panel +*/
 		if( isset($_GET['post']) && get_option(  ROBO_GALLERY_PREFIX.'expressPanel' ) ){
@@ -58,11 +60,11 @@ class RBS_TOOLBOX {
 						.'style="display: none;" '
 						.'data-body="rbs_edit" '
 						.'data-open="0" '
-						.'data-title="'.__('Get Robo Gallery Pro version', 'robo-gallery').'" '
-						.'data-close="'.__('Close', 'robo-gallery').'" '
-						.'data-info="'.	__('Get Pro version', 'robo-gallery').'"'
+						.'data-title="'.esc_attr__('Get Robo Gallery Pro version', 'robo-gallery').'" '
+						.'data-close="'.esc_attr__('Close', 'robo-gallery').'" '
+						.'data-info="'.	esc_attr__('Get Pro version', 'robo-gallery').'"'
 					.'>'
-					.__('This function available in PRO version', 'robo-gallery')
+					.esc_html__('This function available in PRO version', 'robo-gallery')
 				.'</div>';
 	}
 
@@ -71,15 +73,15 @@ class RBS_TOOLBOX {
 						.'style="display: none;" '
 						.'data-body="rbs_edit" '
 						.'data-open="0" '
-						.'data-title="'.__('Update Robo Gallery PRO Key', 'robo-gallery').'" '
-						.'data-close="'.__('Close', 'robo-gallery').'" '
-						.'data-info="'.	__('Goto Clients section', 'robo-gallery').'"'
+						.'data-title="'.esc_attr__('Update Robo Gallery PRO Key', 'robo-gallery').'" '
+						.'data-close="'.esc_attr__('Close', 'robo-gallery').'" '
+						.'data-info="'.	esc_attr__('Goto Clients section', 'robo-gallery').'"'
 					.'>'
-					.__('This function available in latest versions of the plugin. <br/>
+					.wp_kses_post(__('This function available in latest versions of the plugin. <br/>
 							Please login to <a href="https://robosoft.co/clients/" target="_blank">client member place section</a>  and download latest version of the <strong>Robo Gallery Key plugin</strong>.<br/><br/>
 							Install this key on the website and all features will be enabled.<br/>
 							All previous functionality will be available with old Pro Key. <br/>
-							Update required only for the case if you wish to enable all latest functions implemented in new version of the plugin.', 'robo-gallery')
+							Update required only for the case if you wish to enable all latest functions implemented in new version of the plugin.', 'robo-gallery'))
 				.'</div>';
 	}
 

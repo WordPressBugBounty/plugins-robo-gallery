@@ -76,15 +76,22 @@ class roboGalleryScss{
     		$this->includeCss();
     		return ;
     	}
-    	$this->initVariables();
-        $this->initImport();
-        $this->initContent();
+    	// A setting scssphp can't parse (an empty variable, bad syntax) throws: the
+    	// gallery is then shown without its own CSS instead of a fatal error, and
+    	// nothing is cached, so the next render tries again.
+    	try {
+    		$this->initVariables();
+    		$this->initImport();
+    		$this->initContent();
 
-        if($this->scssLegacy){
-        	$css = $this->Compiler->compile( $this->contentImport . $this->content );
-        } else {
-            $css = $this->Compiler->compileString( $this->contentImport . $this->content )->getCss();
-        }
+    		if($this->scssLegacy){
+    			$css = $this->Compiler->compile( $this->contentImport . $this->content );
+    		} else {
+    			$css = $this->Compiler->compileString( $this->contentImport . $this->content )->getCss();
+    		}
+    	} catch ( \Exception $e ) {
+    		return ;
+    	}
 
         $this->core->setContent( $css, 'CssSource' );
 
@@ -99,7 +106,7 @@ class roboGalleryScss{
     public function writeCache( $css ){
     	//if( $this->debug ) return false;
 
-  		if( is_writable(dirname($this->cacheFilePath) ) && file_put_contents( $this->cacheFilePath, $css) ) {
+  		if( wp_is_writable(dirname($this->cacheFilePath) ) && file_put_contents( $this->cacheFilePath, $css) ) {
   			$this->cached = true;
         	$this->includeCss();
         	return true;	

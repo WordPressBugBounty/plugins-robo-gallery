@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -70,42 +70,28 @@ class  roboGalleryModuleJsOptions{
 	}
 
 	
-	// public function setJsFunction($valName, $funcCode){
-	// 	if(is_array($funcCode)){
-	// 		if( count($funcCode)){
-	// 			foreach ($funcCode as $funcName => $funcCodeCur ) {					
-	// 				$this->setJsFunction($valName.'/'.$funcName, $funcCodeCur);
-	// 			}
-	// 		}
-	// 		return ;
-	// 	}
-	//     $this->setValue($valName, '|***'.$funcCode.'***|');
-	// }
 
 
 	public function setOption( $valName ){
 		$value = $this->core->getMeta($valName);
 		if($value===null){
-			//echo "null for ".$valName."<br />";
 			return ;		
 		}
 		$this->setValue($valName , $value);
 	}
 
 
-	// private static function fixJsFunction( $json ){
-	// 	return  str_replace(
-	// 		array( '"|***', '***|"' ),
-	// 		array( '', 		'' 		),
-	// 		$json
-	// 	);
-	// }
 
 
+	/**
+	 * Printed inside an inline <script>: JSON_HEX_TAG / JSON_HEX_AMP keep a label
+	 * like "<!--<script" (settings text) from changing how the HTML parser reads
+	 * the script block. JSON_NUMERIC_CHECK stays: the scripts expect numbers for
+	 * the numeric settings stored as strings.
+	 */
 	public function getOptionList(){
-		$json = json_encode( $this->options,  JSON_NUMERIC_CHECK );
-		//$json = self::fixJsFunction($json);
-		return $json;
+		$json = json_encode( $this->options, JSON_NUMERIC_CHECK | JSON_HEX_TAG | JSON_HEX_AMP );
+		return false === $json ? '{}' : $json;
 	}
 
 }

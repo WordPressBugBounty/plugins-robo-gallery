@@ -1,17 +1,18 @@
+<?php defined('WPINC') || exit; ?>
 <div class="field small-12 columns">
 	<fieldset>
 		<?php if ($label) : ?>
-			<legend><?php echo $label; ?></legend>
+			<legend><?php echo wp_kses_post($label); ?></legend>
 		<?php endif; ?>
 
-		<input id="<?php echo $id; ?>"
-		       type="checkbox"  name="<?php echo $name; ?>"
+		<input id="<?php echo esc_attr($id); ?>"
+		       type="checkbox"  name="<?php echo esc_attr($name); ?>"
 		       value="1" <?php echo $value ? 'checked' : ''; ?>
-		       data-dependents='<?php echo $dependents; ?>' >
-		<label for="<?php echo $id; ?>"><?php echo $label; ?></label>
+		       data-dependents='<?php echo esc_attr($dependents); ?>' >
+		<label for="<?php echo esc_attr($id); ?>"><?php echo wp_kses_post($label); ?></label>
 
 		<?php if ($description) : ?>
-			<p class="help-text"><?php echo $description; ?></p>
+			<p class="help-text"><?php echo wp_kses_post($description); ?></p>
 		<?php endif; ?>
 	</fieldset>
 </div>

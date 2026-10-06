@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -44,7 +44,7 @@ class  roboGalleryModuleContentSlider extends roboGalleryModuleAbstraction{
 
 		$theme = 'swiper-slide-desc-'.( $this->getMeta('content_theme') == 'light' ? 'light' : 'dark' );
 
-		return '<div class="swiper-slide-desc '.$theme.'">'.$desc.'</div>';
+		return '<div class="swiper-slide-desc '.$theme.'">'.esc_html($desc).'</div>';
 	}
 
 }

@@ -1,4 +1,14 @@
 <?php
+/* 
+*      Robo Gallery     
+*      Version: 5.2.6 - 24868
+*      By Robosoft
+*
+*      Contact: https://robogallery.co/ 
+*      Created: 2025
+*      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
+ */
+
 namespace RoboGallery\app\extensions\access;
 
 if (! defined('WPINC')) {
@@ -6,37 +16,27 @@ if (! defined('WPINC')) {
 }
 
 /**
- * Class Bootstrap
- * Initializes and runs the AccessMode with its dependencies.
+ * Gallery access (direct link only / token), on top of WordPress's own
+ * status and password rules:
+ *  - GalleryAccessManager - who may see a gallery; 403 on a token gallery's page
+ *  - GalleryToken         - the per-gallery token (created on save, looked up by share links)
+ *  - ExcludeListManager   - list of direct-link-only galleries, synced on options save
+ *  - ListingFilter        - keeps them out of listings, search, sitemap; noindex
+ *  - ShareLinks           - /gallery/share/t/<token>/ and ?rg_token= routing, editor permalinks
+ * Each class hooks itself in register().
  */
 class Bootstrap
 {
     public function run(): void
     {
-        // Create instances of the required classes
-        $excludeManager    = new ExcludeListManager();
-        $tokenGenerator    = new GalleryTokenGenerator();
-        $permalinkModifier = new GalleryPermalinkModifier();
-        $rewriteManager    = new GalleryRewriteRuleManager();
-        $accessManager     = new GalleryAccessManager();
-        $passwordManager   = new AccessPasswordManager();
+        $token          = new GalleryToken();
+        $access         = new GalleryAccessManager($token);
+        $excludeManager = new ExcludeListManager();
 
-        // Create AccessMetaManager with dependency injection
-        $metaManager = new AccessMetaManager($tokenGenerator, $passwordManager, $excludeManager);
-
-        // Create FilterPrivateGallery with dependency injection
-        $filterPrivateGallery = new FilterPrivateGallery($excludeManager);
-
-        // Create AccessPermalinkHandler with dependency injection
-        $permalinkHandler = new AccessPermalinkHandler($permalinkModifier);
-
-        // Create AccessMode with all dependencies injected
-        new AccessMode(
-            $accessManager,
-            $permalinkHandler,
-            $rewriteManager,
-            $filterPrivateGallery,
-            $metaManager
-        );
+        $token->register();
+        $access->register();
+        $excludeManager->register();
+        (new ListingFilter($excludeManager, $access))->register();
+        (new ShareLinks($token, $access))->register();
     }
 }

@@ -1,7 +1,7 @@
-<?php 
+<?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -9,31 +9,6 @@
 *      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-class roboGalleryClass_ImageResize extends roboGalleryClass{
+defined('WPINC') || exit;
 
-	private $moduleUrl = '';
-	private $modulePath = '';	
-
-	public function __construct(){
-		
-		add_image_size( 'RoboGalleryMansoryImagesCenter', 	600, 1024, 	array("center", "center") 	);		
-		add_image_size( 'RoboGalleryMansoryImagesCenter', 	600, 1024, 	array("center", "center") 	);		
-		add_image_size('RoboGalleryPreload', 100);	
-		
-		$this->moduleUrl 	= plugin_dir_url( 	__FILE__ );
-		$this->modulePath 	= plugin_dir_path( 	__FILE__ );
-
-		parent::__construct();		
-	}
-
-	public function getModuleFileName(){
-		return __FILE__;
-	}
-
-	public function load(){}
-
-	public function hooks(){}
-
-}
-
-$imageResize = new roboGalleryClass_ImageResize();
+(new \RoboGallery\app\extensions\imageResize\ImageSizes())->register();

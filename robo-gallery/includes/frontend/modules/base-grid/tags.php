@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -15,7 +15,6 @@ class  roboGalleryModuleTagsV1 extends roboGalleryModuleAbstraction{
 	private $tags = array();
 	
 	public function init(){
-		//TODO need check if menu isn't
 		$this->core->addEvent('gallery.images.get',	array($this, 'initTags'));
 		$this->core->addEvent('gallery.image.init.before', array($this, 'initImageCat'));
 	}

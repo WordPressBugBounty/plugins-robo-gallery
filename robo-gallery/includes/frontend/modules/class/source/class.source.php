@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -20,7 +20,6 @@ class roboGalleryModuleSource{
 	private $options_id = null;
 
 	private $core = null;
-	private $cacheDB = null;
 	private $gallery = null;
 
 	private $items = array();
@@ -34,7 +33,6 @@ class roboGalleryModuleSource{
 	public function __construct( $core ){
 	        $this->core = $core;
 	        $this->gallery = $core->gallery;
-	        $this->cacheDB = $core->cacheDB;
 
 	        $this->id = $this->gallery->id;
 	        $this->options_id = $this->gallery->options_id;  	       	
@@ -56,8 +54,28 @@ class roboGalleryModuleSource{
  		return $this->tags;
  	}
 
+	/**
+	 * The gallery's child galleries of all levels that the visitor may see, each
+	 * followed by its own children (app/extensions/access/AlbumHierarchy.php).
+	 *
+	 * @return WP_Post[]
+	 */
+	public static function getChildGalleries( $galleryId ){
+		return \RoboGallery\app\extensions\access\AlbumHierarchy::flatDescendants( (int) $galleryId );
+	}
+
+ 	// only the YouTube source reports why it has no items
+ 	public function getErrors(){
+ 		if( !is_object($this->source) || !method_exists($this->source, 'getErrors') ) return array();
+ 		$errors = $this->source->getErrors();
+ 		return is_array($errors) ? $errors : array();
+ 	}
+
  	public function initItems(){ 		
- 		$this->galleryType = get_post_meta( $this->id, ROBO_GALLERY_PREFIX . 'gallery_type', true );
+ 		$this->galleryType = rbsGalleryUtils::getTypeGallery( $this->id );
+
+ 		// robogrid prints an empty container: its script loads the images over REST
+ 		if( 'robogrid' === $this->gallery->gallery_type ) return ;
 
  		switch ( $this->galleryType ) {
 			case 'youtubepro':

@@ -88,22 +88,3 @@ $size_group->add_field( array(
     </div>    
 </div>',
 ));
-
-
-
-//rsg_colums[colums]
-//rsg_colums[colums1]
-
-/*
-$size_group->add_field( array(
-	'name' 			=> __('Colums ', 'robo-gallery'),
-	'id' 			=> ROBO_GALLERY_PREFIX . 'colums',
-	'type' 			=> 'colums',
-	'default'		=> rbs_gallery_set_checkbox_default_for_new_post(1),
-	'bootstrap_style'=> 1,	
-    'before_row' 	=> '
-				<div role="tabpanel" class="tab-pane" id="thumb_colums_options"><br/>',
-	'after_row' => '
-				</div>
-			>',	
-));*/

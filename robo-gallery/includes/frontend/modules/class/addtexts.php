@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -14,8 +14,10 @@ if ( ! defined( 'WPINC' ) ) exit;
 class  roboGalleryModuleAddTexts extends roboGalleryModuleAbstraction{
 	
 	public function init(){
-		if( $pretext = $this->getMetaCur('pretext') ) $this->core->setContent( '<div>'.$pretext.'</div>', 'Begin');
+		$pretext = $this->getMetaCur('pretext');
+		if( $pretext ) $this->core->setContent( '<div>'.wp_kses_post($pretext).'</div>', 'Begin');
 		
-		if( $aftertext = $this->getMetaCur('aftertext') ) $this->core->setContent( '<div>'.$aftertext.'</div>', 'End');	
+		$aftertext = $this->getMetaCur('aftertext');
+		if( $aftertext ) $this->core->setContent( '<div>'.wp_kses_post($aftertext).'</div>', 'End');	
 	}
 }

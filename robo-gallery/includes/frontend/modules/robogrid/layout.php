@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -9,7 +9,7 @@
 *      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-use roboGallery\App\Extensions\Validation\CssUnits;
+use RoboGallery\app\extensions\validation\CssUnits;
 
 if (! defined('WPINC')) {
     exit;
@@ -34,10 +34,15 @@ class roboGalleryModuleLayoutRoboGrid extends roboGalleryModuleAbstraction
         //  $this->core->addEvent('gallery.image.init.before', array($this, 'prepareImageData'));
     }
 
+    /**
+     * The gallery's settings through GalleryOptions (the only reader of the
+     * robo-gallery-options meta): a setting that was never saved gets its default.
+     */
     public function initOptions()
     {
-        if (is_array($this->options) || ! count($this->options)) {
-            $this->options = get_post_meta($this->id, 'robo-gallery-options', true);
+        $this->options = [];
+        foreach (\RoboGallery\app\GalleryOptions::getWithValues($this->id) as $optionId => $option) {
+            $this->options[$optionId] = $option['value'];
         }
     }
 
@@ -114,22 +119,18 @@ class roboGalleryModuleLayoutRoboGrid extends roboGalleryModuleAbstraction
             if ($align) {
                 $this->element->addElementStyle('robogrid', 'margin', $align);
             }
+
+            
         }
 
         $this->element->addElementStyle('robogrid', 'width', $width);
-
         $maxWidth = $this->getMaxWidthStyleFromOptions();
-        if ($maxWidth) {
-            $this->element->addElementStyle('robogrid', 'max-width', $maxWidth);
-        }
+            if ($maxWidth) {
+                $this->element->addElementStyle('robogrid', 'max-width', $maxWidth);
+            }  
+                
+        
 
-        //$this->element->addElementStyle('robogrid', 'padding', '0');
-        // $this->element->addElementStyle('robogrid', 'margin', '0');
-        //$this->element->addElementStyle('robogrid', 'max-width', '100%');
-
-        // :where(.wp-site-blocks *:focus) {
-        //     outline-width: 2px;
-        //     outline-style: solid;
     }
 
     public function renderMainBlock()
@@ -150,22 +151,18 @@ class roboGalleryModuleLayoutRoboGrid extends roboGalleryModuleAbstraction
 
     public function getJS()
     {
-        //     $this->jsOptions->setValue('restUrl', get_rest_url());
-        //     $this->jsOptions->setValue('wp_rest', wp_create_nonce('wp_rest'));
-        //   // $this->jsOptions->setValue('errorImageUrl',  plugin_dir_url( __FILE__ ).'images/' );
-        //     $this->jsOptions->setValue('errorImageUrl',  esc_url( site_url( 'wp-content/plugins/robo-gallery/images/', __FILE__ ) ) );
-        //     $this->jsOptions->setValue('debug', true);
+        // token-mode galleries: the script sends it back as rg_token in its REST
+        // request; only a token the visitor already brought in the URL is echoed
+        $accessManager = new \RoboGallery\app\extensions\access\GalleryAccessManager();
+        $accessToken   = $accessManager->getValidUrlToken($this->id);
 
         return ' var robogallery_config_id_' . $this->id . ' = {
             "restUrl": "' . esc_attr(get_rest_url()) . '",
             "wp_rest": "' . esc_attr(wp_create_nonce('wp_rest')) . '",
-            "errorImageUrl": "' . esc_url(site_url('wp-content/plugins/robo-gallery/images/')) . '",
+            "errorImageUrl": "' . esc_url(ROBO_GALLERY_URL . 'images/') . '",
+            "accessToken": ' . wp_json_encode($accessToken) . ',
             "debug": false
         };';
-        // .
-        //$this->core->jsOptions->getOptionList()
-        //    . ";"
-        //;
     }
 
 }

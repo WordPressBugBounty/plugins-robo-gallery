@@ -1,13 +1,15 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.1.4 - 48397
+*      Version: 5.2.6 - 24868
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
 *      Created: 2025
 *      Licensed under the GPLv3 license - http://www.gnu.org/licenses/gpl-3.0.html
  */
+
+defined('WPINC') || exit;
 
 /**
  * Autoloader function to dynamically include class files based on namespaces.
@@ -35,7 +37,7 @@ function autoloadRoboGalleryClasses($class) {
   if (file_exists($filePath)) {
       require_once $filePath;
   } else {
-      throw new Exception("RoboGallery :: Class file not found: {$filePath}");
+      throw new Exception('RoboGallery :: Class file not found: ' . esc_html($filePath));
   }
 }
 
