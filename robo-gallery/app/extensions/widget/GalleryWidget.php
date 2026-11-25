@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -71,11 +71,10 @@ class GalleryWidget extends \WP_Widget
         if (!class_exists('rbsImageWidgetGallery') && !ROBO_GALLERY_TYR) {
             ?>
             <p>
-                <?php esc_html_e('You need to install new version of the widget to make it work. Install free or paid version of the Image Widget.', 'robo-gallery'); ?>
+                <?php esc_html_e('You need to install new version of the widget to make it work: install the Image Widget.', 'robo-gallery'); ?>
             </p>
             <p style="text-align: center; margin-bottom: 0;">
-                <a class="button" href="<?php echo esc_url(self_admin_url('plugin-install.php?tab=search&type=term&s=image-widget-rb')); ?>" style="margin-bottom: 12px;"><?php esc_html_e('Install Free Version', 'robo-gallery'); ?></a>
-                <a class="button button-primary" href="<?php echo esc_url(ROBO_GALLERY_URL_UPDATEPRO); ?>" target="_blank"><?php esc_html_e('Install Paid Version', 'robo-gallery'); ?></a>
+                <a class="button" href="<?php echo esc_url(self_admin_url('plugin-install.php?tab=search&type=term&s=image-widget-rb')); ?>" style="margin-bottom: 12px;"><?php esc_html_e('Install the Image Widget', 'robo-gallery'); ?></a>
             </p>
             <?php
         }

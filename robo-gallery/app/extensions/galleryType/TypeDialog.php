@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -71,13 +71,18 @@ class TypeDialog
     /**
      * post-new.php without a type (core links, "Add New" without JS) goes to the
      * list with the dialog open: otherwise the gallery got an empty type source
-     * and no preset. Runs before core creates the auto-draft.
+     * and no preset. So does a link with a type locked without the key. Runs
+     * before core creates the auto-draft.
      */
     public function requireType(): void
     {
         global $typenow;
 
-        if (ROBO_GALLERY_TYPE_POST !== $typenow || !empty($_GET[ROBO_GALLERY_PREFIX . 'gallery_type'])) {
+        if (ROBO_GALLERY_TYPE_POST !== $typenow) {
+            return;
+        }
+
+        if (!empty($_GET[ROBO_GALLERY_PREFIX . 'gallery_type']) && !GalleryTypeList::isLocked(GalleryUtils::getTypeGallery())) {
             return;
         }
 
@@ -144,6 +149,8 @@ class TypeDialog
         wp_localize_script($configHandle, 'robo_js_config', array(
             'imagesUrl'         => $this->moduleUrl . 'build/',
             'createUrl'         => admin_url('post-new.php?post_type=' . ROBO_GALLERY_TYPE_POST . '&' . ROBO_GALLERY_PREFIX . 'gallery_type='),
+            // a new Fusion Grid gallery: "&<layoutArg>=<layout>" after the source (NewGalleryLayout)
+            'layoutArg'         => NewGalleryLayout::ARG,
             // the bundle appends "<source>&post=<id>", so the type arg must stay
             // last and the nonce goes before it
             'changeUrl'         => add_query_arg(
@@ -151,7 +158,7 @@ class TypeDialog
                 wp_create_nonce(TypeChange::getNonceAction(GalleryUtils::getIdGallery())),
                 admin_url('post.php?action=edit')
             ) . '&' . TypeChange::NEW_TYPE_ARG . '=',
-            'premiumVersion'    => ROBO_GALLERY_TYR,
+            'lockedTypes'       => GalleryTypeList::lockedTypes(),
             'customThemeEnable' => $customThemeCode ? true : false,
             'customThemeCode'   => $customThemeCode,
             'showDialog'        => empty($_GET[self::SHOW_ARG]) ? 0 : 1,

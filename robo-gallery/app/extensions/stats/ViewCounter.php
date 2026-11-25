@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -17,12 +17,12 @@ defined('WPINC') || exit;
 
 /**
  * Gallery view counter (PluginConstants::VIEWS_META_KEY), called by the
- * [robo-gallery] shortcode (includes/frontend/rbs_gallery_frontend.php) for every
+ * [robo-gallery] shortcode (shortcode/GalleryShortcode.php) for every
  * gallery the visitor may view - the block and the gallery page render through it too.
  *
  * Not counted: users who can edit the gallery (their own previews, the block
- * editor), bots / link previews / scripts, browser prefetch, the admin, and
- * the same gallery twice in one request. Filter robo_gallery_count_view
+ * editor), bots / link previews / scripts, browser prefetch, the admin, feeds,
+ * oEmbed and REST answers, and the same gallery twice in one request. Filter robo_gallery_count_view
  * (bool $count, int $galleryId) overrides the decision.
  *
  * Writes: one atomic UPDATE per view. With a persistent object cache (Redis,
@@ -76,6 +76,11 @@ class ViewCounter
     private function shouldCount(int $galleryId): bool
     {
         if (is_admin() && !wp_doing_ajax()) {
+            return false;
+        }
+
+        // feed readers, oEmbed and REST clients fetch the content, nobody sees the gallery there
+        if (is_feed() || is_embed() || (defined('REST_REQUEST') && REST_REQUEST)) {
             return false;
         }
 

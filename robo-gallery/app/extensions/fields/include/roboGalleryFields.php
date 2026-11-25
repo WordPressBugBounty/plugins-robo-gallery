@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -12,8 +12,7 @@
 /**
  * Config-driven metaboxes of the gallery editor (fields/config/metabox/*.php).
  * Loaded in the admin only (fields/init.php); assets and the body class only on
- * the gallery edit screen - the CMB2 option boxes of the classic galleries use
- * the same styles (div.roboGalleryFields).
+ * the gallery edit screen.
  */
 class roboGalleryFields{
 
@@ -44,7 +43,6 @@ class roboGalleryFields{
 	public function addMetaBoxes(){
 		foreach ((array)$this->config->get('metabox') as $name => $metaBoxConfig) {
 			// a config can opt out for the current request by returning an empty array
-			// (e.g. shortcode.php without a gallery ID)
 			if (empty($metaBoxConfig['settings']['id'])) {
 				continue;
 			}
@@ -68,12 +66,13 @@ class roboGalleryFields{
 
 		/* CSS */
 		wp_enqueue_style( ROBO_GALLERY_ASSETS_PREFIX.'app-style', 			ROBO_GALLERY_FIELDS_URL . 'asset/core/css/app-style.css', array(), ROBO_GALLERY_VERSION);
-		wp_enqueue_style( ROBO_GALLERY_ASSETS_PREFIX.'app-update-key', 		ROBO_GALLERY_FIELDS_URL . 'asset/fields/css/update.key.css', array(), ROBO_GALLERY_VERSION);
 		wp_enqueue_style( ROBO_GALLERY_ASSETS_PREFIX.'-field-type-youtube', ROBO_GALLERY_FIELDS_URL . 'asset/fields/youtube/style.css', array(), ROBO_GALLERY_VERSION);
+		wp_enqueue_style( ROBO_GALLERY_ASSETS_PREFIX.'gallery-tools', 		ROBO_GALLERY_FIELDS_URL . 'asset/metabox/gallery-tools.css', array('dashicons'), ROBO_GALLERY_VERSION);
 
 		/* JS */
 		wp_enqueue_script( ROBO_GALLERY_ASSETS_PREFIX.'foundation', 	ROBO_GALLERY_FIELDS_URL . 'asset/foundation/foundation.min.js', array('jquery'), ROBO_GALLERY_VERSION, true);
 		wp_enqueue_script( ROBO_GALLERY_ASSETS_PREFIX.'app', 			ROBO_GALLERY_FIELDS_URL . 'asset/core/js/app.js', array(ROBO_GALLERY_ASSETS_PREFIX.'foundation'), ROBO_GALLERY_VERSION, true);
+		wp_enqueue_script( ROBO_GALLERY_ASSETS_PREFIX.'gallery-tools', 	ROBO_GALLERY_FIELDS_URL . 'asset/metabox/gallery-tools.js', array(), ROBO_GALLERY_VERSION, true);
 
 		// Field help tooltips (asset/help, template/element/label.tooltip) are not
 		// used by any field config, so help.js/help.css are not loaded.

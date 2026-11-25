@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -15,7 +15,7 @@ defined('WPINC') || exit;
 
 /**
  * The admin screens of the gallery post type (list, editor and the pages in
- * its menu, except Statistics): a body class for js/themes.select.js and the
+ * its menu): a body class for js/themes.select.js and the
  * editor's "Robo Gallery updated." messages.
  */
 class GalleryScreens
@@ -36,8 +36,7 @@ class GalleryScreens
     {
         global $typenow;
 
-        return ROBO_GALLERY_TYPE_POST === $typenow
-            && !(isset($_GET['page']) && 'robo-gallery-stats' === $_GET['page']);
+        return ROBO_GALLERY_TYPE_POST === $typenow;
     }
 
     /**

@@ -140,6 +140,5 @@ return array (
   'lightboxSocialTwitter' => '1',
   'lightboxSocialGoogleplus' => '1',
   'lightboxSocialPinterest' => '1',
-  'lightboxSocialVK' => '1',
   'options' => '0',
 ); 

@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -23,8 +23,7 @@ if (!defined('WPINC')) {
  */
 class AdminMenu
 {
-    // Before the other Robo Gallery pages added on admin_menu 10/11 (Statistics,
-    // Overview), so the order stays: Pro Version, Support, Gallery Demo,
+    // Before the Overview page (admin_menu 11), so the order stays: Pro Version, Support, Gallery Demo,
     // Video Guides, then Settings (settings\SettingsPage, same priority, registered after).
     const MENU_PRIORITY = 9;
 

@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -28,9 +28,10 @@ class AttachmentFields
     }
 
     /**
-     * Tags, link, video link, link type, column span - writable by whoever may
-     * edit the attachment. Same value rules as the media modal (MediaFields):
-     * the links are real URLs, never javascript: and the like.
+     * Tags, link, video link, link type, column span, effect, formatted title - writable by
+     * whoever may edit the attachment. Same value rules as the media modal (MediaFields):
+     * the links are real URLs, never javascript: and the like; the formatted title is
+     * limited HTML (MediaFields::sanitizeTitleHtml()).
      */
     private function registerMeta()
     {
@@ -40,6 +41,8 @@ class AttachmentFields
             'rsg_gallery_video_link' => array('string', 'Video Link', array(MediaFields::class, 'sanitizeUrl')),
             'rsg_gallery_type_link'  => array('integer', 'Type Link', array(MediaFields::class, 'sanitizeTypeLink')),
             'rsg_gallery_col'        => array('integer', 'Column', array(MediaFields::class, 'sanitizeColumn')),
+            'rsg_gallery_effect'     => array('string', 'Effect', array(MediaFields::class, 'sanitizeEffect')),
+            'rsg_gallery_title_html' => array('string', 'Formatted title', array(MediaFields::class, 'sanitizeTitleHtml')),
         );
 
         foreach ($meta as $meta_key => $args) {
@@ -66,10 +69,12 @@ class AttachmentFields
             'get_callback' => function ($attach) {
 
                 $response = array(
-                    'title'       => null,
-                    'description' => null,
-                    'alt'         => null,
-                    'caption'     => null,
+                    'title'           => null,
+                    'titleHtml'       => '',
+                    'description'     => null,
+                    'descriptionHtml' => '',
+                    'alt'             => null,
+                    'caption'         => null,
                 );
 
                 if (!isset($attach['id']) || !$attach['id']) {
@@ -84,11 +89,17 @@ class AttachmentFields
                     $response['title'] = get_post_field('post_title', $attachment_id, 'raw');
                 }
 
+                // the title with its formatting, HTML the Fusion Grid shows (only while it is the title)
+                $response['titleHtml'] = MediaFields::titleHtmlFor($attachment_id, (string) $response['title']);
+
                 // the attachment's own description (get_the_content() was used here,
                 // which takes no post ID and read the global post instead)
                 $response['description'] = get_post_field('post_content', $attachment_id, 'raw');
                 $response['alt']         = get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
                 $response['caption']     = wp_get_attachment_caption($attachment_id);
+
+                // the description is HTML: what of its formatting the Fusion Grid may show ('' without tags)
+                $response['descriptionHtml'] = MediaFields::descriptionHtml((string) $response['description']);
 
                 return $response;
             },

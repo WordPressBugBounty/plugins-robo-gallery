@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -141,7 +141,7 @@ class  roboGalleryModuleLightboxV1 extends roboGalleryModuleAbstraction{
 		if( $this->core->getMeta('lightboxSocialFacebook') ) 	$this->jsOptions->setValue('facebook', 	true);
 		if( $this->core->getMeta('lightboxSocialTwitter') ) 	$this->jsOptions->setValue('twitter', 	true);
 		if( $this->core->getMeta('lightboxSocialPinterest') ) 	$this->jsOptions->setValue('pinterest', true);
-		if( $this->core->getMeta('lightboxSocialVK') ) 			$this->jsOptions->setValue('vk', 		true);
+		// the VK button was removed: the lightboxSocialVK meta of old galleries is not read
 	}
 
 

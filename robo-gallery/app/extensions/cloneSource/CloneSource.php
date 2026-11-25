@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -17,8 +17,9 @@ defined('WPINC') || exit;
  * "Clone Gallery" (meta rsg_options): a gallery can render with the settings
  * of another gallery of the same type (its source) instead of its own.
  *
- * - The editor field (includes/options/rbs_gallery_options_copy.php) offers
- *   only galleries the user can edit, plus the current source.
+ * - The editor field (fields/config/metabox/clone_source.php, field class
+ *   roboGalleryFieldsFieldCloneSource) offers only galleries the user can
+ *   edit, plus the current source.
  * - Saving accepts none, the unchanged value or such a gallery.
  * - A source that doesn't exist (anymore) or isn't a gallery is ignored on the
  *   frontend - the gallery uses its own settings - and the reference is removed
@@ -91,17 +92,15 @@ class CloneSource
     }
 
     /**
-     * CMB2 sanitization_cb of the field.
+     * The posted value of the editor field.
      *
-     * @param mixed                  $value
-     * @param array                  $args
-     * @param \CMBRE2_Field|null     $field
+     * @param mixed $value
+     * @param int   $galleryId the edited gallery
      * @return string
      */
-    public static function sanitize($value, $args = array(), $field = null): string
+    public static function sanitize($value, int $galleryId): string
     {
-        $galleryId = $field ? (int) $field->object_id : 0;
-        $current   = (int) get_post_meta($galleryId, self::metaKey(), true);
+        $current = (int) get_post_meta($galleryId, self::metaKey(), true);
 
         // not a number: a forged request - keep what was stored
         if (!is_scalar($value) || !preg_match('/^\d+$/', trim((string) $value))) {

@@ -220,6 +220,9 @@ body.roboGalleryFields #wpcontent div.roboGalleryFields {
   body.roboGalleryFields #wpcontent div.roboGalleryFields b,
   body.roboGalleryFields #wpcontent div.roboGalleryFields strong {
     font-weight: bold; }
+  /* the Pro button (rbsGalleryUtils::getProButton); came with the old images field's style.css */
+  body.roboGalleryFields #wpcontent div.roboGalleryFields .strong {
+    font-weight: bold; }
   body.roboGalleryFields #wpcontent div.roboGalleryFields dfn {
     font-style: italic; }
   body.roboGalleryFields #wpcontent div.roboGalleryFields h1 {
@@ -2770,128 +2773,6 @@ body.roboGalleryFields #wpcontent div.roboGalleryFields .checkIcon .dashicons{
 	color: green;
 }
 
-
-/*  ShortCode */
-
-body.roboGalleryFields #wpcontent div.roboGalleryFields .robo-gallery-shortcode {
- text-align: center;
- font-weight: bolder;
- font-style: normal;
- color: black;
- padding: 10px;
- border: 2px solid  silver;
- margin-top: 15px;
- margin-left: -10px;
- margin-right: -10px;
- font-weight: bold;
- font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
-}
-
-body.roboGalleryFields #wpcontent div.roboGalleryFields .robo-gallery-shortcode-copy-wrap {
- text-align: center;
- margin-top: 6px;
- margin-left: -10px;
- margin-right: -10px;
-}
-
-/* own small button: Foundation's .button here is a large blue one with a bottom margin */
-body.roboGalleryFields #wpcontent div.roboGalleryFields .robo-gallery-shortcode-copy {
- display: inline-block;
- margin: 0;
- padding: 2px 10px;
- font-size: 12px;
- line-height: 1.6;
- color: #2271b1;
- background: #f6f7f7;
- border: 1px solid #2271b1;
- border-radius: 3px;
- cursor: pointer;
-}
-
-body.roboGalleryFields #wpcontent div.roboGalleryFields .robo-gallery-shortcode-copy:hover,
-body.roboGalleryFields #wpcontent div.roboGalleryFields .robo-gallery-shortcode-copy:focus {
- background: #f0f0f1;
- border-color: #0a4b78;
- color: #0a4b78;
-}
-
-body.roboGalleryFields #wpcontent div.roboGalleryFields .robo-gallery-shortcode-copied {
- display: block;
- min-height: 16px;
- line-height: 16px;
- color: green;
- font-size: 12px;
-}
-
-/*  Text Addons (config/metabox/text_addons.php): a narrow side box - tighter than the main boxes */
-
-body.roboGalleryFields #wpcontent #robo_gallery_text_addons div.roboGalleryFields .metabox.wrap-field {
- margin-bottom: 8px;
-}
-
-body.roboGalleryFields #wpcontent #robo_gallery_text_addons div.roboGalleryFields .columns {
- padding-left: 0;
- padding-right: 0;
-}
-
-body.roboGalleryFields #wpcontent #robo_gallery_text_addons div.roboGalleryFields h5 {
- font-size: 13px;
- font-weight: 600;
- line-height: 1.4;
- margin-bottom: 4px;
-}
-
-body.roboGalleryFields #wpcontent #robo_gallery_text_addons div.roboGalleryFields .input-group,
-body.roboGalleryFields #wpcontent #robo_gallery_text_addons div.roboGalleryFields textarea {
- margin-bottom: 0;
-}
-
-body.roboGalleryFields #wpcontent #robo_gallery_text_addons div.roboGalleryFields textarea {
- font-size: 13px;
- padding: 6px;
-}
-
-body.roboGalleryFields #wpcontent div.roboGalleryFields .robo-gallery-shortcode-desc {
- text-align: center;
- padding-bottom: 5px !important;
- padding-top: 5px !important;
- color: #3c434a;
- font-size: 13px;
- margin-left: -10px;
- margin-right: -10px;
- font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
-}
-
-
-
-/* Gallery   type block */
-body.roboGalleryFields #wpcontent div.roboGalleryFields #roboGalleryThemeTypeDiv:parent{	
-}
-
-body.roboGalleryFields #wpcontent div.roboGalleryFields #roboGalleryThemeTypeDiv{
-	text-align: justify;
-	margin-bottom: -21px;
-}
-
-body.roboGalleryFields #wpcontent div.roboGalleryFields #roboGalleryThemeTypeDiv img{
-	padding: 10px;
-	float: left; 
-	margin: 0 15px 0 0;
-	max-width: 100px;
-	margin-bottom: -27px;
-	margin-top: 0px;
-	margin-left: -11px;
-}
-
-body.roboGalleryFields #wpcontent div.roboGalleryFields #roboGalleryThemeTypeDiv h4{
-	padding-top: 15px;
-}
-
-body.roboGalleryFields #wpcontent div.roboGalleryFields #roboGalleryThemeTypeDiv p{
-	padding-top: 0px;
-    font-size: 15px;
-    margin-bottom: 0;	
-}
 
 body.roboGalleryFields #wpcontent div.roboGalleryFields .rb-pro-block:not(#default_style) {
   display: grid; 

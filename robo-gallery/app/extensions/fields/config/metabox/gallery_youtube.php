@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -13,7 +13,8 @@ defined('WPINC') || exit;
 
 return array(
 	'active' => true,
-	'order' => 0,
+	// below the type and album header (robogrid-general.php, order 0)
+	'order' => 1,
 	'settings' => array(
 		'id' => 'robo-gallery-youtube',
 		'title' => __('Youtube Gallery Settings', 'robo-gallery'),
@@ -45,12 +46,6 @@ return array(
 			'name' => 'galleryYoutubeType',
 			'default' => 'ids',
 			'label' => 'Youtube Content Mode',
-			'contentAfterBlock' => 
-			'<div class="row">
-				<div class="content small-12 columns text-center" >'.
-					( ROBO_GALLERY_TYR ? '' : rbsGalleryUtils::getProButton( '+ ' . __('Add Youtube Channel & Playlist add-on', 'robo-gallery') ) )
-			.'	</div>
-			</div>',
 			'contentAfter' => 
 				sprintf(
 					'<p>%s</p>

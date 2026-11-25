@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -35,7 +35,7 @@ class  roboGalleryModuleSizeV1  extends roboGalleryModuleAbstraction{
 				}
 			}
 		}
-		if(!$widthSizeValue) $widthSizeValue = '100%;';
+		if(!$widthSizeValue) $widthSizeValue = '100%';
 		$this->element->addElementStyle('robo-gallery-main-block', 'width', $widthSizeValue );
 	}
 	

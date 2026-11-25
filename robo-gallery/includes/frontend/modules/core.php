@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -21,7 +21,6 @@ class roboGalleryModuleCore{
 	public $element 	= null;
 	public $jsOptions 	= null;
 	public $assets 		= null;
-	public $cache 		= null;
 
 	public $source 		= null;
 
@@ -41,8 +40,6 @@ class roboGalleryModuleCore{
 		
 		$this->source 		= new roboGalleryModuleSource( $this );
 
-		$this->cache 		= new roboGalleryModuleCache( $this );
-
 		$this->scssCompiler = new roboGalleryScss( $this );
 		$this->element 		= new roboGalleryModuleElement( $this );
 
@@ -52,7 +49,6 @@ class roboGalleryModuleCore{
 		$this->modules['addtexts'] 	= new roboGalleryModuleAddTexts( $this );
 		$this->modules['customcss'] = new roboGalleryModuleCustomCss( $this );
 		$this->modules['loader'] 	= new roboGalleryModuleLoader( $this );
-		$this->modules['protection']= new roboGalleryModuleProtection( $this );
 
 		$type_source = $this->getMeta('gallery_type_source');
 
@@ -65,10 +61,6 @@ class roboGalleryModuleCore{
 			$this->modules['layout.simple'] 		= new roboGalleryModuleLayoutSimple( $this );
 			$this->modules['assets.simple'] 		= new roboGalleryModuleAssetsSimple( $this );
 			$this->modules['content.simple'] 		= new roboGalleryModuleContentSimple( $this );
-		}  elseif($this->gallery->gallery_type == 'robogrid'   ){
-			$this->modules['layout.robogrid'] 		= new roboGalleryModuleLayoutRoboGrid( $this );
-			$this->modules['assets.robogrid'] 		= new roboGalleryModuleAssetsRoboGrid( $this );
-			$this->modules['content.robogrid'] 		= new roboGalleryModuleContentRoboGrid( $this );
 		} else {
 			$this->modules['resize.v1'] 		= new roboGalleryModuleResizeV1( $this );		
 			$this->modules['assets.v1'] 		= new roboGalleryModuleAssetsV1( $this );
@@ -83,8 +75,6 @@ class roboGalleryModuleCore{
 			$this->modules['tags.v1'] 			= new roboGalleryModuleTagsV1( $this );
 			$this->modules['size.v1'] 			= new roboGalleryModuleSizeV1( $this );
 			$this->modules['effects.set1'] 		= new roboGalleryModuleEffectSet1( $this );
-			
-			//$this->modules['searchv1'] 		= new roboGalleryModuleSearchV1( $this );
 		}
 	}
 
@@ -165,23 +155,6 @@ class roboGalleryModuleCore{
  		if( $position=='before' ) $this->contentHTML[$point] = $content . $this->contentHTML[$point];
  	}
 	
-
-	private function minData( $value ){
-		$value = str_replace( array("\n", "\r", "\t"), '', $value);
-
-		$value = str_replace("  ", ' ', $value);
-		$value = str_replace(" {", '{', $value);
-		$value = str_replace("{ ", '{', $value);
-		$value = str_replace(": ", ':', $value);
-		$value = str_replace(", ", ',', $value);
-
-		$value = str_replace("  ", ' ', $value);
-		return $value;
-	}
-
-	public function getIdPrefix(){
-		return $this->gallery->galleryId;
-	}
 
 	public function getMeta( $name ){
     	return $this->config->getMeta($name);

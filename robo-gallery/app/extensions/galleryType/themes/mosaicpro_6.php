@@ -1,0 +1,146 @@
+<?php 
+ //Pro Mosaic 6 - 5 columns, flat
+return array (
+  'gallery_type' => 'mosaicpro',
+  'width-size' => 
+  array (
+    'width' => '100',
+  ),
+  'thumb-size-options' => 
+  array (
+    'orderby' => 'categoryD',
+    'source' => 'large',
+    'width' => '240',
+    'height' => '140',
+  ),
+  'colums' => 
+  array (
+    'autowidth' => 'auto',
+    'colums' => '5',
+    'autowidth1' => 'auto',
+    'colums1' => '3',
+    'autowidth2' => 'auto',
+    'colums2' => '2',
+    'autowidth3' => 'auto',
+    'colums3' => '1',
+  ),
+  'radius' => '0',
+  'horizontalSpaceBetweenBoxes' => '5',
+  'verticalSpaceBetweenBoxes' => '5',
+  'shadow-options' => 
+  array (
+    'hshadow' => '0',
+    'vshadow' => '3',
+    'bshadow' => '5',
+    'color' => 'rgba(34, 25, 25, 0.4)',
+  ),
+  'hover-shadow-options' => 
+  array (
+    'hshadow' => '1',
+    'vshadow' => '3',
+    'bshadow' => '3',
+    'color' => 'rgba(34, 25, 25, 0.4)',
+  ),
+  'border-options' => 
+  array (
+    'width' => '5',
+    'style' => 'solid',
+    'color' => 'rgb(0, 0, 0)',
+  ),
+  'hover-border-options' => 
+  array (
+    'width' => '5',
+    'style' => 'solid',
+    'color' => 'rgb(49, 49, 49)',
+  ),
+  'thumbClick' => '0',
+  'hover' => '1',
+  'background' => 'rgba(0, 0, 0, 0.77)',
+  'overlayEffect' => 'fade',
+  'showTitle' => 
+  array (
+    'fontBold' => 'bold',
+    'fontItalic' => 'italic',
+    'fontSize' => '30',
+    'fontLineHeight' => '100',
+    'color' => 'rgb(255, 255, 255)',
+    'colorHover' => 'rgb(255, 255, 255)',
+  ),
+  'linkIcon' => 
+  array (
+    'iconSelect' => 'fa-link',
+    'fontSize' => '20',
+    'fontLineHeight' => '100',
+    'borderSize' => '0',
+    'color' => 'rgb(255, 255, 255)',
+    'colorHover' => 'rgb(255, 255, 255)',
+    'colorBg' => 'rgb(229, 64, 40)',
+    'colorBgHover' => 'rgb(183, 55, 37)',
+  ),
+  'zoomIcon' => 
+  array (
+    'enabled' => '1',
+    'iconSelect' => 'fa-plus-circle',
+    'fontSize' => '30',
+    'fontLineHeight' => '100',
+    'borderSize' => '0',
+    'color' => 'rgb(255, 255, 255)',
+    'colorHover' => 'rgb(255, 255, 255)',
+    'colorBg' => 'rgba(13, 130, 241, 0)',
+    'colorBgHover' => 'rgba(6, 70, 130, 0)',
+  ),
+  'showDesc' => 
+  array (
+    'fontSize' => '24',
+    'fontLineHeight' => '100',
+    'color' => 'rgb(0, 0, 0)',
+    'colorHover' => 'rgb(0, 0, 0)',
+  ),
+  'desc_template' => '<div class="rbs-hover-title">@TITLE@</div>
+<div class="rbs-hover-caption">@CAPTION@</div>
+<div class="rbs-hover-text">@DESC@</div>
+<div class="rbs-hover-more"><a href="@LINK@">Read more</a></div>',
+  'menuSelfImages' => '1',
+  'menuRoot' => '1',
+  'menuRootLabel' => 'All',
+  'menuSelf' => '1',
+  'buttonFill' => 'flat',
+  'buttonColor' => 'blue',
+  'buttonType' => 'normal',
+  'buttonSize' => 'large',
+  'buttonAlign' => 'left',
+  'paddingLeft' => '5',
+  'paddingBottom' => '10',
+  'searchColor' => 'rgb(218, 139, 163)',
+  'searchLabel' => 'search',
+  'lazyLoad' => '1',
+  'boxesToLoadStart' => '20',
+  'boxesToLoad' => '8',
+  'waitUntilThumbLoads' => '1',
+  'loadingBgColor' => 'rgb(255, 255, 255)',
+  'LoadingWord' => 'Loading...',
+  'loadMoreWord' => 'Load More',
+  'noMoreEntriesWord' => 'No More Entries',
+  'polaroidSource' => 'desc',
+  'polaroidBackground' => 'rgb(255, 255, 255)',
+  'polaroidAlign' => 'center',
+  'lightboxTitle' => '1',
+  'lightboxSource' => 'title',
+  'lightboxColor' => 'rgb(243, 243, 243)',
+  'lightboxBackground' => 'rgba(11, 11, 11, 0.8)',
+  'lightboxCounter' => '1',
+  'lightboxCounterText' => 'of',
+  'lightboxClose' => '1',
+  'lightboxArrow' => '1',
+  'lightboxDescSource' => 'title',
+  'lightboxDescClass' => 'dark',
+  'lightboxSocialFacebook' => '1',
+  'lightboxSocialTwitter' => '1',
+  'lightboxSocialGoogleplus' => '1',
+  'lightboxSocialPinterest' => '1',
+  'lightboxSocialVK' => '1',
+  'options' => '0',
+  'lightboxSourceButton' => '1',
+  'lightboxDescPanel' => '1',
+  'lightboxSocial' => '1',
+); 

@@ -1,6 +1,6 @@
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -15,50 +15,6 @@
  */
 (function ($) {
     'use strict';
-
-    // fallback for browsers / non-HTTPS admins without the async clipboard API
-    function copyWithSelection(text) {
-        var $field = $('<textarea readonly></textarea>')
-                .val(text)
-                .css({ position: 'absolute', left: '-9999px' })
-                .appendTo(document.body),
-            copied = false;
-
-        $field[0].select();
-        try {
-            copied = document.execCommand('copy');
-        } catch (e) {}
-        $field.remove();
-
-        return copied;
-    }
-
-    var copiedTimer = null;
-
-    // "Gallery Shortcode" box (config/metabox/shortcode.php)
-    function copyShortcode($button) {
-        var text = $button.attr('data-shortcode') || '',
-            $message = $button.siblings('.robo-gallery-shortcode-copied');
-
-        function done() {
-            $message.text($button.attr('data-copied') || '');
-            clearTimeout(copiedTimer);
-            copiedTimer = setTimeout(function () { $message.text(''); }, 3000);
-        }
-
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(text).then(done, function () {
-                if (copyWithSelection(text)) {
-                    done();
-                }
-            });
-            return;
-        }
-
-        if (copyWithSelection(text)) {
-            done();
-        }
-    }
 
     $(function () {
 
@@ -102,10 +58,6 @@
                     }
                 });
             });
-        });
-
-        $(document).on('click', '.robo-gallery-shortcode-copy', function () {
-            copyShortcode($(this));
         });
 
         // the "New Feature" label is a <button> inside the post form: don't submit it

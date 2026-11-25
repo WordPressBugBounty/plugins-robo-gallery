@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -14,6 +14,10 @@ namespace RoboGallery\app\extensions\activation;
 if (!defined('WPINC')) {
     die; // Exit if accessed directly
 }
+
+use RoboGallery\app\extensions\access\ExcludeListManager;
+use RoboGallery\app\GalleryOptions;
+use RoboGallery\app\PluginConstants;
 
 /**
  * Runs once per new plugin version (was includes/rbs_class_update.php):
@@ -78,6 +82,9 @@ class Upgrade
         Install::requestRefresh();
         update_option('rbs_gallery_db_version', ROBO_GALLERY_VERSION);
 
+        // first: until then the access of these galleries rests on the read fallback alone
+        $this->migrateLegacyAccess();
+
         // a missing type gets grid here (FIELD_DEFAULTS), an empty one below
         $this->addMissingDefaults();
         $this->fixEmptyTypes();
@@ -86,6 +93,59 @@ class Upgrade
         \RoboGallery\app\extensions\cloneSource\CloneSource::removeInvalidReferences();
 
         $this->removeCacheTable();
+        $this->removeOutputCache();
+
+        // the removed "Express panel" setting (an Update box of the gallery editor)
+        delete_option(ROBO_GALLERY_PREFIX . 'expressPanel');
+
+        // the removed Settings -> Statistics switch: the statistics panel is always on now
+        delete_option(ROBO_GALLERY_OPTIONS . 'addon_stats');
+
+        // the removed SEO Optimization option: its hidden SEO markup was no longer rendered, and its
+        // stored 0 was mostly the saved default, not a choice - noscriptImages (StaticGallery) replaces it
+        delete_option(ROBO_GALLERY_PREFIX . 'seo');
+
+        // the removed "Clone Block" setting: the Clone Gallery box is on every classic gallery now
+        delete_option(ROBO_GALLERY_PREFIX . 'cloneBlock');
+    }
+
+    /**
+     * The access options of the older versions (GalleryOptions::LEGACY_ACCESS_KEYS: Private,
+     * Token Mode...) as the current ones: a private gallery stays private, a token gallery
+     * keeps asking for its token (the same _robogallery_token). The old keys are dropped -
+     * accessModePassword held the post password in clear. getStored() reads them as the new
+     * ones (GalleryOptions::readLegacyAccess()), and keeps the new ones of a gallery saved
+     * since. Safe to repeat.
+     */
+    private function migrateLegacyAccess(): void
+    {
+        global $wpdb;
+
+        // the serialized meta names its keys: only the galleries that may have old ones
+        $ids = array_map('intval', $wpdb->get_col($wpdb->prepare(
+            "SELECT DISTINCT m.post_id FROM {$wpdb->postmeta} m
+             INNER JOIN {$wpdb->posts} p ON p.ID = m.post_id
+             WHERE p.post_type = %s AND m.meta_key = %s AND m.meta_value LIKE %s",
+            ROBO_GALLERY_TYPE_POST,
+            PluginConstants::OPTIONS_KEY,
+            '%' . $wpdb->esc_like('accessMode') . '%'
+        )));
+        if (!$ids) {
+            return;
+        }
+
+        $excludeList = new ExcludeListManager();
+        foreach ($ids as $id) {
+            $options = GalleryOptions::getStored($id);
+            if (!array_intersect_key($options, array_flip(GalleryOptions::LEGACY_ACCESS_KEYS))) {
+                continue;
+            }
+
+            // update_post_meta() unslashes: the other options' texts stay as they are
+            update_post_meta($id, PluginConstants::OPTIONS_KEY, wp_slash(array_diff_key($options, array_flip(GalleryOptions::LEGACY_ACCESS_KEYS))));
+            // the list of the galleries kept out of listings, also when the meta did not change
+            $excludeList->syncGallery($id);
+        }
     }
 
     /**
@@ -136,6 +196,27 @@ class Upgrade
         }
 
         wp_clear_scheduled_hook(ROBO_GALLERY_PREFIX . 'clear_db_cache_hook');
+    }
+
+    /**
+     * The gallery output cache is removed: its per-gallery switch (meta rsg_cache),
+     * its timeout setting (option rsg_cache) and the HTML it kept (transients
+     * rsg_cache_id<gallery>). Not the meta rsg_cache_id - it names the gallery's
+     * CSS file. Safe to repeat.
+     */
+    private function removeOutputCache(): void
+    {
+        global $wpdb;
+
+        delete_option(ROBO_GALLERY_PREFIX . 'cache');
+        delete_metadata('post', 0, ROBO_GALLERY_PREFIX . 'cache', '', true);
+
+        foreach (array('_transient_', '_transient_timeout_') as $prefix) {
+            $wpdb->query($wpdb->prepare(
+                "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
+                $wpdb->esc_like($prefix . ROBO_GALLERY_PREFIX . 'cache_id') . '%'
+            ));
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -78,23 +78,6 @@ class  roboGalleryModuleLayoutV1 extends roboGalleryModuleAbstraction{
 		            .'</div>'
 					.$this->core->renderBlock('gallery.image.end', $item)
 		        .'</div>';
-		$this->core->runEvent('gallery.image.init.after', $item);
-		return $returnHtml;
- 	}
-
- 	private function getItemV2( $item ){
- 		$this->core->runEvent('gallery.image.init.before', $item);
- 		$returnHtml = 
- 			'<div class="rbs-img  '.$this->core->element->getElementClasses('rbs-img-block', $item['id']).'" ' .$this->core->element->getElementAttrs('rbs-img-block', $item['id']).'>'
-		            .'<div class="rbs-img-image '.$this->core->element->getElementClasses('rbs-img-image-block', $item['id']).'" '.$this->core->element->getElementAttrs('rbs-img-image-block', $item['id']).'>'
-		            	.'<div class="rbs-img-thumbs" '.$this->core->element->getElementAttrs('rbs-img-thumbs-block', $item['id']).'>'
-							//.$this->core->renderBlock('gallery.image.init', $item)
-							.esc_html($this->core->renderBlock('gallery.image.rbs-img-thumbs-block', $item))
-		            	.'</div>'."\n"
-		            	.$this->core->renderBlock('gallery.image.init', $item)
-		            .'</div>'."\n"
-					.$this->core->renderBlock('gallery.image.end', $item)
-		        .'</div>'."\n";
 		$this->core->runEvent('gallery.image.init.after', $item);
 		return $returnHtml;
  	}

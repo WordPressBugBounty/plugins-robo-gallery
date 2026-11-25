@@ -2,7 +2,7 @@
 
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -60,8 +60,9 @@ class RoboSliderSource {
 		$this->width 		= 240;
 		$this->height 		= 140;
 
-		$this->thumbsource 	= $this->core->getMeta('source') 	? $this->core->getMeta('source') 	: 'medium'	 ;
-		$this->orderby 		= $this->core->getMeta('orderby') 	? $this->core->getMeta('orderby') 	: 'categoryD';
+		$options = \RoboGallery\app\extensions\slider\SliderOptions::forFrontend( (int) $this->id );
+		$this->thumbsource 	= $options['sliderImageSize'];
+		$this->orderby 		= $options['sliderOrderby'];
 	}
 
 

@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -60,14 +60,14 @@ class TypeChange
         }
 
         $type = GalleryTypeList::getTypeBySource($newSource);
-        if (!$type) {
+        if (!$type || GalleryTypeList::isLocked($type)) {
             return;
         }
 
         update_post_meta($postId, ROBO_GALLERY_PREFIX . 'gallery_type', $type);
         update_post_meta($postId, ROBO_GALLERY_PREFIX . 'gallery_type_source', $newSource);
 
-        if (wp_redirect(get_edit_post_link($postId, 'edit'))) {
+        if (wp_safe_redirect(get_edit_post_link($postId, 'edit'))) {
             set_transient(self::noticeKey($postId), __('Gallery type has been successfully changed.', 'robo-gallery'));
             exit;
         }

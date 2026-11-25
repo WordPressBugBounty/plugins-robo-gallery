@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -15,6 +15,7 @@ if (! defined('WPINC')) {
     die; // Exit if accessed directly
 }
 
+use RoboGallery\app\extensions\proofing\Proofing;
 use RoboGallery\app\GalleryOptions;
 use RoboGallery\app\PluginConstants;
 
@@ -22,7 +23,8 @@ use RoboGallery\app\PluginConstants;
  * Who may see a gallery. WordPress decides first (post status, post password);
  * the gallery's own options can only narrow that:
  *  - accessDirectLinkOnly: kept out of listings, opens by its own link;
- *  - accessRequireToken (with direct link only): the link must carry the token.
+ *  - accessRequireToken (with direct link only): the link must carry the token - the
+ *    gallery's own or the one of a proofing client (proofing\Proofing: only with the key).
  *
  * Every place that renders a gallery or its data goes through canView().
  * Stateless: callers may create it freely.
@@ -103,7 +105,31 @@ class GalleryAccessManager
         }
 
         $given = $this->getUrlToken();
-        return '' !== $given && $this->token->matches($post_id, $given) ? $given : '';
+        return '' !== $given && ($this->token->matches($post_id, $given) || $this->isClientToken($post_id, $given)) ? $given : '';
+    }
+
+    /**
+     * The token of a proofing client of the gallery (proofing\Proofing): it opens the gallery
+     * as its own token does, only with the key and while the gallery's proofing is on.
+     *
+     * @param int    $post_id
+     * @param string $given
+     * @return bool
+     */
+    private function isClientToken($post_id, string $given): bool
+    {
+        return null !== Proofing::clientByToken((int) $post_id, $given);
+    }
+
+    /**
+     * The proofing client the token of the page URL belongs to, null for any other visitor.
+     *
+     * @param int $post_id
+     * @return array|null { token, name, ... } (proofing\Proofing::clientByToken())
+     */
+    public function getUrlClient($post_id): ?array
+    {
+        return Proofing::clientByToken((int) $post_id, $this->getUrlToken());
     }
 
     /**
@@ -195,7 +221,7 @@ class GalleryAccessManager
 
         if ($this->requiresToken($post_id)) {
             $given = null === $token ? $this->getUrlToken() : (string) $token;
-            return $this->token->matches($post_id, $given);
+            return $this->token->matches($post_id, $given) || $this->isClientToken($post_id, $given);
         }
 
         // direct link only, no token: opens by its link, only kept out of listings

@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -23,8 +23,8 @@ defined('WPINC') || exit;
  * which is then not even loaded. Visible = GalleryAccessManager::canView() and
  * isListable() (direct-link-only galleries are opened by their own link only).
  *
- * The admin album dialog (includes/extensions/category) is not a display path:
- * it lists every gallery of a type to re-parent them.
+ * The admin hierarchy window (REST restapi\models\AlbumTree) is not a display
+ * path: it lists every gallery of a type to re-parent them.
  */
 class AlbumHierarchy
 {

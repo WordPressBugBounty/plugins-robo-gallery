@@ -1,0 +1,171 @@
+/*
+ * "Gallery Tools" box (config/metabox/gallery_tools.php). The selectors start like the Foundation reset of the
+ * boxes (asset/core/css/app-style.css), which strips buttons and inputs, so these win over it.
+ */
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-tool + .robo-gallery-tool {
+	margin-top: 14px;
+	padding-top: 14px;
+	border-top: 1px solid #f0f0f1;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-tool-title {
+	display: block;
+	margin: 0 0 6px;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1.4;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: #50575e;
+}
+
+/* the field with the copy button attached at its end */
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-copy {
+	display: flex;
+	align-items: stretch;
+	height: 34px;
+	overflow: hidden;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	background: #fff;
+	cursor: pointer;
+	transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-copy:hover {
+	border-color: var(--wp-admin-theme-color, #2271b1);
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-copy:focus-within {
+	border-color: var(--wp-admin-theme-color, #2271b1);
+	box-shadow: 0 0 0 1px var(--wp-admin-theme-color, #2271b1);
+}
+
+/* input...[readonly]: the reset's input[type='text'], [readonly] (grey) and :focus rules are more specific than a class */
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-copy input.robo-gallery-copy-text[readonly] {
+	flex: 1 1 auto;
+	min-width: 0;
+	height: auto;
+	min-height: 0;
+	margin: 0;
+	/* the shortcode of a 5-digit ID fits the 280 px sidebar */
+	padding: 0 8px;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	outline: 0;
+	font-family: Consolas, Monaco, monospace;
+	font-size: 11.5px;
+	font-weight: 400;
+	color: #1d2327;
+	cursor: pointer;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-copy-button {
+	display: flex;
+	flex: 0 0 32px;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	border: 0;
+	border-left: 1px solid #dcdcde;
+	border-radius: 0;
+	background: #fff;
+	color: var(--wp-admin-theme-color, #2271b1);
+	cursor: pointer;
+	transition: background-color 0.15s, color 0.15s;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-copy-button:hover {
+	background: #f0f6fc;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-copy-button:focus-visible {
+	outline: 2px solid var(--wp-admin-theme-color, #2271b1);
+	outline-offset: -2px;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-copy-button .dashicons {
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+}
+
+/* copied: green, the copy icon becomes a check (dashicons-yes) for a while */
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-copy.is-copied {
+	border-color: #00a32a;
+	box-shadow: none;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-copy.is-copied .robo-gallery-copy-button {
+	color: #00a32a;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-copy.is-copied .dashicons-admin-page::before {
+	content: "\f147";
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-copy-status {
+	margin: 6px 0 0;
+	font-size: 12px;
+	font-weight: 600;
+	color: #00a32a;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-copy-status.is-hint {
+	color: #646970;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-copy-status:empty {
+	display: none;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-tool-description {
+	margin: 6px 0 0;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #646970;
+}
+
+/* a link to a page outside the admin, as a full-width button: an icon, the name, the "new tab" mark at its end */
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-tool-link {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	height: 34px;
+	padding: 0 10px;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	background: #fff;
+	color: var(--wp-admin-theme-color, #2271b1);
+	font-size: 13px;
+	font-weight: 600;
+	text-decoration: none;
+	transition: border-color 0.15s, background-color 0.15s;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-tool-link:hover {
+	border-color: var(--wp-admin-theme-color, #2271b1);
+	background: #f0f6fc;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-tool-link:focus {
+	border-color: var(--wp-admin-theme-color, #2271b1);
+	box-shadow: 0 0 0 1px var(--wp-admin-theme-color, #2271b1);
+	outline: 0;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-tool-link .dashicons {
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-tool-link-text {
+	flex: 1 1 auto;
+}
+
+body.roboGalleryFields #wpcontent .robo-gallery-tools .robo-gallery-tool-link .dashicons-external {
+	color: #8c8f94;
+}

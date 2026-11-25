@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -80,32 +80,6 @@ final class GalleryUtils
     }
 
     /**
-     * Readable source of the edited gallery: "Grid", "Grid Pro 3", "Fusion Grid".
-     * A numbered source of a known type keeps its number even past the
-     * registry's count (wallstylepro-7 saved before it had 6); anything else
-     * unknown (custom-342) is shown as it is.
-     */
-    public static function getFullSourceGallery(): string
-    {
-        $source = self::getSourceGallery();
-
-        $sources = GalleryTypeList::getAllSources();
-        if (isset($sources[$source]) && !$sources[$source]['source_to']) {
-            return $sources[$source]['name'];
-        }
-
-        // numbered source: name + number ("gridpro-3" => "Grid Pro 3")
-        if (preg_match('/^([a-z]+)-(\d+)$/', $source, $m)) {
-            $type = GalleryTypeList::getByType($m[1]);
-            if ($type && $type['source_to']) {
-                return $type['name'] . ' ' . $m[2];
-            }
-        }
-
-        return ucfirst($source);
-    }
-
-    /**
      * The license key plugin is at least this version.
      */
     public static function compareVersion($version): bool
@@ -115,32 +89,6 @@ final class GalleryUtils
         }
 
         return version_compare(ROBO_GALLERY_KEY_VERSION, $version, '>=');
-    }
-
-    /**
-     * "Update license key" button, Pro only.
-     */
-    public static function getUpdateButton($label): string
-    {
-        if (!ROBO_GALLERY_TYR) {
-            return '';
-        }
-
-        return '<div class="content small-12 columns text-center" style="margin: 25px 0 -5px;">
-					<a href="' . esc_url(ROBO_GALLERY_URL_UPDATEKEY) . '" target="_blank" class="hollow warning button">' . esc_html($label) . '</a>
-				</div>';
-    }
-
-    /**
-     * "Get Pro" button, Free only.
-     */
-    public static function getProButton($label): string
-    {
-        if (ROBO_GALLERY_TYR) {
-            return '';
-        }
-
-        return '<a href="' . esc_url(ROBO_GALLERY_URL_UPDATEPRO) . '" target="_blank" class=" warning button strong " style="white-space: normal; line-height: 17px;">' . esc_html($label) . '</a>';
     }
 
     /**

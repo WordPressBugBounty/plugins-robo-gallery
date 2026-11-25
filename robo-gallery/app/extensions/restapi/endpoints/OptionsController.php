@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -12,14 +12,19 @@
 namespace RoboGallery\app\extensions\restapi\endpoints;
 
 use RoboGallery\app\GalleryOptions;
+use RoboGallery\app\extensions\galleryType\GalleryTypeList;
+use RoboGallery\app\extensions\optionThemes\GalleryTheme;
 
 defined('WPINC') || exit;
 
 /**
  * /robogallery/v1/{gallery_id}/options - read (GET) and save (PUT/POST, body
- * items: [{option_id, value}, ...]) a gallery's settings. Used by the robogrid
- * settings panel in the gallery editor. Storage and sanitizing live in
- * GalleryOptions; this class only maps requests and responses.
+ * items: [{option_id, value}, ...]) a gallery's settings: the option set of its
+ * type (GalleryOptions::setOf()). A new gallery's auto-draft has no type yet:
+ * the settings panel passes the type chosen in the dialog as ?gallery_type=.
+ * Used by the settings panel of every gallery (a classic type: the settings of
+ * the old boxes, kept in their rsg_* meta). Storage and
+ * sanitizing live in GalleryOptions; this class only maps requests and responses.
  *
  * @package RoboGallery\RestApi
  */
@@ -61,14 +66,14 @@ class OptionsController extends BaseController
     /**
      * All settings of the gallery (definition + value each).
      *
-     * @param  WP_REST_Request $request Request data.
-     * @return WP_Error|WP_REST_Response
+     * @param  \WP_REST_Request $request Request data.
+     * @return \WP_Error|\WP_REST_Response
      */
     public function get_items($request)
     {
         $data = array();
 
-        foreach (GalleryOptions::getWithValues($request['gallery_id']) as $option) {
+        foreach (GalleryOptions::getWithValues($request['gallery_id'], $this->optionSet($request)) as $option) {
             $option = $this->prepare_item_for_response($option, $request);
             $option = $this->prepare_response_for_collection($option);
             if ($this->is_setting_type_valid($option['type'])) {
@@ -83,8 +88,8 @@ class OptionsController extends BaseController
      * Saves the posted items; unknown option ids are skipped, an invalid value
      * fails the whole request. Responds with all settings, like get_items().
      *
-     * @param  WP_REST_Request $request Request data.
-     * @return WP_Error|WP_REST_Response
+     * @param  \WP_REST_Request $request Request data.
+     * @return \WP_Error|\WP_REST_Response
      */
     public function update_items($request)
     {
@@ -96,7 +101,8 @@ class OptionsController extends BaseController
             );
         }
 
-        $definitions = GalleryOptions::getOptionsArray();
+        $set         = $this->optionSet($request);
+        $definitions = GalleryOptions::getOptionsArray($set);
         $data        = array();
 
         foreach ($request['items'] as $item) {
@@ -112,17 +118,43 @@ class OptionsController extends BaseController
             $data[$item['option_id']] = $value;
         }
 
-        GalleryOptions::save($request['gallery_id'], $data);
+        // a gallery that follows an option theme: what differs from the theme is its own now
+        GalleryTheme::recordOverrides((int) $request['gallery_id'], $data);
+        GalleryOptions::save($request['gallery_id'], $data, $set);
 
         return $this->get_items($request);
+    }
+
+    /**
+     * The option set of the gallery: by its stored type; for an auto-draft without
+     * one, by the type the settings panel passes (the user may edit the draft, the
+     * type only picks which of the known definitions apply).
+     *
+     * @param \WP_REST_Request $request
+     * @return string GalleryOptions::SET_*
+     */
+    private function optionSet($request)
+    {
+        $galleryId = (int) $request['gallery_id'];
+        $type      = $request->get_param('gallery_type');
+
+        if (
+            is_string($type) && '' !== $type
+            && 'auto-draft' === get_post_status($galleryId)
+            && !metadata_exists('post', $galleryId, ROBO_GALLERY_PREFIX . 'gallery_type')
+        ) {
+            return GalleryOptions::setForType(GalleryTypeList::sanitizeType($type));
+        }
+
+        return GalleryOptions::setOf($galleryId);
     }
 
     /**
      * Prepare a single setting object for response.
      *
      * @param array           $item Setting definition + value.
-     * @param WP_REST_Request $request Request object.
-     * @return WP_REST_Response $response Response data.
+     * @param \WP_REST_Request $request Request object.
+     * @return \WP_REST_Response Response data.
      */
     public function prepare_item_for_response($item, $request)
     {
@@ -136,8 +168,8 @@ class OptionsController extends BaseController
     /**
      * Reading the settings: whoever may edit the gallery.
      *
-     * @param WP_REST_Request $request Full data about the request.
-     * @return WP_Error|boolean
+     * @param \WP_REST_Request $request Full data about the request.
+     * @return \WP_Error|bool
      */
     public function get_items_permissions_check($request)
     {
@@ -147,8 +179,8 @@ class OptionsController extends BaseController
     /**
      * Saving the settings: whoever may edit the gallery.
      *
-     * @param WP_REST_Request $request Full data about the request.
-     * @return WP_Error|boolean
+     * @param \WP_REST_Request $request Full data about the request.
+     * @return \WP_Error|bool
      */
     public function update_items_permissions_check($request)
     {

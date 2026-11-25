@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -11,6 +11,7 @@
 
 defined('WPINC') || exit;
 
+use RoboGallery\app\extensions\key\KeyNotice;
 use RoboGallery\app\extensions\key\KeyPlugin;
 
 // included here, at file scope as before: the key plugin's top-level code must not run inside a method
@@ -22,4 +23,8 @@ unset($roboGalleryKeyFile);
 
 if (!defined('ROBO_GALLERY_TYR')) {
     define('ROBO_GALLERY_TYR', 0);
+}
+
+if (is_admin()) {
+    (new KeyNotice())->register();
 }

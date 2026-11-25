@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -50,7 +50,13 @@ class GalleryModel
         if (empty($imageIds) || ! is_array($imageIds) || ! count($imageIds)) {
             return $response;
         }
-        $response = array_map(function ($item) {return (int) $item;}, $imageIds);
+        // an empty string of an older format (array('')) is no image: without the check it became id 0,
+        // a "missing image" of the image manager that never was one
+        $response = array_values(array_filter(array_map(function ($item) {
+            return is_scalar($item) ? (int) $item : 0;
+        }, $imageIds), function ($id) {
+            return $id > 0;
+        }));
 
         /* limit imgs */
         if ($limit && $limit < count($response)) {
@@ -135,7 +141,8 @@ class GalleryModel
 
     /**
      * The album's child galleries the visitor may see, with a cover image and an
-     * image count each. Without the key plugin only the root album has children here.
+     * image count each. Without the Pro key only the root album has children here
+     * (with it every level: nested albums).
      *
      * @param int $gallery_id
      * @param int $root_gallery_id
@@ -149,18 +156,7 @@ class GalleryModel
             return $response;
         }
 
-        if (class_exists('upz\\robogallery_key\\app\\restapi\\GalleryFieldsPro')) {
-            $children = \upz\robogallery_key\app\restapi\GalleryFieldsPro::get_gallery_children($gallery_id, $root_gallery_id);
-            if (! is_array($children)) {
-                return $response;
-            }
-            // Pro builds the list with get_children() too, so filter its result here
-            return array_values(array_filter($children, function ($child) {
-                return isset($child['id']) && self::is_child_gallery_visible($child['id']);
-            }));
-        }
-
-        if ($gallery_id !== $root_gallery_id) {
+        if (! ROBO_GALLERY_TYR && $gallery_id !== $root_gallery_id) {
             return $response;
         }
 
@@ -182,7 +178,7 @@ class GalleryModel
 
     /**
      * The album tree below the root (breadcrumbs / side menu of robogrid): 2 levels,
-     * 20 with the key plugin. Loads only the root's visible descendants
+     * 20 with the Pro key. Loads only the root's visible descendants
      * (AlbumHierarchy), not every gallery of the site.
      *
      * The caller must have checked canView() for the root: it is returned even
@@ -197,26 +193,9 @@ class GalleryModel
             return [];
         }
 
-        $maxDepth = class_exists('upz\\robogallery_key\\app\\restapi\\GalleryFieldsPro') ? 20 : 2;
+        $maxDepth = ROBO_GALLERY_TYR ? 20 : 2;
 
         return AlbumHierarchy::tree((int) $root_gallery_id, $maxDepth);
-    }
-
-    /**
-     * Filters the key plugin's children list: a published gallery the visitor may
-     * see in an album (AlbumHierarchy::isVisible()).
-     *
-     * @param int|\WP_Post $post
-     * @return bool
-     */
-    private static function is_child_gallery_visible($post)
-    {
-        $post = get_post($post);
-        if (! $post || 'publish' !== $post->post_status) {
-            return false;
-        }
-
-        return AlbumHierarchy::isVisible($post);
     }
 
 }

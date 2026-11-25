@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -19,8 +19,9 @@ if (! defined('WPINC')) {
  * Keeps direct-link-only galleries out of every frontend listing: site search,
  * widgets, Query Loop, feeds, legacy albums, REST collections and
  * /wp/v2/search (REST requests aren't is_admin()), previous/next links and the
- * core sitemap; adds noindex on their own pages. Users who can edit others'
- * galleries still see them in listings.
+ * sitemaps (core, Yoast SEO, Rank Math); adds noindex on their own pages.
+ * Users who can edit others' galleries still see them in listings.
+ * The token galleries are on the same list: a token needs direct link only.
  */
 class ListingFilter
 {
@@ -44,8 +45,14 @@ class ListingFilter
         // The core sitemap, also for logged-in editors (pre_get_posts lets them see all).
         add_filter('wp_sitemaps_posts_query_args', [$this, 'excludeFromSitemap'], 10, 2);
 
-        // In case the link leaks or an SEO plugin's own sitemap lists the gallery.
+        // Yoast SEO and Rank Math read the posts of their sitemaps with their own SQL: no WP_Query hook reaches them.
+        add_filter('wpseo_exclude_from_sitemap_by_post_ids', [$this, 'excludeFromYoastSitemap']);
+        add_filter('rank_math/sitemap/entry', [$this, 'excludeFromRankMathSitemap'], 10, 3);
+
+        // In case the link leaks or another sitemap lists the gallery. Rank Math prints its own robots meta instead
+        // of the core one, so it gets the same answer through its own filter.
         add_filter('wp_robots', [$this, 'noindex']);
+        add_filter('rank_math/frontend/robots', [$this, 'noindexRankMath']);
     }
 
     /**
@@ -145,6 +152,41 @@ class ListingFilter
     }
 
     /**
+     * wpseo_exclude_from_sitemap_by_post_ids: the post ids Yoast SEO leaves out of every sitemap.
+     *
+     * @param array $ids
+     * @return array
+     */
+    public function excludeFromYoastSitemap($ids)
+    {
+        $ids = is_array($ids) ? $ids : [  ];
+
+        return array_values(array_unique(array_merge(array_map('intval', $ids), $this->excludeManager->getExcluded())));
+    }
+
+    /**
+     * rank_math/sitemap/entry: an empty answer leaves the entry out. Rank Math reads the posts with its own SQL, so
+     * the post may be a plain row object, not a WP_Post.
+     *
+     * @param array|false $url
+     * @param string      $type
+     * @param object|null $object
+     * @return array|false
+     */
+    public function excludeFromRankMathSitemap($url, $type, $object)
+    {
+        if ('post' !== $type || ! is_object($object) || empty($object->ID)) {
+            return $url;
+        }
+
+        if (isset($object->post_type) && ROBO_GALLERY_TYPE_POST !== $object->post_type) {
+            return $url;
+        }
+
+        return in_array((int) $object->ID, $this->excludeManager->getExcluded(), true) ? false : $url;
+    }
+
+    /**
      * wp_robots: noindex for direct-link-only galleries (with or without token).
      *
      * @param array $robots
@@ -152,15 +194,35 @@ class ListingFilter
      */
     public function noindex($robots)
     {
-        if (! is_array($robots) || ! is_singular(ROBO_GALLERY_TYPE_POST)) {
-            return $robots;
-        }
-
-        if (! $this->access->isDirectLinkOnly(get_queried_object_id())) {
+        if (! is_array($robots) || ! $this->isHiddenGalleryPage()) {
             return $robots;
         }
 
         return wp_robots_no_robots($robots);
+    }
+
+    /**
+     * rank_math/frontend/robots: the same as noindex() in Rank Math's format ('index' => 'noindex', ...).
+     *
+     * @param array $robots
+     * @return array
+     */
+    public function noindexRankMath($robots)
+    {
+        if (! is_array($robots) || ! $this->isHiddenGalleryPage()) {
+            return $robots;
+        }
+
+        $robots['index']  = 'noindex';
+        $robots['follow'] = 'nofollow';
+
+        return $robots;
+    }
+
+    /* the page of a direct-link-only gallery (with or without token) */
+    private function isHiddenGalleryPage(): bool
+    {
+        return is_singular(ROBO_GALLERY_TYPE_POST) && $this->access->isDirectLinkOnly(get_queried_object_id());
     }
 
     /**

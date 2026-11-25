@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -11,14 +11,16 @@
 
 namespace RoboGallery\app\extensions\media;
 
+use RoboGallery\app\extensions\validation\CssColor;
+
 defined('WPINC') || exit;
 
 /**
  * Robo Gallery fields of an image in the media modal's attachment details:
  * tags, column span, link, link in a new tab, video link and hover effect
  * (rsg_gallery_* meta, read by includes/frontend/modules/class/source/type/).
- * They are hidden everywhere except the gallery editor's Images field, which
- * shows them again (app/extensions/fields/asset/fields/gallery/style.css).
+ * They are hidden everywhere except the gallery editor, where the image manager
+ * shows them again (imageManager/ImageManager::showImageFields()).
  * REST writes the same meta via restapi/fields/AttachmentFields.
  */
 class MediaFields
@@ -26,7 +28,19 @@ class MediaFields
     // order of the rows in the attachment details
     const FIELDS = array('line', 'col', 'type_link', 'video_link', 'effect', 'tags', 'link');
 
+    // of them, what only the classic grids read (base-grid/grid/grid.v1.php): edited only there
+    const CLASSIC_FIELDS = array('col', 'effect');
+
     const COLUMNS_MAX = 6;
+
+    /*
+     * The formatted title (rsg_gallery_title_html) and description (the description itself, HTML in
+     * WordPress), edited in the image manager (react_parts/options details/formattedText.js FONT_SIZES):
+     * their font sizes, relative to the size the gallery gives the text, and their longest length.
+     */
+    const TEXT_FONT_SIZES      = array('0.8em', '1.25em', '1.5em');
+    const TITLE_HTML_MAX       = 4000;
+    const DESCRIPTION_HTML_MAX = 20000;
 
     public function register(): void
     {
@@ -47,7 +61,9 @@ class MediaFields
         if (!ROBO_GALLERY_TYR) {
             $css .= '.compat-attachment-fields tr.compat-field-' . self::key('type_link') . ','
                 . '.compat-attachment-fields tr.compat-field-' . self::key('link')
-                . '{z-index:1000;opacity:0.4;pointer-events:none;}';
+                . '{z-index:1000;opacity:0.4;pointer-events:none;}'
+                // the badge of the locked fields
+                . '.robo-gallery-pro-label{display:inline-block;margin-left:4px;padding:0 6px;border-radius:3px;background:#dba617;color:#fff;font-size:11px;line-height:18px;vertical-align:middle;}';
         }
 
         // selectors built from the plugin's own field names (no quotes or tags)
@@ -68,7 +84,7 @@ class MediaFields
             'input' => 'html',
             'html'  => ROBO_GALLERY_TYR
                 ? '<h4>' . esc_html__('Robo Gallery', 'robo-gallery') . '</h4>'
-                : '<br/><br/><span>Robo Gallery <br> Available in PRO </span>',
+                : '<h4>' . esc_html__('Robo Gallery', 'robo-gallery') . ' <span class="robo-gallery-pro-label">PRO</span></h4>',
         );
 
         $form_fields[self::key('tags')] = array(
@@ -77,7 +93,7 @@ class MediaFields
             'value' => sanitize_textarea_field(self::meta($id, 'tags')),
         );
 
-        $columns = array();
+        $columns = array(0 => __('Auto', 'robo-gallery'));
         for ($i = 1; $i <= self::COLUMNS_MAX; $i++) {
             $columns[$i] = $i;
         }
@@ -86,7 +102,7 @@ class MediaFields
             'label' => __('Column'), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress
             'input' => 'html',
             'value' => $col,
-            'html'  => self::select($id, 'col', $columns, $col ? $col : 1),
+            'html'  => self::select($id, 'col', $columns, $col),
         );
 
         $form_fields[self::key('link')] = array(
@@ -150,7 +166,7 @@ class MediaFields
         }
 
         $col = self::posted($attachment, 'col');
-        if (null !== $col && self::sanitizeColumn($col)) {
+        if (null !== $col && ('0' === $col || self::sanitizeColumn($col))) {
             update_post_meta($id, self::key('col'), self::sanitizeColumn($col));
         }
 
@@ -203,6 +219,143 @@ class MediaFields
     }
 
     /**
+     * Hover effect of the image: one of effects(), '' (the gallery's own) otherwise.
+     *
+     * @param mixed $value
+     */
+    public static function sanitizeEffect($value): string
+    {
+        $effect = is_scalar($value) ? (string) $value : '';
+
+        return array_key_exists($effect, self::effects()) ? $effect : '';
+    }
+
+    /**
+     * Formatted title: the title's text with bold, italic, underline and spans of a font size
+     * (TEXT_FONT_SIZES) or a color (CssColor) only. The Fusion Grid puts it into the page as
+     * HTML, so nothing else gets through; '' for anything that is not such a string.
+     *
+     * @param mixed $value
+     */
+    public static function sanitizeTitleHtml($value): string
+    {
+        return self::sanitizeTextHtml($value, self::TITLE_HTML_MAX, false);
+    }
+
+    /**
+     * The description as the Fusion Grid shows it formatted: what it may show of the description's
+     * HTML - the title's formatting, also as <b> / <i>, and the lines (new lines and <br>); the other
+     * tags go, their text stays. '' for a description without tags: the grid shows its text.
+     */
+    public static function descriptionHtml(string $description): string
+    {
+        if (!preg_match('/<[a-z\/]/i', $description)) {
+            return '';
+        }
+
+        return self::sanitizeTextHtml(preg_replace('/\r?\n/', '<br>', $description), self::DESCRIPTION_HTML_MAX, true);
+    }
+
+    /**
+     * The formatted title of an image when it still is its title: the title edited elsewhere
+     * (the media library) makes it stale, and the gallery then shows the plain title.
+     */
+    public static function titleHtmlFor(int $id, string $title): string
+    {
+        $html = self::sanitizeTitleHtml(get_post_meta($id, 'rsg_gallery_title_html', true));
+
+        return '' !== $html && self::htmlText($html) === self::plainText($title) ? $html : '';
+    }
+
+    /**
+     * @param mixed $value
+     * @param bool  $description also <br> and the <b> / <i> of HTML written elsewhere
+     */
+    private static function sanitizeTextHtml($value, int $max, bool $description): string
+    {
+        if (!is_string($value) || '' === trim($value) || strlen($value) > $max) {
+            return '';
+        }
+
+        $allowed = array(
+            'strong' => array(),
+            'em'     => array(),
+            'u'      => array(),
+            'span'   => array('style' => true),
+        );
+        if ($description) {
+            $allowed['br'] = array();
+            $allowed['b']  = array();
+            $allowed['i']  = array();
+        }
+
+        $html = wp_kses($value, $allowed);
+
+        // kses keeps any style it knows; a span may hold only the size and the color
+        $html = preg_replace_callback('/<span\b[^>]*>/i', function ($match) {
+            return self::textSpan($match[0]);
+        }, $html);
+
+        return force_balance_tags(trim((string) $html));
+    }
+
+    /* the text of the formatted title */
+    private static function htmlText(string $html): string
+    {
+        return self::plainText(wp_strip_all_tags($html));
+    }
+
+    /* the text as the visitor reads it: entities decoded, spaces collapsed */
+    private static function plainText(string $text): string
+    {
+        $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
+
+        return trim((string) preg_replace('/\s+/u', ' ', $text));
+    }
+
+    /* a span of the formatted text: its style with only an allowed font size and a valid color */
+    private static function textSpan(string $tag): string
+    {
+        $rules = array();
+
+        if (preg_match('/\sstyle\s*=\s*"([^"]*)"/i', $tag, $style)) {
+            foreach (explode(';', html_entity_decode($style[1], ENT_QUOTES, 'UTF-8')) as $declaration) {
+                $parts = explode(':', $declaration, 2);
+                if (2 !== count($parts)) {
+                    continue;
+                }
+                $name  = strtolower(trim($parts[0]));
+                $value = strtolower(trim($parts[1]));
+
+                if ('font-size' === $name && in_array($value, self::TEXT_FONT_SIZES, true)) {
+                    $rules['font-size'] = $value;
+                } elseif ('color' === $name && CssColor::isValid($value)) {
+                    $rules['color'] = $value;
+                }
+            }
+        }
+
+        if (!$rules) {
+            return '<span>';
+        }
+
+        $css = array();
+        foreach ($rules as $name => $value) {
+            $css[] = $name . ': ' . $value;
+        }
+
+        return '<span style="' . esc_attr(implode('; ', $css)) . '">';
+    }
+
+    /**
+     * The effect choices for the image manager (imageManager): value => label.
+     */
+    public static function effectChoices(): array
+    {
+        return self::effects();
+    }
+
+    /**
      * @return string|null null when the field was not submitted (or is not a string)
      */
     private static function posted(array $attachment, string $name)
@@ -245,6 +398,12 @@ class MediaFields
      */
     private static function select(int $id, string $name, array $choices, $current): string
     {
+        // the modal posts all its fields on any change: without its own item a stored value outside
+        // the choices would become the first choice. saveFields() leaves such a value as it is.
+        if (!array_key_exists($current, $choices)) {
+            $choices[$current] = $current;
+        }
+
         $field = 'attachments[' . $id . '][' . self::key($name) . ']';
 
         $html = '<select name="' . esc_attr($field) . '" id="' . esc_attr($field) . '">';

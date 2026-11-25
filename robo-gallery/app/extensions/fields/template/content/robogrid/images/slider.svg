@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- the slider layout of Fusion Grid: cards in a row, the arrows and the pagination over them -->
+<svg width="190" height="190" viewBox="0 0 50.270832 50.270835" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0.757" y="0.757" width="48.757" height="48.757" style="fill:#ffd700;stroke:#ffd700;stroke-width:1.51346" />
+  <rect x="3.2" y="14.5" width="9.2" height="18.4" style="fill:#ffffff;fill-opacity:0.6" />
+  <rect x="14.2" y="12.4" width="21.9" height="22.6" style="fill:#ffffff" />
+  <rect x="37.9" y="14.5" width="9.2" height="18.4" style="fill:#ffffff;fill-opacity:0.6" />
+  <path d="M 19.4,21.1 17.3,23.7 19.4,26.3" style="fill:none;stroke:#ffd700;stroke-width:0.9;stroke-linecap:round;stroke-linejoin:round" />
+  <path d="M 30.9,21.1 33,23.7 30.9,26.3" style="fill:none;stroke:#ffd700;stroke-width:0.9;stroke-linecap:round;stroke-linejoin:round" />
+  <circle cx="21.6" cy="39.6" r="1.1" style="fill:#ffffff;fill-opacity:0.6" />
+  <circle cx="25.1" cy="39.6" r="1.1" style="fill:#ffffff" />
+  <circle cx="28.6" cy="39.6" r="1.1" style="fill:#ffffff;fill-opacity:0.6" />
+</svg>

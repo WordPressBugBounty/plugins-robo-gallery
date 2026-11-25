@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -11,6 +11,4 @@
 
 defined('WPINC') || exit;
 
-if (is_admin()) {
-    (new \RoboGallery\app\extensions\duplicate\GalleryDuplicate())->register();
-}
+(new \RoboGallery\app\extensions\duplicate\GalleryDuplicate())->register();

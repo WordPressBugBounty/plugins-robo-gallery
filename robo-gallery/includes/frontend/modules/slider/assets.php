@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -11,6 +11,8 @@
 
 if ( ! defined( 'WPINC' ) ) exit;
 
+/* the slider script (react_parts/slider, build-js.bat copies it here): Swiper and its styles are
+   inside, injected into the shadow root - no jQuery, no CSS file, the same in the Alternative mode */
 class  roboGalleryModuleAssetsSlider extends roboGalleryModuleAssets{
 
 	protected function initJsFilesListAlt(){
@@ -18,28 +20,9 @@ class  roboGalleryModuleAssetsSlider extends roboGalleryModuleAssets{
 	}
 
 	protected function initJsFilesList(){
-
-		$this->files['js']['robo-gallery-slider'] = array(
-			'url' 		=> $this->moduleUrl.'assets/slider/slider.min.js',
-			'depend' 	=> array()
-		);
-		
 		$this->files['js']['robo-gallery-slider-script'] = array(
-			'url' 		=> $this->moduleUrl.'assets/script.slider.js',
-			'depend' 	=> array('robo-gallery-slider')
-		);
-	}
-
-	protected function initCssFilesList(){
-
-		$this->files['css']['robo-gallery-slider'] = array( 
-			'url' 		=> $this->moduleUrl.'assets/slider.css', 
-			'depend' 	=> array() 
-		);		
-
-		$this->files['css']['robo-gallery-slider-min'] = array( 
-			'url' 		=> $this->moduleUrl.'assets/slider/slider.min.css', 
-			'depend' 	=> array() 
+			'url' 		=> $this->moduleUrl.'assets/main.js',
+			'depend' 	=> array()
 		);
 	}
 

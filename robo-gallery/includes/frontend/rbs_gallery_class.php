@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -13,6 +13,7 @@ if ( ! defined( 'WPINC' ) ) exit;
 
 require_once ROBO_GALLERY_FRONTEND_MODULES_PATH.'core.php';
 
+/* The output of the classic types; Fusion Grid has its own (app/extensions/fusionGrid, chosen by the shortcode). */
 class roboGallery{
 
  	public $id = 0;
@@ -30,7 +31,7 @@ class roboGallery{
 
  	function __construct( $attr ){
  
- 		if (defined('DOING_AJAX') && DOING_AJAX) $this->isAjaxCall = true;
+ 		if (wp_doing_ajax()) $this->isAjaxCall = true;
  		
  		if( !is_array($attr) || !isset($attr['id']) ) return ; 		
 		
@@ -60,8 +61,8 @@ class roboGallery{
 
  		if( !$this->id ) return '';
  		$this->returnHtml = '';
- 
- 		if( $this->returnHtml = $this->core->renderBlock('gallery.render.begin.before') ) return $this->returnHtml; 		
+
+ 		if( \RoboGallery\app\extensions\staticGallery\StaticGallery::isStaticRequest() ) return $this->getStaticGallery();
 
  		$this->core->runEvent('gallery.render.begin');
  		
@@ -72,18 +73,49 @@ class roboGallery{
 
 		$this->core->runEvent('gallery.block.before');
 		
-		$this->returnHtml = $this->getBlockGallery();
+		$this->returnHtml = roboGalleryModuleAssets::printForcedAssets( $this->getBlockGallery() );
 
 		$this->core->runEvent('gallery.block.after');
 
 		$this->core->runEvent('gallery.render.end');
-		
+
+		$static = \RoboGallery\app\extensions\staticGallery\StaticGallery::isNoscriptEnabled() ? $this->renderStatic() : '';
+		if( $static ) $this->returnHtml .= '<noscript>'.$static.'</noscript>';
+
 		return $this->returnHtml;
+ 	}
+
+ 	/**
+ 	 * Where the gallery's script can't run (StaticGallery::isStaticRequest()):
+ 	 * the texts and the images only, no assets or styles.
+ 	 */
+ 	private function getStaticGallery(){
+		$this->core->runEvent('gallery.images.get');
+
+		$static = $this->renderStatic();
+		if( !$static ) return '';
+
+		$pretext   = $this->core->getMetaCur('pretext');
+		$aftertext = $this->core->getMetaCur('aftertext');
+
+		return ( $pretext ? '<div>'.wp_kses_post($pretext).'</div>' : '' )
+			.$static
+			.( $aftertext ? '<div>'.wp_kses_post($aftertext).'</div>' : '' );
+ 	}
+
+ 	private function renderStatic(){
+ 		$limit = \RoboGallery\app\extensions\staticGallery\StaticGallery::limit();
+ 		return \RoboGallery\app\extensions\staticGallery\StaticGallery::render( $this->getStaticItems(), $limit );
+ 	}
+
+ 	/* the source's items (StaticGallery::render() takes the first $limit) */
+ 	private function getStaticItems(){
+ 		return $this->core->source->getItems();
  	}
 
  	private function getBlockGallery(){
 
- 		if( $this->gallery_type!='robogrid' &&  !count($this->core->source->getItems())  ) return $this->showEmptyMessage();
+ 		if( !count($this->core->source->getItems()) ) return $this->showEmptyMessage();
  		return $this->core->renderBlock('gallery.block.main');
  	}
 

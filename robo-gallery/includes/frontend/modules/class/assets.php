@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -33,6 +33,10 @@ class  roboGalleryModuleAssets{
 
 	public $core = null;
     protected $gallery = null;
+
+	/* "Forced include": the tags by placeholder key, and the ones already printed in this request */
+	private static $forcedTags 	  = array();
+	private static $forcedPrinted = array();
 
 
 	public function __construct( $core ){
@@ -136,15 +140,13 @@ class  roboGalleryModuleAssets{
 
 	public function addCssFilesForced(){
 		if($this->typeInclude!='forced' ) return ;
-		$scriptTags = '';
 		foreach ($this->files['css'] as $fileLabel => $fileParams){
 			if( !$this->checkFileParams($fileParams) ) continue ;
 			// "Forced include" (Settings -> Compatibility) is for themes that never call
 			// wp_head()/wp_footer(): enqueued files would not be printed there at all
 			// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
-			$scriptTags .= '<link id="'.esc_attr($fileLabel).'" rel="stylesheet" type="text/css" href="'.esc_url($fileParams['url']).'">';
+			$this->addForcedTag( 'css', $fileLabel, '<link id="'.esc_attr($fileLabel).'" rel="stylesheet" type="text/css" href="'.esc_url($fileParams['url']).'">' );
 		}
-		$this->core->setContent( $scriptTags, 'End' );
 	}
 
 
@@ -161,20 +163,46 @@ class  roboGalleryModuleAssets{
 
 	public function addJsFilesForced(){
 		if($this->typeInclude!='forced' ) return ;
-		$scriptTags = '';
 		foreach ($this->files['js'] as $fileLabel => $fileParams){
 			if( !$this->checkFileParams($fileParams) ) continue ;
 			// "Forced include": see addCssFilesForced()
 			// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
-			$scriptTags .= ' <script type="text/javascript" src="'.esc_url($fileParams['url']).'"></script>';
+			$this->addForcedTag( 'js', $fileLabel, ' <script type="text/javascript" src="'.esc_url($fileParams['url']).'"></script>' );
 		}
-		$this->core->setContent( $scriptTags, 'End' );
+	}
+
+	/**
+	 * A placeholder in the gallery's 'End' content; printForcedAssets() puts the
+	 * tag there once the gallery is rendered.
+	 */
+	private function addForcedTag( $type, $fileLabel, $tag ){
+		$key = $type.'-'.md5( $fileLabel );
+		self::$forcedTags[ $key ] = $tag;
+		$this->core->setContent( '<!--robo-gallery-asset:'.$key.'-->', 'End' );
+	}
+
+	/**
+	 * "Forced include": each file once per page, however many galleries load it.
+	 * Done on the rendered HTML, not when a gallery is set up: a gallery that shows
+	 * its "No Images" message has no 'End' content, so its files are not printed
+	 * and the next gallery must print them.
+	 *
+	 * @param string $html
+	 * @return string
+	 */
+	public static function printForcedAssets( $html ){
+		return preg_replace_callback( '#<!--robo-gallery-asset:((?:css|js)-[0-9a-f]{32})-->#', function( $match ){
+			$key = $match[1];
+			if( isset( self::$forcedPrinted[ $key ] ) || !isset( self::$forcedTags[ $key ] ) ) return '';
+			self::$forcedPrinted[ $key ] = true;
+			return self::$forcedTags[ $key ];
+		}, $html );
 	}
 
 
  	function initCustomAssets( $type = 'css' ) {
 
- 		// The same check as on save (Settings -> Custom JS\CSS): values saved before it
+ 		// The same check as on save (Settings -> Compatibility Settings): values saved before it
  		// existed may hold empty lines - site_url('') loaded the home page as CSS / JS.
  		$customOptionFiles = get_option( ROBO_GALLERY_PREFIX.$type.'Files', '' );
  		$customOptionFiles = ( new \RoboGallery\app\extensions\settings\SettingsPage() )->sanitizeFileList( is_string( $customOptionFiles ) ? $customOptionFiles : '' );

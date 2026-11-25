@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -25,7 +25,41 @@ if (!defined('ROBO_GALLERY_TYPE_GRID')) {
  */
 class GalleryTypeList
 {
+    // drawn by the Fusion Grid script (react_parts/grid): the page gets an empty
+    // container, the items come over REST (robofields)
+    const GRID_SCRIPT_TYPES = array('robogrid', 'posts', 'youtubegrid');
+
+    // work only with the key: see isLocked()
+    const PRO_TYPES = array('youtubegrid');
+
     public static $types = array();
+
+    /**
+     * @param string $type stored type (rsg_gallery_type)
+     */
+    public static function isGridScriptType($type): bool
+    {
+        return in_array($type, self::GRID_SCRIPT_TYPES, true);
+    }
+
+    /**
+     * Without the key a gallery of this type can't be created or changed to, shows nothing
+     * (shortcode, REST robofields) and its data can't be edited (REST youtube).
+     *
+     * @param string $type stored type (rsg_gallery_type)
+     */
+    public static function isLocked($type): bool
+    {
+        return !ROBO_GALLERY_TYR && in_array($type, self::PRO_TYPES, true);
+    }
+
+    /**
+     * @return string[] the types isLocked() refuses, for the type dialog
+     */
+    public static function lockedTypes(): array
+    {
+        return ROBO_GALLERY_TYR ? array() : self::PRO_TYPES;
+    }
 
     public static function addType(&$types, $type, $name = '', $source_to = 0)
     {
@@ -45,17 +79,18 @@ class GalleryTypeList
 
         $types = array();
 
-        /* Free version */
         self::addType($types, 'grid');
         self::addType($types, 'masonry');
         self::addType($types, 'polaroid');
         self::addType($types, 'mosaic');
-        self::addType($types, 'youtube');
+        // the classic YouTube gallery; the new one is youtubegrid
+        self::addType($types, 'youtube', 'YouTube (Legacy)');
         self::addType($types, 'slider');
         self::addType($types, 'custom');
 
-        /* Pro version: the number is how many presets the key plugin has (includes/themes/<type>_<n>.php);
-           the type dialog bundle (build/, its source is outside this repo) lists the same numbers */
+        /* free since they moved here from the key plugin; the "pro" of the names is stored, it stays.
+           The number is how many presets the type has (themes/<type>_<n>.php);
+           the type dialog (build/, source react_parts/dialog-new/src/config.json) lists the same numbers */
         self::addType($types, 'mosaicpro', 'Mosaic Pro', 6);
         self::addType($types, 'masonrypro', 'Masonry Pro', 8);
         self::addType($types, 'gridpro', 'Grid Pro', 8);
@@ -65,6 +100,10 @@ class GalleryTypeList
 
         /* Version 5 */
         self::addType($types, 'robogrid', 'Fusion Grid');
+        // free: the posts of the site as a Fusion Grid (extensions/posts)
+        self::addType($types, 'posts', 'Posts');
+        // Pro (PRO_TYPES): videos of YouTube channels, playlists and links as a Fusion Grid (extensions/youtube)
+        self::addType($types, 'youtubegrid', 'YouTube');
 
         self::$types = $types;
         return $types;
@@ -115,18 +154,6 @@ class GalleryTypeList
         $sources = self::getAllSources();
 
         return isset($sources[$source]) ? $sources[$source]['type'] : false;
-    }
-
-    public static function getSourceByName($name)
-    {
-        $type = self::getByType($name);
-
-        return $type ? $type['source'] : false;
-    }
-
-    public static function isValidType($type)
-    {
-        return in_array($type, self::getTypes(), true);
     }
 
     public static function isValidSource($source)

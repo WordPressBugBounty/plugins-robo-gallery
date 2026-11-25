@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -11,164 +11,39 @@
 
 if ( ! defined( 'WPINC' ) ) exit;
 
+/* the size and direction of the slider container; the rest of the settings go to the
+   script in the config (layout.php, SliderOptions::PUBLIC_OPTIONS) */
 class  roboGalleryModuleOptionsSlider extends roboGalleryModuleAbstraction{
+
+	/* the slider's settings, see SliderOptions::forFrontend() */
+	private $options = array();
 
 	public function init(){
 
-		$this->initBaseOption();
+		$this->options = \RoboGallery\app\extensions\slider\SliderOptions::forFrontend( (int) $this->id );
 
-		$this->initAutoPlay();
  		$this->initSize();
- 		$this->initPreload();
- 		$this->initSliderView();
- 		$this->initEffect();
- 		$this->initDirection();
- 		$this->initNavigation();
-
- 		$this->initScrollbar();
- 		$this->initPagination();
-
 		$this->initRTL();
 	}
 
 
 	public function initRTL(){
 		if ( !is_rtl() ) return ;
-		$this->core->element->setElementAttr( 'robo-gallery-slider-block', 'dir', "rtl" );		
+		$this->core->element->setElementAttr( 'robo-gallery-slider-block', 'dir', "rtl" );
 	}
 
 
- 	public function initBaseOption(){
- 		$this->jsOptions->setValue( 'loop',  			true );
- 		$this->jsOptions->setValue( 'centeredSlides',  	true ); 		
-	}
-
-
-	public function initAutoPlay(){
- 		if( !$this->getMeta('autoplay') )  return ;
-		$this->jsOptions->setValue(
-			'autoplay', 
-			array(
-				'delay' => (int) $this->getMeta( 'delay' ),
-				'disableOnInteraction' => false ,
-			)
-		);
-	}
-
-
+	/* the values are checked by their definitions (forFrontend): a number and a unit of the option's list;
+	   without them the slider's own styles give 100% / 80vh */
 	public function initSize(){
- 		if( !$this->getMeta( 'autoWidth' ) ) {
-			$widthStyle = $this->getSizeStyle( $this->getMeta('width'), array('px', '%'), '100%' );
-			if( $widthStyle ) $this->core->element->addElementStyle( 'robo-gallery-slider-block', 'width', $widthStyle );
+ 		if( !$this->options['sliderWidthAuto'] ) {
+			$this->core->element->addElementStyle( 'robo-gallery-slider-block', 'width', (int) $this->options['sliderWidthValue'] . $this->options['sliderWidthType'] );
 		}
 
-		if( !$this->getMeta( 'autoHeight' ) ) {
-			$heightCss = $this->getSizeStyle( $this->getMeta('height'), array('px', '%', 'vh'), '100vh' );
-			if( $heightCss ) $this->core->element->addElementStyle( 'robo-gallery-slider-block', 'height', $heightCss );
+		if( !$this->options['sliderHeightAuto'] ) {
+			$this->core->element->addElementStyle( 'robo-gallery-slider-block', 'height', (int) $this->options['sliderHeightValue'] . $this->options['sliderHeightType'] );
 		}
 
- 	}
-
-	/* width/height are saved as-is by the fields framework (no cb_sanitize),
-	   so only a number plus a unit offered by the field may reach the style attribute.
-	   An invalid stored value yields no style, same as the browser dropping invalid CSS before. */
-	private function getSizeStyle( $size, $allowedUnits, $default ){
-		if( !isset($size['value']) || !isset($size['type']) ) return $default;
-		if( !is_numeric($size['value']) || !in_array($size['type'], $allowedUnits, true) ) return '';
-		return (float) $size['value'] . $size['type'];
-	}
-
-
- 	public function initPreload(){
-
- 		switch ( $this->getMeta('preload') ) {
- 			case 'off':
- 					$this->jsOptions->setValue( 'preloadImages', 		false );
- 					$this->jsOptions->setValue( 'updateOnImagesReady', false );
- 				break;
-
- 			case 'lazy_white':
- 					$this->jsOptions->setValue( 'preloadImages', 	false );
- 					$this->jsOptions->setValue( 'lazy', 			true );
- 					
- 					$this->core->setContent( '<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>', 'BlockImageInside');
- 					$this->core->element->addClass( 'swiper-slide', 'swiper-lazy' );
- 					 					
- 				break;
- 			case 'lazy':
- 					$this->jsOptions->setValue( 'preloadImages', 	false );
- 					$this->jsOptions->setValue( 'lazy', 			true );
-
- 					$this->core->setContent( '<div class="swiper-lazy-preloader"></div>', 'BlockImageInside');
- 					$this->core->element->addClass( 'swiper-slide', 'swiper-lazy' );
- 				break;
-
- 			case 'preload':
- 			default:
- 					$this->jsOptions->setValue( 'preloadImages', 		true );
- 					$this->jsOptions->setValue( 'updateOnImagesReady', 	true );
- 				break;
- 		}
- 	}
-
-
- 	public function initSliderView(){
-  		$sliderView = $this->getMeta( 'sliderView');
-  		if( !is_array($sliderView) || count($sliderView) < 1 ) return ;
-
-  		if( isset($sliderView['slidesPerView']) && $sliderView['slidesPerView'] > 0 )
-  				$this->jsOptions->setValue('slidesPerView', (int)  $sliderView['slidesPerView']);
-
-  		if( isset($sliderView['spaceBetween']) && $sliderView['spaceBetween'] > 0 )
-  			$this->jsOptions->setValue('spaceBetween', (int) $sliderView['spaceBetween']);  		
- 	}
-
-
- 	public function initEffect(){ 		
- 		//$this->jsOptions->setValue( 'effect', 'fade' );
- 		$effect = $this->getMeta( 'effect');
- 		if( !in_array( $effect, array('slide', 'fade', 'cube', 'coverflow', 'flip') ) ) return ;
- 		$this->jsOptions->setValue( 'effect', $effect );
- 	}
-
- 	public function initDirection(){
- 		$direction = $this->getMeta( 'direction');
- 		if( $direction == 'vertical' || $direction == 'horizontal' ){
- 			$this->jsOptions->setValue( 'direction', $direction );
- 		}
- 	}
-
-
- 	public function initNavigation(){
- 		if( $this->getMeta('nav_buttons')!='show' ) return ;
- 		
- 		$this->core->setContent( '<div class="swiper-button-prev"></div><div class="swiper-button-next"></div>', 'BlockImagesAfter');
- 		$this->jsOptions->setValue( 'navigation', array( 'nextEl'=> '.swiper-button-next', 'prevEl'=> '.swiper-button-prev' ) ); 		
- 	}
-
-
- 	public function initScrollbar(){
- 		if( $this->getMeta('nav_scrollbar') != 'show' ) return ;
- 		$this->core->setContent( '<div class="swiper-scrollbar"></div>', 'BlockImagesAfter');
- 		$this->jsOptions->setValue( 'scrollbar', array( 'el'=> '.swiper-scrollbar', 'draggable'=> true, ) ); 		
- 	}
-
-
- 	public function initPagination(){
- 		$pagination =  $this->getMeta('nav_pagination');
- 		
- 		if( !$pagination ) return ;
- 		
-		$this->core->setContent( '<div class="swiper-pagination"></div>', 'BlockImagesAfter');
-		
-		$paginationOptions = array( 
-			'el'			=> '.swiper-pagination', 
-			'type' 			=> $pagination,
-			'clickable' 	=> true,
-			'dynamicBullets'=> true 
-		);
-		
-		$this->jsOptions->setValue( 'pagination', $paginationOptions );
  	}
 
 }

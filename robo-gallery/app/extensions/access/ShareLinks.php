@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -15,6 +15,7 @@ if (! defined('WPINC')) {
     die; // Exit if accessed directly
 }
 
+use RoboGallery\app\extensions\proofing\Proofing;
 use RoboGallery\app\PluginConstants;
 
 /**
@@ -24,7 +25,8 @@ use RoboGallery\app\PluginConstants;
  *   - any permalinks:    /?rg_token=<token>
  * A gallery's own URL with ?rg_token= appended works too (the token is then
  * only checked, not used for the lookup). Editors get the share link as the
- * permalink of such galleries.
+ * permalink of such galleries. The links of proofing clients have the same forms, with the
+ * client's token (made by the key's proofing, found through proofing\Proofing).
  */
 class ShareLinks
 {
@@ -119,7 +121,8 @@ class ShareLinks
         }
 
         $token      = sanitize_text_field((string) $query_vars[PluginConstants::QUERY_VAR_TOKEN]);
-        $gallery_id = $this->token->findGallery($token);
+        // the gallery's own token, else a proofing client's (only with the key, while that gallery's proofing is on)
+        $gallery_id = $this->token->findGallery($token) ?: Proofing::galleryByToken($token);
 
         if (!$gallery_id) {
             return array('error' => '404');

@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -32,7 +32,7 @@ class Dashboard
 
     public function register(): void
     {
-        // last Robo Gallery menu item, after Statistics (admin_menu 10)
+        // last Robo Gallery menu item, after the adminMenu links and Settings (admin_menu 9)
         add_action('admin_menu', array($this, 'addPage'), 11);
     }
 

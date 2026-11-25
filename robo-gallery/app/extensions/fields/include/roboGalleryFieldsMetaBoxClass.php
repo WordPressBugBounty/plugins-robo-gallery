@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -118,8 +118,9 @@ class roboGalleryFieldsMetaBoxClass{
 		return $result;
 	}
 
+	// the request may carry an array (?rsg_gallery_type[]=): trim() would throw
 	public function getSanitizing($value){
-		return preg_replace( '/[^a-z]/i', '', trim( $value ) );
+		return is_string( $value ) ? preg_replace( '/[^a-z]/i', '', trim( $value ) ) : '';
 	}
 
 	public function getForFieldValue($field){
@@ -257,7 +258,9 @@ class roboGalleryFieldsMetaBoxClass{
 			return;
 		}
 
-		if ('post' !== strtolower($_SERVER['REQUEST_METHOD'])) {
+		// save_post also runs in WP-CLI and cron, without a request method
+		$method = isset($_SERVER['REQUEST_METHOD']) ? sanitize_key(wp_unslash($_SERVER['REQUEST_METHOD'])) : '';
+		if ('post' !== $method) {
 			return;
 		}
 
@@ -265,7 +268,7 @@ class roboGalleryFieldsMetaBoxClass{
 			return ;
 		}
 
-		$postType = $_POST['post_type'];
+		$postType = sanitize_key(wp_unslash($_POST['post_type']));
 		if (!in_array($postType, $this->settings['settings']['screen'])) {
 			return;
 		}
@@ -285,19 +288,20 @@ class roboGalleryFieldsMetaBoxClass{
 			return;
 		}
 
-		$nonceValue = $_POST[$nonceName];
+		$nonceValue = is_string($_POST[$nonceName]) ? sanitize_text_field(wp_unslash($_POST[$nonceName])) : '';
 		$nonce = '';
-		
+
 		foreach ($this->settings['fields'] as $fieldConfig) {
 			if( isset($fieldConfig['name']) ) $nonce .= $fieldConfig['name'];
 		}
 		if(!wp_verify_nonce($nonceValue, $nonce)) {
-			wp_nonce_ays(null);
+			wp_nonce_ays('');
 		}
 
 		foreach ($this->settings['fields'] as $fieldConfig) {
 			$field = roboGalleryFieldsFieldFactory::createField($postId, $fieldConfig);
 			$fieldName = $field->get('prefix') . $field->get('name');
+			// still slashed: the field sanitizes it and update_post_meta() unslashes it
 			$fieldValue = isset($_POST[$fieldName]) ? $_POST[$fieldName] : null;
 
 			$field->save($fieldValue);

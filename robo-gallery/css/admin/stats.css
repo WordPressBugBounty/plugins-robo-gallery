@@ -1,0 +1,45 @@
+/* Galleries list: statistics panel (app/extensions/stats/StatsPanel.php, js/admin/stats.js) */
+
+.robo-gallery-stats {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 12px 24px;
+	margin: 12px 0;
+	padding: 12px 16px;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.robo-gallery-stats[hidden] {
+	display: none;
+}
+
+.robo-gallery-stats-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 32px;
+	flex: 1 1 auto;
+	margin: 0;
+}
+
+.robo-gallery-stats-list li {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+}
+
+.robo-gallery-stats-value {
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+.robo-gallery-stats-label {
+	color: #646970;
+}
+
+.robo-gallery-stats-reset {
+	margin: 0;
+}

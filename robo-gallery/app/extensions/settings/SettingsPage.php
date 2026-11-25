@@ -1,7 +1,7 @@
 <?php
 /* 
 *      Robo Gallery     
-*      Version: 5.2.6 - 24868
+*      Version: 6.0.0 - 27445
 *      By Robosoft
 *
 *      Contact: https://robogallery.co/ 
@@ -11,13 +11,16 @@
 
 namespace RoboGallery\app\extensions\settings;
 
+use RoboGallery\app\extensions\sitemap\GallerySitemap;
+use RoboGallery\app\extensions\staticGallery\StaticGallery;
+
 if (!defined('WPINC')) {
     exit;
 }
 
 /**
  * Robo Gallery -> Settings (page slug robo-gallery-settings; linked from the
- * YouTube, cache and custom CSS option panels). Saved through options.php with
+ * YouTube and custom CSS option panels). Saved through options.php with
  * the WordPress Settings API; every option has a sanitize callback here. Option
  * names and groups are the stored data model - keep them.
  */
@@ -25,25 +28,12 @@ class SettingsPage
 {
     const SLUG = 'robo-gallery-settings';
 
-    // shows Robo Gallery -> Statistics (includes/extensions/stats); gallery views are counted always.
-    // Former "Statistics" add-on switch of the Add-ons page - the name is stored data.
-    const STATS_OPTION = ROBO_GALLERY_OPTIONS . 'addon_stats';
-
     private $activeTab = '';
-
-    /**
-     * On unless switched off: the option is stored only once someone changes it
-     * (here, or on the old Add-ons page), so a site that never did gets the page.
-     */
-    public static function isStatsEnabled(): bool
-    {
-        return (bool) get_option(self::STATS_OPTION, '1');
-    }
 
     public function register(): void
     {
         add_action('admin_init', array($this, 'registerSettings'));
-        // right after the adminMenu links, before Statistics (admin_menu 10) and Overview (11)
+        // right after the adminMenu links, before Overview (admin_menu 11)
         add_action('admin_menu', array($this, 'addMenu'), \RoboGallery\app\extensions\adminMenu\AdminMenu::MENU_PRIORITY);
     }
 
@@ -67,51 +57,40 @@ class SettingsPage
     private function tabs(): array
     {
         return array(
-            'cache'      => array(__('Cache Settings', 'robo-gallery'), 'robo_gallery_settings_cache', 'renderCacheTab'),
-            'assets'     => array(__('Custom JS\CSS', 'robo-gallery'), 'robo_gallery_settings_assets', 'renderAssetsTab'),
-            'comp'       => array(__('Compatibility Settings', 'robo-gallery'), 'robo_gallery_settings_comp', 'renderCompatibilityTab'),
-            'post'       => array(__('Create Post Settings', 'robo-gallery'), 'robo_gallery_settings_post', 'renderPostTab'),
-            'seo'        => array(__('SEO Optimization', 'robo-gallery'), 'robo_gallery_settings_seo', 'renderSeoTab'),
+            // the key of the former SEO Optimization tab: its links open this one
+            'seo'        => array(__('SEO & Feeds', 'robo-gallery'), 'robo_gallery_settings_seo', 'renderSeoTab'),
+            // no settings: a button that enables the RightClickPlugin
+            'protection' => array(__('Content Protection', 'robo-gallery'), '', 'renderProtectionTab'),
             'youtube'    => array(__('Youtube API', 'robo-gallery'), 'robo_gallery_settings_youtube', 'renderYoutubeTab'),
-            'protection' => array(__('Content Protection', 'robo-gallery'), 'robo_gallery_settings_protection', 'renderProtectionTab'),
-            'stats'      => array(__('Statistics', 'robo-gallery'), 'robo_gallery_settings_stats', 'renderStatsTab'),
+            'comp'       => array(__('Compatibility Settings', 'robo-gallery'), 'robo_gallery_settings_comp', 'renderCompatibilityTab'),
+            // no settings: a button that enables the DuplicatePlugin
+            'tools'      => array(__('Tools', 'robo-gallery'), '', 'renderToolsTab'),
         );
     }
 
     public function registerSettings(): void
     {
         $settings = array(
-            'robo_gallery_settings_cache'      => array(
-                'cache' => 'absint',
-            ),
+            // with the custom JS / CSS files of the former Custom JS\CSS tab
             'robo_gallery_settings_comp'       => array(
-                'categoryShow'  => array($this, 'sanitizeSwitch'),
+                'cssFiles'      => array($this, 'sanitizeFileList'),
+                'jsFiles'       => array($this, 'sanitizeFileList'),
                 'jqueryVersion' => function ($value) {
                     return $this->sanitizeChoice($value, array('build', 'robo', 'forced'), 'robo');
                 },
                 'fontLoad'      => function ($value) {
                     return $this->sanitizeChoice($value, array('on', 'off'), 'on');
                 },
-                'expressPanel'  => array($this, 'sanitizeSwitch'),
-            ),
-            'robo_gallery_settings_post'       => array(
-                'cloneBlock' => array($this, 'sanitizeSwitch'),
             ),
             'robo_gallery_settings_seo'        => array(
-                'seo' => function ($value) {
-                    return $this->sanitizeChoice((string) $value, array('0', '1', '2'), '0');
-                },
-            ),
-            'robo_gallery_settings_assets'     => array(
-                'cssFiles' => array($this, 'sanitizeFileList'),
-                'jsFiles'  => array($this, 'sanitizeFileList'),
+                StaticGallery::NOSCRIPT_OPTION   => array($this, 'sanitizeSwitch'),
+                StaticGallery::FEED_LIMIT_OPTION => 'absint',
+                StaticGallery::LIMIT_OPTION      => 'absint',
+                GallerySitemap::OPTION           => array($this, 'sanitizeSwitch'),
             ),
             'robo_gallery_settings_youtube'    => array(
                 'youtubeApiKey'    => array($this, 'sanitizeYoutubeKey'),
                 'youtubeCacheTime' => 'absint',
-            ),
-            'robo_gallery_settings_protection' => array(
-                'protectionEnable' => array($this, 'sanitizeSwitch'),
             ),
         );
 
@@ -120,15 +99,17 @@ class SettingsPage
                 register_setting($group, ROBO_GALLERY_PREFIX . $name, array('sanitize_callback' => $sanitize));
             }
         }
-
-        register_setting('robo_gallery_settings_stats', self::STATS_OPTION, array('sanitize_callback' => array($this, 'sanitizeSwitch')));
     }
 
     public function renderPage(): void
     {
         $tabs = $this->tabs();
         $tab  = isset($_GET['tab']) ? sanitize_key(wp_unslash($_GET['tab'])) : '';
-        $this->activeTab = isset($tabs[$tab]) ? $tab : 'cache';
+        // the former Custom JS\CSS tab is part of Compatibility Settings
+        if ('assets' === $tab) {
+            $tab = 'comp';
+        }
+        $this->activeTab = isset($tabs[$tab]) ? $tab : key($tabs);
         list(, $group, $render) = $tabs[$this->activeTab];
 
         echo '<div class="wrap">';
@@ -147,6 +128,14 @@ class SettingsPage
         }
         echo '</h2>';
 
+        if ('' === $group) {
+            echo '<table class="form-table">';
+            $this->$render();
+            echo '</table>';
+            echo '</div>';
+            return;
+        }
+
         echo '<form method="post" action="' . esc_url(admin_url('options.php')) . '">';
         echo '<table class="form-table">';
 
@@ -164,13 +153,8 @@ class SettingsPage
 
     /* ---------- tabs ---------- */
 
-    private function renderCacheTab(): void
-    {
-        $this->numberRow('cache', __('Clear cache timeout', 'robo-gallery'), $this->intOption('cache', 12), __('hours', 'robo-gallery'));
-        $this->descriptionRow(__('This is timeout for the clear gallery cache option. Value in hours for the cleaning period of the cached resources.', 'robo-gallery'));
-    }
-
-    private function renderAssetsTab(): void
+    /* the former Custom JS\CSS tab, now in Compatibility Settings */
+    private function renderCustomFilesRows(): void
     {
         $this->fileListRow('cssFiles', __('Css Files', 'robo-gallery'), __('Just add custom CSS files to this field.', 'robo-gallery'), 'wp-content/plugins/robo-gallery/css/custom.css');
         $this->fileListRow('jsFiles', __('JS Files', 'robo-gallery'), __('Just add custom JS files to this field.', 'robo-gallery'), 'wp-content/plugins/robo-gallery/js/custom.js');
@@ -178,11 +162,6 @@ class SettingsPage
 
     private function renderCompatibilityTab(): void
     {
-        $this->radioRow('categoryShow', __('Categories Manager', 'robo-gallery'), $this->switchValue('categoryShow'), array(
-            '0' => __('Show'), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress
-            '1' => __('Hide'), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress
-        ));
-
         $jquery = get_option(ROBO_GALLERY_PREFIX . 'jqueryVersion', 'robo');
         $this->radioRow('jqueryVersion', __('jQuery Version', 'robo-gallery'), $jquery, array(
             'build'  => __('Default'), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress
@@ -196,25 +175,22 @@ class SettingsPage
             'off' => array(__('Don\'t load', 'robo-gallery'), '[ ' . __('for the case if Your theme already have awesome fonts loaded', 'robo-gallery') . ' ]'),
         ));
 
-        $this->radioRow('expressPanel', __('Express panel', 'robo-gallery'), $this->switchValue('expressPanel'), $this->enableDisable());
-    }
-
-    private function renderPostTab(): void
-    {
-        $this->radioRow('cloneBlock', __('Clone Block', 'robo-gallery'), $this->switchValue('cloneBlock'), array(
-            '0' => __('Show'), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress
-            '1' => __('Hide'), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress
-        ));
+        $this->renderCustomFilesRows();
     }
 
     private function renderSeoTab(): void
     {
-        $seo = (string) get_option(ROBO_GALLERY_PREFIX . 'seo', '0');
-        $this->radioRow('seo', __('Add SEO content', 'robo-gallery'), in_array($seo, array('1', '2'), true) ? $seo : '0', array(
-            '2' => __('Enable [thumbs]', 'robo-gallery'),
-            '1' => __('Enable [thumbs + link]', 'robo-gallery'),
-            '0' => __('Disable', 'robo-gallery'),
-        ));
+        $this->radioRow(GallerySitemap::OPTION, __('Galleries in sitemaps', 'robo-gallery'), GallerySitemap::isEnabled() ? '1' : '0', $this->enableDisable());
+        $this->descriptionRow(__('Lists the gallery pages in the sitemaps of WordPress (wp-sitemap.xml), Yoast SEO and Rank Math. Galleries opened by direct link only are never listed.', 'robo-gallery'));
+
+        $this->radioRow(StaticGallery::NOSCRIPT_OPTION, __('Images for search engines', 'robo-gallery'), StaticGallery::isNoscriptEnabled() ? '1' : '0', $this->enableDisable());
+        $this->descriptionRow(__('Adds the gallery images as plain HTML in a <noscript> block: search engines and visitors without JavaScript see them. The gallery itself does not change.', 'robo-gallery'));
+
+        $this->numberRow(StaticGallery::FEED_LIMIT_OPTION, __('Images in feeds', 'robo-gallery'), StaticGallery::limitOption(StaticGallery::FEED_LIMIT_OPTION), __('images, 0 = all', 'robo-gallery'));
+        $this->descriptionRow(__('RSS feeds show the gallery as a grid of small linked images.', 'robo-gallery'));
+
+        $this->numberRow(StaticGallery::LIMIT_OPTION, __('Images elsewhere', 'robo-gallery'), StaticGallery::limitOption(StaticGallery::LIMIT_OPTION), __('images, 0 = all', 'robo-gallery'));
+        $this->descriptionRow(__('The same grid in the search engine block above, on AMP pages, in embeds and in the REST API.', 'robo-gallery'));
     }
 
     private function renderYoutubeTab(): void
@@ -244,15 +220,113 @@ class SettingsPage
         $this->descriptionRow(__('This is timeout for the clear youtube gallery cache option. Value in hours for the cleaning period of the cached resources.', 'robo-gallery'));
     }
 
-    private function renderProtectionTab(): void
+    private function renderToolsTab(): void
     {
-        $this->radioRow('protectionEnable', __('Right click', 'robo-gallery'), get_option(ROBO_GALLERY_PREFIX . 'protectionEnable', 0) ? '1' : '0', $this->enableDisable());
+        $this->pluginResultNotice(DuplicatePlugin::RESULT_ARG, array(
+            'enabled' => array('success', __('Duplicate Post RB is installed and active.', 'robo-gallery')),
+            'failed'  => array('error', __('Could not install or activate Duplicate Post RB. Install it in Plugins -> Add New.', 'robo-gallery')),
+        ));
+
+        $status = DuplicatePlugin::status();
+        ?>
+        <tr>
+            <th scope="row">Duplicate Post RB</th>
+            <td>
+                <?php if (DuplicatePlugin::isReady()) : ?>
+                    <p><?php esc_html_e('Duplicate Post RB is active: its Copy link in the galleries list clones a gallery.', 'robo-gallery'); ?></p>
+                <?php elseif (DuplicatePlugin::isOutdated()) : ?>
+                    <p>
+                        <?php
+                        /* translators: %s: plugin version number */
+                        echo esc_html(sprintf(__('Galleries can be cloned with Duplicate Post RB %s or newer. Please update it.', 'robo-gallery'), DuplicatePlugin::MIN_VERSION));
+                        ?>
+                        <?php if (current_user_can('update_plugins')) : ?>
+                            <a href="<?php echo esc_url(self_admin_url('plugins.php')); ?>"><?php esc_html_e('Plugins'); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress ?></a>
+                        <?php endif; ?>
+                    </p>
+                <?php elseif (DuplicatePlugin::canEnable($status)) : ?>
+                    <p><a href="<?php echo esc_url(DuplicatePlugin::enableUrl()); ?>" class="button button-primary">
+                        <?php
+                        if (DuplicatePlugin::STATUS_MISSING === $status) {
+                            esc_html_e('Install and activate', 'robo-gallery');
+                        } else {
+                            esc_html_e('Activate'); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress
+                        }
+                        ?>
+                    </a></p>
+                <?php else : ?>
+                    <p><a href="<?php echo esc_url('https://wordpress.org/plugins/' . DuplicatePlugin::SLUG . '/'); ?>" target="_blank" rel="noopener">Duplicate Post RB</a></p>
+                <?php endif; ?>
+                <p class="description"><?php esc_html_e('Galleries are cloned, with their images and settings, by the free plugin Duplicate Post RB from wordpress.org.', 'robo-gallery'); ?></p>
+            </td>
+        </tr>
+        <?php
     }
 
-    private function renderStatsTab(): void
+    private function renderProtectionTab(): void
     {
-        $this->radioField(self::STATS_OPTION, __('Statistics page', 'robo-gallery'), self::isStatsEnabled() ? '1' : '0', $this->enableDisable());
-        $this->descriptionRow(__('Adds the Robo Gallery -> Statistics page with the number of views of every gallery.', 'robo-gallery'));
+        $this->pluginResultNotice(RightClickPlugin::RESULT_ARG, array(
+            'enabled' => array('success', __('Disable Right Click RB is installed and active.', 'robo-gallery')),
+            'failed'  => array('error', __('Could not install or activate Disable Right Click RB. Install it in Plugins -> Add New.', 'robo-gallery')),
+        ));
+
+        $status = RightClickPlugin::status();
+        ?>
+        <tr>
+            <th scope="row">Disable Right Click RB</th>
+            <td>
+                <?php if (RightClickPlugin::STATUS_ACTIVE === $status) : ?>
+                    <p>
+                        <?php esc_html_e('Disable Right Click RB is active.', 'robo-gallery'); ?>
+                        <a href="<?php echo esc_url(RightClickPlugin::settingsUrl()); ?>"><?php esc_html_e('Settings'); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress ?></a>
+                    </p>
+                <?php elseif (RightClickPlugin::canEnable($status)) : ?>
+                    <p><a href="<?php echo esc_url(RightClickPlugin::enableUrl()); ?>" class="button button-primary">
+                        <?php
+                        if (RightClickPlugin::STATUS_MISSING === $status) {
+                            esc_html_e('Install', 'robo-gallery');
+                        } else {
+                            esc_html_e('Activate'); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress
+                        }
+                        ?>
+                    </a></p>
+                <?php else : ?>
+                    <p><a href="<?php echo esc_url('https://wordpress.org/plugins/' . RightClickPlugin::SLUG . '/'); ?>" target="_blank" rel="noopener">Disable Right Click RB</a></p>
+                <?php endif; ?>
+                <p class="description"><?php esc_html_e('Protects your galleries and pages from simple copying: with the right click menu turned off, visitors can\'t just save your images ("Save image as...") or copy the text and other content of the page.', 'robo-gallery'); ?></p>
+                <p class="description">
+                    <?php
+                    if (RightClickPlugin::STATUS_MISSING === $status) {
+                        esc_html_e('The protection is done by the free plugin Disable Right Click RB: the button installs it from wordpress.org and activates it.', 'robo-gallery');
+                    } else {
+                        esc_html_e('The protection is done by the free plugin Disable Right Click RB.', 'robo-gallery');
+                    }
+                    ?>
+                </p>
+                <?php if (RightClickPlugin::STATUS_ACTIVE !== $status && RightClickPlugin::wasEnabledHere()) : ?>
+                    <p class="description"><strong><?php esc_html_e('Right click protection was on in Robo Gallery. It moved to Disable Right Click RB: enable it to keep your images protected.', 'robo-gallery'); ?></strong></p>
+                <?php endif; ?>
+            </td>
+        </tr>
+        <?php
+    }
+
+    /**
+     * The result a CompanionPlugin's button came back with.
+     *
+     * @param string $arg     its query arg
+     * @param array  $notices result => [notice type, text]
+     */
+    private function pluginResultNotice(string $arg, array $notices): void
+    {
+        $result = isset($_GET[$arg]) ? sanitize_key(wp_unslash($_GET[$arg])) : '';
+        if (isset($notices[$result])) {
+            printf(
+                '<tr><td colspan="2"><div class="notice notice-%s inline"><p>%s</p></div></td></tr>',
+                esc_attr($notices[$result][0]),
+                esc_html($notices[$result][1])
+            );
+        }
     }
 
     /* ---------- field rows ---------- */
@@ -350,12 +424,6 @@ class SettingsPage
     private function enableDisable(): array
     {
         return array('1' => __('Enable'), '0' => __('Disable')); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core string, translated by WordPress
-    }
-
-    /* 0/1 switch as stored by the radios ('1' checked only for exactly 1). */
-    private function switchValue(string $name): string
-    {
-        return 1 == get_option(ROBO_GALLERY_PREFIX . $name, '') ? '1' : '0';
     }
 
     /**
